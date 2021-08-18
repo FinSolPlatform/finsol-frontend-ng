@@ -1,0 +1,104 @@
+<div class="container fs-header justify-content">
+    <div class="row">
+        <div class="col-1">
+            <h4>FinSol</h4>
+        </div>
+        <div class="col-11 fs-navbar">
+            <ul class="nav" style="float: right;">
+                <li class="nav-item">
+                    <a class="nav-link active" href="/home">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/community">Communautés</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/messages">
+                        Messages
+                        <span class="badge bg-danger">1</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link rounded" href="#" data-toggle="modal" data-target="#exampleModalCenter">
+                        Notifications
+                        <span class="badge bg-danger">5</span>
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <div class="dropdown show">
+                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            Utilisateur
+                        </a>
+
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" class="black-color" href="/profile">Profile</a>
+                            <a class="dropdown-item" href="#">Logout</a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<router-outlet></router-outlet>
+
+<!-- Modal -->
+<div class="modal fade fs-notifications-modal" id="exampleModalCenter" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Notifications</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row item active-item pt-10 pb-10 pr-10 pl-10">
+                    <div class="col-11">
+                        <a href="#">Votre demande de rejoindre <b>community</b> est acceptée</a>
+                    </div>
+                    <div class="col-1">
+                        <i class="fas fa-circle" style="font-size:12px"></i>
+                    </div>
+                    <div class="col-12"><span>4 heures</span></div>
+                </div>
+                <div class="row item active-item pt-10 pb-10 pr-10 pl-10">
+                    <div class="col-11">
+                        <a href="#"><b>Utilisateur</b> a commenté le projet <b>Projet</b></a>
+                    </div>
+                    <div class="col-1">
+                        <i class="fas fa-circle" style="font-size:12px"></i>
+                    </div>
+                    <div class="col-12"><span>31 minutes</span></div>
+                </div>
+                <div class="row item pt-10 pb-10  pr-10 pl-10">
+                    <div class="col-11">
+                        <a href="#">Une <b>photo</b> a été ajouter à la gallerie du projet <b>Projet</b></a>
+                    </div>
+                    <div class="col-1">
+                        <i class="fas fa-circle" style="font-size:12px"></i>
+                    </div>
+                    <div class="col-12"><span>20 secondes</span></div>
+                </div>
+                <div class="row item active-item pt-10 pb-10 pr-10 pl-10">
+                    <div class="col-11">
+                        <a href="#">Un <b>évènement</b> est prévu pour le projet <b>Projet</b></a>
+                    </div>
+                    <div class="col-1">
+                        <i class="fas fa-circle" style="font-size:12px"></i>
+                    </div>
+                    <div class="col-12"><span>31 minutes</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Footer -->
+<footer class="container">
+    <hr>
+    <p>© FinSol</p>
+</footer>

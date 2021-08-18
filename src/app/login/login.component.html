@@ -1,0 +1,62 @@
+<div class="container">
+    <!-- Login Form-->
+    <div class="col-6 offset-3 mt-25">
+        <div class="card mt-25">
+            <div class="card-header text-center">
+                <h5 class="fs-card-title">Formulaire de Connexion</h5>
+            </div>
+            <div class="body-card">
+                <div class="card2 card border-0 px-4 py-5" style="background-color: #f8f9fa">
+                    <div class="row px-3"> <label class="mb-1">
+                            <h6 class="mb-0 text-sm">Adresse e-mail</h6>
+                        </label> <input class="mb-4" type="text" name="email"
+                            placeholder="Entrez une adresse e-mail valide">
+                    </div>
+                    <div class="row px-3"> <label class="mb-1">
+                            <h6 class="mb-0 text-sm">Mot de passe</h6>
+                        </label> <input type="password" name="password" placeholder="Entrer le mot de passe"> </div>
+                    <div class="row px-3 mb-4">
+                        <div class="custom-control custom-checkbox custom-control-inline"> <input id="chk1"
+                                type="checkbox" name="chk" class="custom-control-input"> <label for="chk1"
+                                class="custom-control-label text-sm">Souviens-toi de moi</label> </div>
+                        <a href="#" class="ml-auto mb-0 text-sm" data-toggle="modal"
+                            data-target="#exampleModalCenter">Mot de passe oublié?</a>
+                    </div>
+                    <div class="row mb-3 px-3"> <button type="submit"
+                            class="btn btn-blue text-center">Connexion</button>
+                    </div>
+                    <div class="row mb-4 px-3"> <small class="font-weight-bold">Vous n'avez pas de compte ? <a
+                                class="text-danger ">S'inscrire</a></small> </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade fs-login-modal" id="exampleModalCenter" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Mot de passe oublié</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Adresse e-mail</label>
+                        <input type="email" class="form-control" id="exampleInputEmail1"
+                            aria-describedby="emailHelp" placeholder="Entrez une adresse e-mail valide">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-blue text-center">Envoyer</button>
+            </div>
+        </div>
+    </div>
+</div>
