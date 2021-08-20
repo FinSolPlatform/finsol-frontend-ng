@@ -5,50 +5,126 @@
             <div class="card-header text-center">
                 <h5 class="fs-card-title">Formulaire d'Inscription</h5>
             </div>
-            <div class="body-card">
-                <div class="card2 card border-0 px-4 py-5" style="background-color: #f8f9fa">
-                    <div class="row px-3"> <label class="mb-1">
-                            <h6 class="mb-0 text-sm">Nom d'utilisateur</h6>
-                        </label> <input class="mb-4" type="text" name="username"
-                            placeholder="Entrez un nom d'utilisateur valide">
-                    </div>
-                    <div class="row px-3"> <label class="mb-1">
-                            <h6 class="mb-0 text-sm">Prénom</h6>
-                        </label> <input class="mb-4" type="text" name="firstname"
-                            placeholder="Entrez un prénom valide">
-                    </div>
-                    <div class="row px-3"> <label class="mb-1">
-                            <h6 class="mb-0 text-sm">Nom de la famille</h6>
-                        </label> <input class="mb-4" type="text" name="lastname"
-                            placeholder="Entrez un nom de la famille valide">
-                    </div>
-                    <div class="row px-3"> <label class="mb-1">
-                            <h6 class="mb-0 text-sm">Age</h6>
-                        </label> <input class="mb-4" type="number" name="age" placeholder="Entrez un âge valide">
-                    </div>
-                    <div class="row px-3"> <label class="mb-1">
-                            <h6 class="mb-0 text-sm">Adresse e-mail</h6>
-                        </label> <input class="mb-4" type="text" name="email"
-                            placeholder="Entrez une adresse email valide">
-                    </div>
-                    <div class="row px-3"> <label class="mb-1">
-                            <h6 class="mb-0 text-sm">Mot de passe</h6>
-                        </label> <input type="password" name="password" placeholder="Entrez le mot de passe"> </div>
-                    <div class="row px-3 mb-4">
-                        <input id="chk1" type="checkbox" name="chk" class="custom-control-input">
-                    </div>
-                    <!-- <div class="row px-3"> <label class="mb-1">
-                            <h6 class="mb-0 text-sm">Confirmation Mot de passe</h6>
-                        </label> <input type="password" name="confirmpassword"
-                            placeholder="Confirmez le mot de passe">
-                    </div> -->
-                    <div class="row px-3 mb-4">
-                        <input id="chk1" type="checkbox" name="chk" class="custom-control-input">
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-12">
-                            <button type="submit" class="btn btn-blue text-center float-right">Enregister</button>
+            <div class="body-card fs-register-form">
+                <form *ngIf="!isSuccessful" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+                    <div class="card2 card border-0 px-4 py-5" style="background-color: #f8f9fa">
+                        <!-- username -->
+                        <div class="row px-3">
+                            <label class="mb-1">
+                                <h6 class="mb-0 text-sm">Nom d'utilisateur</h6>
+                            </label>
+                            <input class="mb-4 input-font-8em" type="text" name="username" [(ngModel)]="form.username"
+                                minlength="3" maxlength="20" #username="ngModel"
+                                placeholder="Entrez un Nom d'utilisateur valide" required>
                         </div>
+                        <div class="alert alert-danger" *ngIf="username.errors && f.submitted">
+                            <div *ngIf="username.errors.required">Nom d'utilisateur requis</div>
+                            <div *ngIf="username.errors.minlength">
+                                Le Nom d'utilisateur doit comporter au moins 3 caractères
+                            </div>
+                            <div *ngIf="username.errors.maxlength">
+                                Le Nom d'utilisateur ne doit pas dépasser 20 caractères
+                            </div>
+                        </div>
+
+                        <!-- firstname -->
+                        <div class="row px-3">
+                            <label class="mb-1">
+                                <h6 class="mb-0 text-sm">Nom</h6>
+                            </label>
+                            <input class="mb-4 input-font-8em" type="text" name="firstname" minlength="3" maxlength="20"
+                                #firstname="ngModel" [(ngModel)]="form.firstname" placeholder="Entrez un Prénom valide"
+                                required>
+                        </div>
+                        <div class="alert alert-danger" *ngIf="firstname.errors && f.submitted">
+                            <div *ngIf="firstname.errors.required">Prénom requis</div>
+                            <div *ngIf="firstname.errors.minlength">
+                                Le Prénom doit comporter au moins 3 caractères
+                            </div>
+                            <div *ngIf="firstname.errors.maxlength">
+                                Le Prénom ne doit pas dépasser 20 caractères
+                            </div>
+                        </div>
+
+                        <!-- lastname -->
+                        <div class="row px-3">
+                            <label class="mb-1">
+                                <h6 class="mb-0 text-sm">Nom de la famille</h6>
+                            </label>
+                            <input class="mb-4 input-font-8em" type="text" name="lastname"
+                                placeholder="Entrez un Nom de la famille valide" minlength="3" maxlength="20"
+                                #lastname="ngModel" [(ngModel)]="form.lastname" required>
+                        </div>
+                        <div class="alert alert-danger" *ngIf="lastname.errors && f.submitted">
+                            <div *ngIf="lastname.errors.required">Nom de la famille requis</div>
+                            <div *ngIf="lastname.errors.minlength">
+                                Le Nom de la famille doit comporter au moins 3 caractères
+                            </div>
+                            <div *ngIf="lastname.errors.maxlength">
+                                Le Nom de la famille ne doit pas dépasser 20 caractères
+                            </div>
+                        </div>
+
+                        <!-- age -->
+                        <div class="row px-3">
+                            <label class="mb-1">
+                                <h6 class="mb-0 text-sm">Age</h6>
+                            </label>
+                            <input class="mb-4 input-font-8em" type="number" name="age"
+                                placeholder="Entrez un âge valide" required #age='ngModel' [(ngModel)]="form.age">
+                        </div>
+                        <div class="alert alert-danger" *ngIf="age.errors && f.submitted">
+                            <div *ngIf="age.errors.required">Age requis</div>
+                        </div>
+
+                        <!-- email -->
+                        <div class="row px-3">
+                            <label class="mb-1">
+                                <h6 class="mb-0 text-sm">Adresse e-mail</h6>
+                            </label>
+                            <input class="mb-4 input-font-8em" type="text" name="email"
+                                placeholder="Entrez une adresse email valide" [(ngModel)]="form.email" required [pattern]="emailPattern"
+                                #email="ngModel">
+                        </div>
+                        <div class="alert alert-danger" *ngIf="email.errors && f.submitted">
+                            <div *ngIf="email.errors.required">Email requis</div>
+                            <div *ngIf="!email.errors.required && email.errors">
+                                Adresse e-mail invalide
+                            </div>
+                        </div>
+
+                        <!-- password -->
+                        <div class="row px-3">
+                            <label class="mb-1">
+                                <h6 class="mb-0 text-sm">Mot de passe</h6>
+                            </label>
+                            <input type="password" class="mb-4 input-font-8em" name="password"
+                                placeholder="Entrez le mot de passe" #password="ngModel" required
+                                [(ngModel)]="form.password">
+                        </div>
+                        <div class="alert alert-danger" *ngIf="password.errors && f.submitted">
+                            <div *ngIf="password.errors.required">Mot de passe requis</div>
+                            <div *ngIf="password.errors.minlength">
+                                Mot de passe doit comporter au moins 3 caractères
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="alert alert-danger" *ngIf="f.submitted && isSignUpFailed">
+                                Échec de l'inscription !<br />{{ errorMessage }}
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-blue text-center float-right">Enregister</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div *ngIf="isSuccessful" class="mt-25 ml-25 mr-25 text-center">
+                    <div class="alert alert-success"  role="alert">
+                        Votre inscription est réussie !
                     </div>
                 </div>
             </div>

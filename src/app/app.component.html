@@ -11,19 +11,19 @@
                 <li class="nav-item">
                     <a class="nav-link active" href="/community">Communautés</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" *ngIf="isLoggedIn">
                     <a class="nav-link" href="/messages">
                         Messages
                         <span class="badge bg-danger">1</span>
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" *ngIf="isLoggedIn">
                     <a class="nav-link rounded" href="#" data-toggle="modal" data-target="#exampleModalCenter">
                         Notifications
                         <span class="badge bg-danger">5</span>
                     </a>
                 </li>
-                <li class="nav-item dropdown">
+                <li class="nav-item dropdown item-dropbox" *ngIf="isLoggedIn">
                     <div class="dropdown show">
                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
@@ -32,9 +32,19 @@
 
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                             <a class="dropdown-item" class="black-color" href="/profile">Profile</a>
-                            <a class="dropdown-item" href="#">Logout</a>
+                            <a href class="dropdown-item" (click)="logout()">Logout</a>
                         </div>
                     </div>
+                </li>
+                <li class="nav-item" *ngIf="!isLoggedIn">
+                    <a class="nav-link" href="/register">
+                        Inscription
+                    </a>
+                </li>
+                <li class="nav-item" *ngIf="!isLoggedIn">
+                    <a class="nav-link" href="/login">
+                        Connexion
+                    </a>
                 </li>
             </ul>
         </div>

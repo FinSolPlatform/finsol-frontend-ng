@@ -17,6 +17,9 @@ body {
     font-weight: bold;
     margin-bottom: 20px
 }
+.mb-10 {
+    margin-bottom: 10px !important;
+}
 .mb-40 {
     margin-bottom: 40px !important;
 }
@@ -37,6 +40,12 @@ body {
 }
 .ml-9 {
     margin-left: 9px;
+}
+.ml-25 {
+    margin-left: 25px;
+}
+.mr-25 {
+    margin-right: 25px;
 }
 .pr-10 {
     padding-right: 10px !important;
@@ -93,6 +102,9 @@ body {
 .black-color:focus-visible {
     color: black !important;
 }
+.input-font-8em  {
+    font-size: 0.8em;
+}
 /********** HEADER **********/
 .fs-header{
     background-color: #2d6a4f;
@@ -103,14 +115,14 @@ body {
     font-size: 0.85em;
     padding: .5rem 0.75rem !important;
 }
-.fs-navbar li:last-child {
+.fs-navbar .item-dropbox {
     line-height: 100%;
     padding-top: 1.8%;
 }
-.fs-navbar li:last-child div>div>a {
+.fs-navbar .item-dropbox div>div>a {
     color: black;
 }
-.fs-navbar li:last-child a:hover {
+.fs-navbar .item-dropbox a:hover {
     text-decoration: none !important;
 }
 .fs-profile {
@@ -577,8 +589,20 @@ a {
     color: #797979;
     font-weight: bold;
 }
+.fs-login-form input {
+    font-size: 0.8em;
+}
+.fs-login-form .alert {
+    font-size: 0.8em;
+}
+.fs-register-form .alert {
+    font-size: 0.8em;
+}
 .fs-login-modal input, .fs-login-modal label, .fs-login-modal button {
     font-size: 0.9em !important;
+}
+.fs-login-reset .alert {
+    font-size: 0.8em;
 }
 /* MESSAGES PAGE */
 .fs-messages, .fs-messages input, .fs-messages label, .fs-messages button {
