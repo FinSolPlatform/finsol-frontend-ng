@@ -6,13 +6,10 @@
                 <h5 class="fs-card-title">Formulaire de Connexion</h5>
             </div>
             <div class="body-card fs-login-form">
-                <div class="card2 card border-0 px-4 py-5" style="background-color: #f8f9fa">
 
-                    <!-- Is Not Logged In -->
-                    <form *ngIf="!isLoggedIn" name="form" (ngSubmit)="f.form.valid && onSubmitLogin()" #f="ngForm"
-                        novalidate>
-
-
+                <!-- Is Not Logged In -->
+                <form *ngIf="!isLoggedIn" name="form" (ngSubmit)="f.form.valid && onSubmitLogin()" #f="ngForm" novalidate>
+                    <div class="card2 card border-0 px-4 py-5" style="background-color: #f8f9fa">
                         <div class="row px-3 mb-10"> <label class="mb-1">
                                 <h6 class="mb-0 text-sm">Nom d'utilisateur</h6>
                             </label> <input class="" type="text" name="username"
@@ -46,7 +43,7 @@
                         <div class="row px-3 mb-4">
                             <div class="custom-control custom-checkbox custom-control-inline"> <input id="chk1"
                                     type="checkbox" name="chk" class="custom-control-input"> <label for="chk1"
-                                    class="custom-control-label text-sm">Souviens-toi de moi</label> </div>
+                                    class="custom-control-label text-sm">Se souvenir de moi</label> </div>
                             <a href="#" class="ml-auto mb-0 text-sm" data-toggle="modal"
                                 data-target="#modalResetPassword">Mot de passe oublié?</a>
                         </div>
@@ -64,9 +61,16 @@
                         </div>
 
 
-                        <div class="row mb-4 px-3"> <small class="font-weight-bold">Vous n'avez pas de compte ? <a
+                        <div class="row mb-4 px-3"> <small>Vous n'avez pas de compte ? <a
                                     href="/register" class="text-danger ">S'inscrire</a></small> </div>
-                    </form>
+                    </div>
+                </form>
+                
+                <!-- Is Logged In -->
+                <div *ngIf="isLoggedIn" class="mt-25 ml-25 mr-25 text-center">
+                    <div class="alert alert-success" role="alert">
+                        Connexion réussie !
+                    </div>
                 </div>
             </div>
         </div>

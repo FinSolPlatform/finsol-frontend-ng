@@ -62,7 +62,7 @@ export class LoginComponent implements OnInit {
         console.log(data.message);
         this.validEmailMessage = data.message;
         this.validEmail = 'true';
-        await this.delay(1000);
+        await this.delay(2000);
         this.reloadPage();
       },
       err => {

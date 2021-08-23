@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../_services/auth.service';
+import { TokenStorageService } from '../_services/token-storage.service';
 
 @Component({
   selector: 'app-register',
@@ -21,28 +22,32 @@ export class RegisterComponent implements OnInit {
   isSignUpFailed = false;
   errorMessage = '';
   emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,5}$';
+  currentUser: any;
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private token: TokenStorageService, private router: Router) { }
 
   ngOnInit(): void {
+    this.currentUser = this.token.getUser().username;
+    if(this.currentUser){
+      this.router.navigate(['/home']);
+    }
   }
 
   async onSubmit(): Promise<void> {
     const { firstname, lastname, age, email, username, password } = this.form;
 
     this.authService.register(firstname, lastname, age, email, username, password).subscribe(
-      data => {
-        console.log(data);
+      async data => {
         this.isSuccessful = true;
         this.isSignUpFailed = false;
+        await this.delay(2000);
+        this.router.navigate(['/login']);
       },
       err => {
         this.errorMessage = err.error.message;
         this.isSignUpFailed = true;
       }
     );
-    await this.delay(2000);
-    this.router.navigate(['/home']);
   }
 
   delay(ms: number) {

@@ -9,79 +9,110 @@
                     <div class="row fs-project-tabs" style="margin-left: 0">
                         <ul class="nav nav-tabs">
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Profile</a>
+                                <a *ngIf="display == null" class="nav-link active" aria-current="page" href="/profile">Profile</a>
+                                <a *ngIf="display != null" class="nav-link" aria-current="page" href="/profile">Profile</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Communautés</a>
+                                <a *ngIf="display == 'com'"  class="nav-link active" href="/profile?show=com">Communautés</a>
+                                <a *ngIf="display != 'com'"  class="nav-link" href="/profile?show=com">Communautés</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Activités</a>
+                                <a *ngIf="display == 'act'"  class="nav-link active" href="/profile?show=act">Activités</a>
+                                <a *ngIf="display != 'act'"  class="nav-link" href="/profile?show=act">Activités</a>
                             </li>
                         </ul>
                     </div>
                     <!-- Profile -->
-                    <div class="fs-project-content">
+                    <div *ngIf="display == null" class="fs-project-content">
                         <div class="row">
-                            <div class="col-7">
-                                <div class="row" style="margin-left: 0">
+                            <div class="col-8">
+                                <div class="row fs-mb-5" style="margin-left: 0">
                                     <div class="col-5">Pseudo </div>
-                                    <div class="col-3 weight-normal">MARIAHI</div>
+                                    <div class="col-3 weight-normal">{{ profileUser.username }}</div>
+                                </div>
+                                <div class="row fs-mb-5" style="margin-left: 0">
+                                    <div class="col-5">Badge(s) </div>
+                                    <div class="col weight-normal">-</div>
+                                </div>
+                                <div class="row fs-mb-5" style="margin-left: 0">
+                                    <div class="col-5">Points d'expérience</div>
+                                    <div class="col weight-normal">
+                                        <ng-template [ngIf]="profileUser.score == null">0</ng-template>
+                                        <ng-template [ngIf]="profileUser.score != null">{{ profileUser.score }}
+                                        </ng-template>
+                                    </div>
+                                </div>
+                                <div class="row fs-mb-5" style="margin-left: 0">
+                                    <div class="col-5">Date d'inscription </div>
+                                    <div class="col weight-normal">{{ profileUser.accountCreationDate }}</div>
+                                </div>
+                                <div class="row fs-mb-5" style="margin-left: 0">
+                                    <div class="col-5">Adresse e-mail </div>
+                                    <div class="col weight-normal"><a href="mailto:{{ profileUser.email }}">{{
+                                            profileUser.email }}</a></div>
                                 </div>
                                 <div class="row" style="margin-left: 0">
-                                    <div class="col-5">Niveau </div>
-                                    <div class="col weight-normal">A</div>
-                                </div>
-                                <div class="row" style="margin-left: 0">
-                                    <div class="col-5">Points d'Expérience</div>
-                                    <div class="col weight-normal">100</div>
-                                </div>
-                                <div class="row" style="margin-left: 0">
-                                    <div class="col-5">Membre depuis </div>
-                                    <div class="col weight-normal">6 Juin 2021</div>
-                                </div>
-                                <div class="row" style="margin-left: 0">
-                                    <div class="col-5">Email </div>
-                                    <div class="col weight-normal"><a
-                                            href="mailto:mariahi@mail.com">mariahi@mail.com</a></div>
+                                    <div class="col-5">Mot de passe </div>
+                                    <div class="col weight-normal">***********&nbsp;
+                                        <button class="btn fs-sm-btn fs-bg-trans" data-toggle="modal"
+                                            data-target="#password">
+                                            <i class="fas fa-pencil-alt"></i>changer
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-2">
-                                <img src="https://www.seekpng.com/png/full/245-2454602_tanni-chand-default-user-image-png.png"
-                                    class="img-fluid rounded-start mb-15 width-75">
+                                <!-- if avatar is defined -->
+                                <img *ngIf="profileUser.photo" src="{{ profileUser.photo }}"
+                                    class="img-fluid rounded-start width-75">
+                                <!-- if avatar is not defined -->
+                                <img *ngIf="!profileUser.photo"
+                                    src="https://www.seekpng.com/png/full/245-2454602_tanni-chand-default-user-image-png.png"
+                                    class="img-fluid rounded-start width-75">
+                                <button class="btn fs-sm-btn fs-bg-trans" style="font-size: 0.7em !important;"
+                                    data-toggle="modal" data-target="#avatar">
+                                    <i class="fas fa-pencil-alt"></i>changer
+                                </button>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-8 offset-1">
+                            <div class="col-9 offset-1">
                                 <hr>
                             </div>
                         </div>
                         <div class="row" style="margin-left: 0">
+                            <div class="col-10 text-right">
+                                <button class="btn fs-sm-btn fs-bg-trans" data-toggle="modal" data-target="#info"
+                                    data-toggle="modal" data-target="#editUser">
+                                    <i class="fas fa-pencil-alt"></i>changer
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row input-font-85em" style="margin-left: 0">
                             <div class="col-2">Prénom </div>
-                            <div class="col">Mohamed Ali </div>
+                            <div class="col-8">{{ profileUser.firstName | titlecase }}</div>
                         </div>
-                        <div class="row" style="margin-left: 0">
-                            <div class="col-2">Nom </div>
-                            <div class="col">Riahi</div>
+                        <div class="row input-font-85em" style="margin-left: 0">
+                            <div class="col-2">Nom de Famille</div>
+                            <div class="col-8">{{ profileUser.lastName | titlecase }}</div>
                         </div>
-                        <div class="row mb-15" style="margin-left: 0">
+                        <div class="row input-font-85em mb-15" style="margin-left: 0">
                             <div class="col-2">Age </div>
-                            <div class="col-10">30 ans</div>
+                            <div class="col-8">{{ profileUser.age }} ans</div>
                         </div>
-                        <div class="row" style="margin-left: 0">
+                        <div class="row input-font-85em" style="margin-left: 0">
                             <div class="col-2">Biographie </div>
                             <div class="col-8">
                                 <p class="text-justify">
-                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
-                                    Ipsum has been the industry's standard dummy text ever since the 1500s, when an
-                                    unknown printer took a galley of type and scrambled it to make a type specimen
-                                    book. It has survived not only five centuries, but also the leap into electronic
-                                    typesetting, remaining essentially unchanged.
+                                    <ng-template [ngIf]="profileUser.biography == null">...</ng-template>
+                                    <ng-template [ngIf]="profileUser.biography != null">{{ profileUser.biography }}
+                                    </ng-template>
                                 </p>
                             </div>
                         </div>
                     </div>
                     <!-- Communautés -->
-                    <div class="fs-project-content">
+                    <div *ngIf="display == 'com'" class="fs-project-content">
                         <div class="row">
                             <div class="col-2 text-center pt-0">
                                 <img src="https://st2.depositphotos.com/1010751/6391/v/600/depositphotos_63913815-stock-illustration-social-network-group-of-6.jpg"
@@ -132,29 +163,29 @@
                         </div>
                     </div>
                     <!-- Activité -->
-                    <div class="col-11 fs-community-projects">
+                    <div *ngIf="display == 'act'" class="col-11 fs-community-projects">
                         <!-- List Header -->
-                        <div class="row bg-light-grey pb-5 pt-5">
+                        <div class="row bg-light-grey fs-pb-5 fs-pt-5">
                             <div class="col-2">Date</div>
                             <div class="col-2">Type</div>
                             <div class="col-7">Action</div>
                         </div>
                         <!-- List Items -->
-                        <div class="row pb-5 pt-5">
+                        <div class="row fs-pb-5 fs-pt-5">
                             <div class="col-2">6 Juin 2021</div>
                             <div class="col-2">Rejondre</div>
                             <div class="col-7">
                                 a rejoint la communauté <span>"community"</span>
                             </div>
                         </div>
-                        <div class="row pb-5 pt-5">
+                        <div class="row fs-pb-5 fs-pt-5">
                             <div class="col-2">6 Juin 2021</div>
                             <div class="col-2">Donation</div>
                             <div class="col-7">
                                 a contribuer au projet <span>"projet"</span>
                             </div>
                         </div>
-                        <div class="row pb-5 pt-5">
+                        <div class="row fs-pb-5 fs-pt-5">
                             <div class="col-2">6 Juin 2021</div>
                             <div class="col-2">Donation</div>
                             <div class="col-7">
@@ -255,6 +286,206 @@
                                 </ul>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal User -->
+<div class="modal fade fs-profile-form" id="editUser" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Mise à jour Profile</h5>
+                <button type="button" id="userModalClose" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form *ngIf="!isUserUpdateSucceded" name="userForm" (ngSubmit)="f.form.valid && onSubmitUser()" #f="ngForm" novalidate>
+                    <!-- firstname -->
+                    <div class="row px-3">
+                        <label class="mb-1">
+                            <h6 class="mb-0 text-sm">Prénom</h6>
+                        </label>
+                        <input class="mb-10 input-font-8em" type="text" name="firstname" minlength="3" maxlength="20"
+                            #firstname="ngModel" [(ngModel)]="userForm.firstname" placeholder="Entrez un Prénom valide"
+                            required >
+                    </div>
+                    <div class="alert alert-danger" *ngIf="firstname.errors && f.submitted">
+                        <div *ngIf="firstname.errors.required">Prénom requis</div>
+                        <div *ngIf="firstname.errors.minlength">
+                            Le Prénom doit comporter au moins 3 caractères
+                        </div>
+                        <div *ngIf="firstname.errors.maxlength">
+                            Le Prénom ne doit pas dépasser 20 caractères
+                        </div>
+                    </div>
+
+                    <!-- lastname -->
+                    <div class="row px-3">
+                        <label class="mb-1">
+                            <h6 class="mb-0 text-sm">Nom de la famille</h6>
+                        </label>
+                        <input class="mb-10 input-font-8em" type="text" name="lastname"
+                            placeholder="Entrez un Nom de famille valide" minlength="3" maxlength="20"
+                            #lastname="ngModel" [(ngModel)]="userForm.lastname" required
+                            >
+                    </div>
+                    <div class="alert alert-danger" *ngIf="lastname.errors && f.submitted">
+                        <div *ngIf="lastname.errors.required">Nom de la famille requis</div>
+                        <div *ngIf="lastname.errors.minlength">
+                            Le Nom de la famille doit comporter au moins 3 caractères
+                        </div>
+                        <div *ngIf="lastname.errors.maxlength">
+                            Le Nom de la famille ne doit pas dépasser 20 caractères
+                        </div>
+                    </div>
+
+                    <!-- age -->
+                    <div class="row px-3">
+                        <label class="mb-1">
+                            <h6 class="mb-0 text-sm">Age</h6>
+                        </label>
+                        <input class="mb-10 input-font-8em" type="number" name="age" value="{{ profileUser.age }}"
+                            placeholder="Entrez un âge valide" required #age='ngModel' [(ngModel)]="userForm.age">
+                    </div>
+                    <div class="alert alert-danger" *ngIf="age.errors && f.submitted">
+                        <div *ngIf="age.errors.required">Age requis</div>
+                    </div>
+
+                    <!-- biography -->
+                    <div class="row px-3">
+                        <label class="mb-1">
+                            <h6 class="mb-0 text-sm">Biographie</h6>
+                        </label>
+                        <textarea class="mb-10 input-font-8em" name="biography" cols="30" rows="10" minlength="3"
+                            #biography="ngModel" [(ngModel)]="userForm.biography"
+                            placeholder="Parlez-nous un peu de vous ..">{{ profileUser.biography }}</textarea>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-blue text-center float-right">Enregister</button>
+                        </div>
+                    </div>
+                </form>
+                <div *ngIf="isUserUpdateSucceded" class="mt-25 ml-25 mr-25 text-center">
+                    <div class="alert alert-success" role="alert">
+                        {{ successMessage }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal Avatar -->
+<div class="modal fade fs-profile-form" id="avatar" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Photo de profile</h5>
+                <button type="button" id="avatarModalClose" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form *ngIf="!isAvatarUpdateSucceded" name="avatarForm" (ngSubmit)="f.form.valid && onSubmitAvatar()"
+                    #f="ngForm" novalidate>
+                    <div class="row px-3">
+                        <label class="mb-1">
+                            <h6 class="mb-0 text-sm">Photo</h6>
+                        </label>
+                        <input type="text" class="mb-10 input-font-8em" name="photo" placeholder="Entrez url de l'image"
+                            #photo="ngModel" required [(ngModel)]="avatarForm.photo">
+                    </div>
+                    <div class="alert alert-danger" *ngIf="photo.errors && f.submitted">
+                        <div *ngIf="photo.errors.required">champ obligatoire!</div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-blue text-center float-right">Enregister</button>
+                        </div>
+                    </div>
+                </form>
+                <div *ngIf="isAvatarUpdateSucceded" class="mt-25 ml-25 mr-25 text-center">
+                    <div class="alert alert-success" role="alert">
+                        Photo mis à jour avec succès!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Password -->
+<div *ngIf="isLoggedIn" class="modal fade fs-profile-form" id="password" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Changement de Mot de Passe</h5>
+                <button type="button" id="passModalClose" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form *ngIf="!isPassUpdateSucceded" name="form" (ngSubmit)="f.form.valid && onSubmitPassword()"
+                    #f="ngForm" novalidate>
+                    <div class="row px-3">
+                        <label class="mb-1">
+                            <h6 class="mb-0 text-sm">Mot de passe Actuel</h6>
+                        </label>
+                        <input type="password" class="mb-10 input-font-8em" name="old_passwd" minlength="6"
+                            placeholder="Entrez le mot de passe" #old_passwd="ngModel" required
+                            [(ngModel)]="form.old_passwd">
+                    </div>
+                    <div class="alert alert-danger" *ngIf="old_passwd.errors && f.submitted">
+                        <div *ngIf="old_passwd.errors.required">Mot de passe requis</div>
+                        <div *ngIf="old_passwd.errors.minlength">
+                            Mot de passe doit comporter au moins 6 caractères
+                        </div>
+                    </div>
+
+
+                    <div class="row px-3">
+                        <label class="mb-1">
+                            <h6 class="mb-0 text-sm">Nouveau Mot de passe</h6>
+                        </label>
+                        <input type="password" class="mb-10 input-font-8em" name="new_passwd" minlength="6"
+                            placeholder="Entrez le mot de passe" #new_passwd="ngModel" required
+                            [(ngModel)]="form.new_passwd">
+                    </div>
+                    <div class="alert alert-danger" *ngIf="new_passwd.errors && f.submitted">
+                        <div *ngIf="new_passwd.errors.required">Mot de passe requis</div>
+                        <div *ngIf="new_passwd.errors.minlength">
+                            Mot de passe doit comporter au moins 6 caractères
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="alert alert-danger" *ngIf="f.submitted && isPassUpdateFailed">
+                            {{ errorMessage }}
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-blue text-center float-right">Enregister</button>
+                        </div>
+                    </div>
+                </form>
+                <div *ngIf="isPassUpdateSucceded" class="mt-25 ml-25 mr-25 text-center">
+                    <div class="alert alert-success" role="alert">
+                        {{ successMessage }}
                     </div>
                 </div>
             </div>

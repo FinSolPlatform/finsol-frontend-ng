@@ -7,6 +7,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { CommunityComponent } from './community/community.component';
 import { MessagesComponent } from './messages/messages.component';
 import { ProjectComponent } from './project/project.component';
+import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -16,7 +17,12 @@ const routes: Routes = [
   { path: 'project', component: ProjectComponent },
   { path: 'community', component: CommunityComponent },
   { path: 'messages', component: MessagesComponent },
-  { path: '', redirectTo: 'home', pathMatch: 'full' }
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  //Wild Card Route for 404 request
+  {
+    path: '**', pathMatch: 'full',
+    component: PagenotfoundComponent
+  },
 ];
 
 @NgModule({
