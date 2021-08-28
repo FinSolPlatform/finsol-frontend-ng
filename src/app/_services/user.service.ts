@@ -3,8 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { HttpHeaders } from '@angular/common/http';
+import { User } from '../_entities/user';
 
 const API_URL = 'http://localhost:8080/api/test/';
+
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+};
 
 @Injectable({
   providedIn: 'root'

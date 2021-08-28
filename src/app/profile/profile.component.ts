@@ -60,7 +60,7 @@ export class ProfileComponent implements OnInit {
 
     this.activatedRoute.queryParams.subscribe(params => {
       this.display = params['show'];
-  });
+    });
 
     this.currentUser = this.token.getUser().username;
 

@@ -5,6 +5,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { ProfileComponent } from './profile/profile.component';
 import { CommunityComponent } from './community/community.component';
+import { CommunitySearchComponent } from './community-search/community-search.component';
 import { MessagesComponent } from './messages/messages.component';
 import { ProjectComponent } from './project/project.component';
 import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
@@ -15,10 +16,11 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'project', component: ProjectComponent },
-  { path: 'community', component: CommunityComponent },
+  { path: 'community/search', component: CommunitySearchComponent },
+  { path: 'community/:id', component: CommunityComponent },
   { path: 'messages', component: MessagesComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
-  //Wild Card Route for 404 request
+  // Wild Card Route for 404 request
   {
     path: '**', pathMatch: 'full',
     component: PagenotfoundComponent

@@ -37,142 +37,136 @@
             <div class="row">
                 <!-- Main Content -->
                 <div class="col-8 main-content">
-                    <h4 class="fs-title-simple">Nom de la Communauté</h4>
+                    <h4 class="fs-title-simple">{{ community.name }}</h4>
                     <img src="https://www.themembershipguys.com/wp-content/uploads/2015/07/Fborform.png" alt=""
                         class="img-fluid rounded-start">
                     <!-- community Detail -->
                     <div class="row fs-project-tabs" style="margin-left: 0">
                         <ul class="nav nav-tabs">
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Information</a>
+                                <a *ngIf="display == null" class="nav-link active" aria-current="page"
+                                    href="/community/{{ communityId }}">Information</a>
+                                <a *ngIf="display != null" class="nav-link" aria-current="page"
+                                    href="/community/{{ communityId }}">Information</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Membres</a>
+                                <a *ngIf="display == 'mem'" class="nav-link active" aria-current="page"
+                                    href="/community/{{ communityId }}?show=mem">Membres</a>
+                                <a *ngIf="display != 'mem'" class="nav-link" aria-current="page"
+                                    href="/community/{{ communityId }}?show=mem">Membres</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Participations</a>
+                                <a *ngIf="display == 'part'" class="nav-link active" aria-current="page"
+                                    href="/community/{{ communityId }}?show=part">Participations</a>
+                                <a *ngIf="display != 'part'" class="nav-link" aria-current="page"
+                                    href="/community/{{ communityId }}?show=part">Participations</a>
                             </li>
                         </ul>
                     </div>
                     <!-- Information -->
-                    <div class="fs-project-content">
-                        <div class="row" style="margin-left: 0">
-                            <div class="col-2">Slogan </div>
-                            <div class="col-6">"La Communauté la Plus Heureuse du Monde"
-                            </div>
-                            <div class="col-2 text-right">
-                                <button class="btn btn-danger fs-join-button">Rejoindre<i
-                                        class="far fa-hand-point-left"></i></button>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-left: 0">
-                            <div class="col-2">Logo </div>
-                            <div class="col-2 text-left">
-                                <img src="https://st2.depositphotos.com/1010751/6391/v/600/depositphotos_63913815-stock-illustration-social-network-group-of-6.jpg"
-                                    alt="" class="img-thumbnail round-no-border">
+                    <div *ngIf="display == null" class="fs-project-content fs-comm-info">
+                        <div *ngIf="isOwner" class="row">
+                            <div class="col-11 text-right">
+                                <button class="btn fs-sm-btn fs-bg-trans" data-toggle="modal"
+                                    data-target="#editCommunity">
+                                    <i class="fas fa-pencil-alt"></i>changer
+                                </button>
                             </div>
                         </div>
                         <div class="row" style="margin-left: 0">
-                            <div class="col-2">Fondation </div>
-                            <div class="col">6 Juin 2020</div>
+                            <div class="col-3">Nom </div>
+                            <div class="col">{{ community.name }}</div>
                         </div>
                         <div class="row" style="margin-left: 0">
-                            <div class="col-2">Fondateur </div>
-                            <div class="col">Fondateur(s) </div>
-                        </div>
-                        <div class="row" style="margin-left: 0">
-                            <div class="col-2">Secteur </div>
-                            <div class="col">Sport</div>
+                            <div class="col-3">Slogan </div>
+                            <div class="col-6">{{ community.slogan }}</div>
+                            <!-- <div class="col-2 text-right">
+                                <button *ngIf="isLoggedIn && !isMember" class="btn btn-danger fs-join-button"
+                                    (click)="join()">Rejoindre<i class="far fa-hand-point-left"></i></button>
+                                <span *ngIf="isMember" href="#" class="badge badge-success"
+                                    style="padding: 10px 15px;">Membre</span>
+                            </div> -->
                         </div>
                         <div class="row mb-15" style="margin-left: 0">
-                            <div class="col-2">Contact </div>
-                            <div class="col-10"><a href="mailto:contact@community.com">contact@example.com</a></div>
-                            <div class="offset-2 col-10"><a href="www.community.com">www.community.com</a></div>
+                            <div class="col-3">Logo </div>
+                            <div *ngIf="!community.logo" class="col-2 text-left">
+                                <img src="https://st2.depositphotos.com/1010751/6391/v/600/depositphotos_63913815-stock-illustration-social-network-group-of-6.jpg"
+                                    alt="{{ community.name | lowercase }} logo" class="img-thumbnail round-no-border">
+                            </div>
+                            <div *ngIf="community.logo" class="col-2 text-left">
+                                <img src="{{ community.logo }}" alt="{{ community.name | lowercase }} logo"
+                                    class="img-thumbnail round-no-border">
+                            </div>
+                            <div *ngIf="isOwner" class="col">
+                                <button class="btn fs-sm-btn fs-bg-trans" style="font-size: 0.8em !important;" data-toggle="modal" data-target="#logo">
+                                    <i class="fas fa-pencil-alt"></i>changer
+                                </button>
+                            </div>
                         </div>
                         <div class="row" style="margin-left: 0">
-                            <div class="col-2">Participations </div>
+                            <div class="col-3">Date d'inscription </div>
+                            <div class="col">{{ community.creationDate }}</div>
+                        </div>
+                        <div class="row" style="margin-left: 0">
+                            <div class="col-3">Fondation </div>
+                            <div class="col">{{ community.foundationDate }}</div>
+                        </div>
+                        <div class="row" style="margin-left: 0">
+                            <div class="col-3">Fondateur </div>
+                            <div class="col">{{ community.founders }}</div>
+                        </div>
+                        <div class="row" style="margin-left: 0">
+                            <div class="col-3">Secteur </div>
+                            <div class="col">{{ community.domain | titlecase }}</div>
+                        </div>
+                        <div class="row mb-15" style="margin-left: 0">
+                            <div class="col-3">Contact </div>
+                            <div class="col-9"><a href="mailto:{{ community.email }}">{{ community.email }}</a></div>
+                            <div class="offset-3 col-10"><a href="{{ community.website }}">{{ community.website }}</a>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-left: 0">
+                            <div class="col-3">Participations </div>
                             <div class="col">10</div>
                         </div>
                         <div class="row" style="margin-left: 0">
-                            <div class="col-2">Membres </div>
-                            <div class="col"><a href="">50</a></div>
+                            <div class="col-3">Membres </div>
+                            <div class="col"><a href="/community/{{ communityId }}?show=mem">{{communityMembers.length
+                                    }}</a></div>
                         </div>
                         <div class="row" style="margin-left: 0">
-                            <div class="col-2">Description </div>
+                            <div class="col-3">Description </div>
                             <div class="col-8">
                                 <p class="text-justify">
-                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
-                                    Ipsum has been the industry's standard dummy text ever since the 1500s, when an
-                                    unknown printer took a galley of type and scrambled it to make a type specimen
-                                    book. It has survived not only five centuries, but also the leap into electronic
-                                    typesetting, remaining essentially unchanged.
+                                    {{ community.description }}
                                 </p>
                             </div>
                         </div>
                     </div>
                     <!-- Members -->
-                    <div class="fs-project-content">
-                        <div class="row">
+                    <div *ngIf="display == 'mem'" class="fs-project-content">
+                        <div *ngFor="let member of communityMembers" class="row">
                             <div class="col-2 text-center">
                                 <img src="https://www.seekpng.com/png/full/245-2454602_tanni-chand-default-user-image-png.png"
                                     alt="" class="img-thumbnail round-no-border width-75">
                             </div>
                             <div class="col-10 fs-project-member-item">
                                 <div class="row">
-                                    <div class="col-12"><a href="">Nassira Saidi</a></div>
-                                    <div class="col-2"><b>Niveau: </b>&nbsp;A</div>
-                                    <div class="col-3"><b>Points d'Expérience (PE): </b>&nbsp;100</div>
-                                    <div class="col-3"><b>Depuis: </b>&nbsp;1 mois</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-2 text-center">
-                                <img src="https://www.seekpng.com/png/full/245-2454602_tanni-chand-default-user-image-png.png"
-                                    alt="" class="img-thumbnail round-no-border width-75">
-                            </div>
-                            <div class="col-10 fs-project-member-item">
-                                <div class="row">
-                                    <div class="col-12"><a href="">Mohamed Ali Riahi</a>
+                                    <div class="col-12">{{ member.firstName }} {{ member.lastName }}
                                     </div>
                                     <div class="col-2"><b>Niveau: </b>&nbsp;A</div>
-                                    <div class="col-3"><b>Points d'Expérience (PE): </b>&nbsp;100</div>
-                                    <div class="col-3"><b>Depuis: </b>&nbsp;1 mois</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-2 text-center">
-                                <img src="https://www.seekpng.com/png/full/245-2454602_tanni-chand-default-user-image-png.png"
-                                    alt="" class="img-thumbnail round-no-border width-75">
-                            </div>
-                            <div class="col-10 fs-project-member-item">
-                                <div class="row">
-                                    <div class="col-12"><a href="">Nassira Saidi</a></div>
-                                    <div class="col-2"><b>Niveau: </b>&nbsp;A</div>
-                                    <div class="col-3"><b>Points d'Expérience (PE): </b>&nbsp;100</div>
-                                    <div class="col-3"><b>Depuis: </b>&nbsp;1 mois</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-2 text-center">
-                                <img src="https://www.seekpng.com/png/full/245-2454602_tanni-chand-default-user-image-png.png"
-                                    alt="" class="img-thumbnail round-no-border width-75">
-                            </div>
-                            <div class="col-10 fs-project-member-item">
-                                <div class="row">
-                                    <div class="col-12"><a href="">Mohamed Ali Riahi</a>
+                                    <div class="col-3" *ngIf="member.score"><b>Points d'Expérience (PE): </b>&nbsp;{{
+                                        member.score }}</div>
+                                    <div class="col-3" *ngIf="!member.score"><b>Points d'Expérience (PE): </b>&nbsp;0
                                     </div>
-                                    <div class="col-2"><b>Niveau: </b>&nbsp;A</div>
-                                    <div class="col-3"><b>Points d'Expérience (PE): </b>&nbsp;100</div>
-                                    <div class="col-3"><b>Depuis: </b>&nbsp;1 mois</div>
+                                    <div class="col-3"><b>Depuis: </b>&nbsp;{{ member.accountCreationDate | slice:0:10
+                                        }}</div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- Projects -->
-                    <div class="col-11 fs-community-projects">
+                    <!-- Participations -->
+                    <div *ngIf="display == 'part'" class="col-11 fs-community-projects">
                         <!-- List Header -->
                         <div class="row bg-light-grey pb-5 pt-5">
                             <div class="col-7">Projet</div>
@@ -295,6 +289,172 @@
                                 </ul>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Logo -->
+<div class="modal fade fs-profile-form" id="logo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Logo de la communauté</h5>
+                <button type="button" id="logoModalClose" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form *ngIf="!isLogoUpdateSucceded" name="logoForm" (ngSubmit)="f.form.valid && onSubmitLogo()"
+                    #f="ngForm" novalidate>
+                    <div class="row px-3">
+                        <label class="mb-1">
+                            <h6 class="mb-0 text-sm">Photo</h6>
+                        </label>
+                        <input type="text" class="mb-10 input-font-8em" name="logo" placeholder="Entrez l'url du logo"
+                            #logo="ngModel" required [(ngModel)]="logoForm.logo">
+                    </div>
+                    <div class="alert alert-danger" *ngIf="logo.errors && f.submitted">
+                        <div *ngIf="logo.errors.required">champ obligatoire!</div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-blue text-center float-right">Enregister</button>
+                        </div>
+                    </div>
+                </form>
+                <div *ngIf="isLogoUpdateSucceded" class="mt-25 ml-25 mr-25 text-center">
+                    <div class="alert alert-success" role="alert">
+                        Logo mis à jour avec succès!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Community -->
+<div class="modal fade fs-profile-form" id="editCommunity" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Mise à jour Community</h5>
+                <button type="button" id="userModalClose" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form *ngIf="!isCommunityUpdateSucceded" name="communityForm"
+                    (ngSubmit)="f.form.valid && onSubmitCommunity()" #f="ngForm" novalidate>
+                    <!-- name -->
+                    <div class="row px-3">
+                        <label class="mb-1">
+                            <h6 class="mb-0 text-sm">Nom</h6>
+                        </label>
+                        <input class="mb-10 input-font-8em" type="text" name="name" #name="ngModel"
+                            [(ngModel)]="communityForm.name" placeholder="Entrez un nom valide" required>
+                    </div>
+                    <div class="alert alert-danger" *ngIf="name.errors && f.submitted">
+                        <div *ngIf="name.errors.required">Nom requis</div>
+                    </div>
+                    <!-- slogan -->
+                    <div class="row px-3">
+                        <label class="mb-1">
+                            <h6 class="mb-0 text-sm">Slogan</h6>
+                        </label>
+                        <input class="mb-10 input-font-8em" type="text" name="slogan" #slogan="ngModel"
+                            [(ngModel)]="communityForm.slogan" placeholder="Entrez un slogan valide" required>
+                    </div>
+                    <div class="alert alert-danger" *ngIf="slogan.errors && f.submitted">
+                        <div *ngIf="slogan.errors.required">Slogan requis</div>
+                    </div>
+                    <!-- description -->
+                    <div class="row px-3">
+                        <label class="mb-1">
+                            <h6 class="mb-0 text-sm">Description</h6>
+                        </label>
+                        <input class="mb-10 input-font-8em" type="text" name="description" #description="ngModel"
+                            [(ngModel)]="communityForm.description" placeholder="Entrez un description valide" required>
+                    </div>
+                    <div class="alert alert-danger" *ngIf="description.errors && f.submitted">
+                        <div *ngIf="description.errors.required">Description requis</div>
+                    </div>
+                    <!-- foundationDate -->
+                    <div class="row px-3">
+                        <label class="mb-1">
+                            <h6 class="mb-0 text-sm">Fondation</h6>
+                        </label>
+                        <input class="mb-10 input-font-8em" type="text" name="foundationDate" #foundationDate="ngModel"
+                            [(ngModel)]="communityForm.foundationDate" onfocus="(this.type = 'date')" placeholder="jj/mm/aaaa" required>
+                    </div>
+                    <div class="alert alert-danger" *ngIf="foundationDate.errors && f.submitted">
+                        <div *ngIf="foundationDate.errors.required">Date de fondation requis</div>
+                    </div>
+                    <!-- founders -->
+                    <div class="row px-3">
+                        <label class="mb-1">
+                            <h6 class="mb-0 text-sm">Fondateur(s)</h6>
+                        </label>
+                        <input class="mb-10 input-font-8em" type="text" name="founders" #founders="ngModel"
+                            [(ngModel)]="communityForm.founders" placeholder="Name, Name, ..">
+                    </div>
+                    <!-- domain -->
+                    <div class="row px-3">
+                        <div class="col-12 pl-0">
+                            <label class="mb-1">
+                                <h6 class="mb-0 text-sm">Domaine</h6>
+                            </label>
+                        </div>
+                        <div class="form-group col-12 pl-0 pr-0">
+                            <select class="form-control input-font-8em" name="domain" #domain="ngModel" required
+                                [(ngModel)]="communityForm.domain">
+                                <option *ngFor="let domain of domains" class="input-font-8em" [ngValue]="domain.id">
+                                    {{domain.value}}</option>
+                            </select>
+                        </div>
+                        <div class="alert alert-danger" *ngIf="domain.errors && f.submitted">
+                            <div *ngIf="!domain.errors.required && domain.errors">
+                                Domaine d'activité requis
+                            </div>
+                        </div>
+                    </div>
+                    <!-- email -->
+                    <div class="row px-3">
+                        <label class="mb-1">
+                            <h6 class="mb-0 text-sm">Email</h6>
+                        </label>
+                        <input class="mb-10 input-font-8em" type="text" name="email" #email="ngModel"
+                            [pattern]="emailPattern" [(ngModel)]="communityForm.email"
+                            placeholder="Entrez une adresse e-mail valide">
+                    </div>
+                    <div class="alert alert-danger" *ngIf="email.errors && f.submitted">
+                        <div *ngIf="!email.errors.required && email.errors">
+                            Adresse e-mail invalide
+                        </div>
+                    </div>
+                    <!-- website -->
+                    <div class="row px-3">
+                        <label class="mb-1">
+                            <h6 class="mb-0 text-sm">Site web</h6>
+                        </label>
+                        <input class="mb-10 input-font-8em" type="text" name="website" #website="ngModel"
+                            [(ngModel)]="communityForm.website" placeholder="Entrez une adresse e-mail valide">
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-blue text-center float-right">Enregister</button>
+                        </div>
+                    </div>
+                </form>
+                <div *ngIf="isCommunityUpdateSucceded" class="mt-25 ml-25 mr-25 text-center">
+                    <div class="alert alert-success" role="alert">
+                        Communauté mis à jour avec succée!
                     </div>
                 </div>
             </div>

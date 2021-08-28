@@ -65,6 +65,9 @@ body {
 .pb-0 {
     padding-bottom: 0 !important;
 }
+.fs-mb-0 {
+    margin-bottom: 0 !important;
+}
 .pb-5 {
     padding-bottom: 5px !important;
 }
@@ -121,7 +124,7 @@ body {
     color: black !important;
 }
 .input-font-8em  {
-    font-size: 0.8em;
+    font-size: 0.8em !important;
 }
 .input-font-85em  {
     font-size: 0.85em;
@@ -513,6 +516,12 @@ footer hr {
 .fs-join-button i {
     font-size: 1.1em;
     padding-left: 15px;
+}
+.fs-comm-info {
+    font-size: 0.85em !important;
+}
+.fs-com-search {
+    font-size: 0.8em !important;
 }
 /* COMMUNITY PROJECTS LIST */
 .fs-community-projects {

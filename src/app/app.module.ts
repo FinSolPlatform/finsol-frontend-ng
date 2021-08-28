@@ -15,6 +15,8 @@ import { MessagesComponent } from './messages/messages.component';
 
 import { authInterceptorProviders } from './_helpers/auth.interceptor';
 import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
+import { CommunitySearchComponent } from './community-search/community-search.component';
+import { ProjectSearchComponent } from './project-search/project-search.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
     CommunityComponent,
     ProfileComponent,
     MessagesComponent,
-    PagenotfoundComponent
+    PagenotfoundComponent,
+    CommunitySearchComponent,
+    ProjectSearchComponent
   ],
   imports: [
     BrowserModule,
