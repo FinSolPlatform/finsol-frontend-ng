@@ -15,7 +15,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'profile', component: ProfileComponent },
-  { path: 'project', component: ProjectComponent },
+  { path: 'project/:id', component: ProjectComponent },
   { path: 'community/search', component: CommunitySearchComponent },
   { path: 'community/:id', component: CommunityComponent },
   { path: 'messages', component: MessagesComponent },

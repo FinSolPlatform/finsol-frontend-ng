@@ -16,7 +16,8 @@ import { MessagesComponent } from './messages/messages.component';
 import { authInterceptorProviders } from './_helpers/auth.interceptor';
 import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
 import { CommunitySearchComponent } from './community-search/community-search.component';
-import { ProjectSearchComponent } from './project-search/project-search.component';
+import { CommonModule } from '@angular/common';
+import { SafePipe } from './safe-pipe/safe-pipe.component';
 
 @NgModule({
   declarations: [
@@ -30,14 +31,15 @@ import { ProjectSearchComponent } from './project-search/project-search.componen
     MessagesComponent,
     PagenotfoundComponent,
     CommunitySearchComponent,
-    ProjectSearchComponent
+    SafePipe,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CommonModule,
   ],
   providers: [authInterceptorProviders],
   bootstrap: [AppComponent]

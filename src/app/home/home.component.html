@@ -3,9 +3,11 @@
     <div class="row fs-searchbar">
         <div class="col-8">
             <nav class="navbar navbar-light bg-light col-12">
-                <form class="form-inline">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Trouvez un projet ..."
-                        aria-label="Search" style=" font-size: 0.9em; width: 75%;">
+                <form class="form-inline" name="searchForm" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm"
+                    novalidate>
+                    <input class="form-control mr-sm-2" type="text" placeholder="Trouvez un project ..."
+                        aria-label="Search" style=" font-size: 0.9em; width: 75%;" name="keyword" #keyword="ngModel"
+                        [(ngModel)]="searchForm.keyword" autofocus required>
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Recherche</button>
                 </form>
             </nav>
@@ -37,88 +39,53 @@
             <div class="row">
                 <!-- Main Content -->
                 <div class="col-8 main-content">
-                    <h4 class="fs-sec-title">Projets en Cours</h4>
-                    <!-- Projects List -->
-                    <div class="row home-projects-list" style="margin-left: 0">
-                        <div class="card col-12">
-                            <div class="row g-0">
-                                <div class="col-4">
-                                    <img src="https://ec.europa.eu/info/sites/default/files/energy_climate_change_environment/news/images/renewables_focus_news_0.jpg"
-                                        class="img-fluid rounded-start" alt="...">
-                                </div>
-                                <div class="col-8">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Titre du Projet</h5>
-                                        <p class="card-text">This is a wider card with supporting text below as a
-                                            natural lead-in to additional content. This content is a little bit
-                                            longer.
-                                        </p>
-                                        <p class="card-text">
-                                            <small class="text-muted">Mohamed Ali</small>
-                                            <small class="text-muted"> - 00:00 6 Juin 2021</small>
-                                        </p>
+                    <div *ngIf="!searchMode">
+                        <h4 class="fs-sec-title">A la Une</h4>
+                        <div *ngFor="let project of recentProjects" class="row home-projects-list"
+                            style="margin-left: 0">
+                            <div class="card col-12">
+                                <div class="row g-0">
+                                    <div class="col-4">
+                                        <img *ngIf="project.photo" src="{{ project.photo }}"
+                                            class="img-fluid rounded-start" alt="...">
+                                        <img *ngIf="!project.photo"
+                                            src="https://ec.europa.eu/info/sites/default/files/energy_climate_change_environment/news/images/renewables_focus_news_0.jpg"
+                                            class="img-fluid rounded-start" alt="...">
+                                    </div>
+                                    <div class="col-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title"><a href="/project/{{ project.id }}" style="color: #2d6a4f;">{{ project.name | titlecase }}</a></h5>
+                                            <p class="card-text">{{ project.description }}
+                                            </p>
+                                            <p class="card-text">
+                                                <small class="text-muted">{{ project.owner }}</small>
+                                                <small class="text-muted">{{ project.creationDate }}</small>
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <!-- Search Result -->
+                    <div *ngFor="let project of projects" class="row home-projects-list" style="margin-left: 0">
                         <div class="card col-12">
                             <div class="row g-0">
                                 <div class="col-4">
-                                    <img src="https://ec.europa.eu/info/sites/default/files/energy_climate_change_environment/news/images/renewables_focus_news_0.jpg"
+                                    <img *ngIf="project.photo" src="{{ project.photo }}" class="img-fluid rounded-start"
+                                        alt="...">
+                                    <img *ngIf="!project.photo"
+                                        src="https://ec.europa.eu/info/sites/default/files/energy_climate_change_environment/news/images/renewables_focus_news_0.jpg"
                                         class="img-fluid rounded-start" alt="...">
                                 </div>
                                 <div class="col-8">
                                     <div class="card-body">
-                                        <h5 class="card-title">Titre du Projet</h5>
-                                        <p class="card-text">This is a wider card with supporting text below as a
-                                            natural lead-in to additional content. This content is a little bit
-                                            longer.
+                                        <h5 class="card-title"><a href="/project/{{ project.id }}" style="color: #2d6a4f;">{{ project.name | titlecase }}</a></h5>
+                                        <p class="card-text">{{ project.description }}
                                         </p>
                                         <p class="card-text">
-                                            <small class="text-muted">Mohamed Ali</small>
-                                            <small class="text-muted"> - 00:00 6 Juin 2021</small>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card col-12">
-                            <div class="row g-0">
-                                <div class="col-4">
-                                    <img src="https://ec.europa.eu/info/sites/default/files/energy_climate_change_environment/news/images/renewables_focus_news_0.jpg"
-                                        class="img-fluid rounded-start" alt="...">
-                                </div>
-                                <div class="col-8">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Titre du Projet</h5>
-                                        <p class="card-text">This is a wider card with supporting text below as a
-                                            natural lead-in to additional content. This content is a little bit
-                                            longer.
-                                        </p>
-                                        <p class="card-text">
-                                            <small class="text-muted">Mohamed Ali</small>
-                                            <small class="text-muted"> - 00:00 6 Juin 2021</small>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card col-12">
-                            <div class="row g-0">
-                                <div class="col-4">
-                                    <img src="https://ec.europa.eu/info/sites/default/files/energy_climate_change_environment/news/images/renewables_focus_news_0.jpg"
-                                        class="img-fluid rounded-start" alt="...">
-                                </div>
-                                <div class="col-8">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Titre du Projet</h5>
-                                        <p class="card-text">This is a wider card with supporting text below as a
-                                            natural lead-in to additional content. This content is a little bit
-                                            longer.
-                                        </p>
-                                        <p class="card-text">
-                                            <small class="text-muted">Mohamed Ali</small>
-                                            <small class="text-muted"> - 00:00 6 Juin 2021</small>
+                                            <small class="text-muted">{{ project.owner }}</small>
+                                            <small class="text-muted">{{ project.creationDate }}</small>
                                         </p>
                                     </div>
                                 </div>
@@ -126,7 +93,7 @@
                         </div>
                     </div>
                     <!-- Pagination -->
-                    <div class="d-flex justify-content-center" style="padding-top: 30px">
+                    <div *ngIf="searchMode && !isEmpty" class="d-flex justify-content-center" style="padding-top: 30px">
                         <nav aria-label="Page navigation ">
                             <ul class="pagination">
                                 <li class="page-item">
@@ -146,6 +113,15 @@
                                 </li>
                             </ul>
                         </nav>
+                    </div>
+                    <!-- Alert Info -->
+                    <div *ngIf="isEmpty" class="fs-com-search row">
+                        <div class="offset-2 col-8 text-center">
+                            <div class="alert alert-info" role="alert">
+                                Aucun projet n'a été trouvé avec le mot clé <span style="color: #2d6a4f;">{{
+                                    key }}</span> !
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!-- Side Bar -->
