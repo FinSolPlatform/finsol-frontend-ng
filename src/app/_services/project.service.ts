@@ -18,8 +18,8 @@ export class ProjectService {
 
     constructor(private http: HttpClient) { }
 
-    getProjectByName(keyword: string,page: number): Observable<any> {
-        return this.http.post<Project[]>(`${this.apiServerUrl}/api/projects/search/${page}`, { keyword }, httpOptions)
+    getProjectByName(keyword: string, page: number, size: number): Observable<any> {
+        return this.http.post<Project[]>(`${this.apiServerUrl}/api/projects/search/${page}/${size}`, { keyword }, httpOptions)
     }
 
     getLatestProjects(): Observable<any> {
@@ -41,5 +41,9 @@ export class ProjectService {
             replyTo,
             project
         }, httpOptions)
+    }
+
+    getNumberOfProject(): Observable<any> {
+        return this.http.get<number>(`${this.apiServerUrl}/api/projects/count`)
     }
 }

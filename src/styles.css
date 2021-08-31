@@ -291,12 +291,15 @@ body {
     color: #2d6a4f;
 }
 /* Pagination */
-.pagination a {
+.pagination button {
     color: #2d6a4f;
     font-size: 0.85em;
 }
-.pagination a:hover {
+.pagination button:hover {
     color: #2d6a4f;
+}
+.pagination .fs-pag-active {
+    color: grey;
 }
 /* Footer */
 footer {

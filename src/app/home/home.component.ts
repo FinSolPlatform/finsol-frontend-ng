@@ -17,22 +17,30 @@ export class HomeComponent implements OnInit {
   key: string;
   isEmpty: boolean;
   searchMode: boolean = false;
-  page: number = 1;
+  // begin pagination
+  currentPage: number;
+  pageItemSize: number = 2;
+  pagesNbr: number = 1;
+  projectsNbr: number;
+  // end pagination
   searchForm: any = {
     keyword: null
   }
 
-  constructor(private projectService: ProjectService,  private activatedRoute: ActivatedRoute) {
+  constructor(private projectService: ProjectService, private activatedRoute: ActivatedRoute) {
     this.getRecentProject();
+    this.getNumberOfProject();
   }
 
   ngOnInit(): void {
   }
 
-  public onSubmit(): void {
+  public onSubmit(page: number): void {
+    console.log(page)
+    this.currentPage = page;
     this.searchMode = true;
     const { keyword } = this.searchForm;
-    this.projectService.getProjectByName(keyword, this.page).subscribe(
+    this.projectService.getProjectByName(keyword, page, this.pageItemSize).subscribe(
       (response: Project[]) => {
         this.projects = response;
 
@@ -53,11 +61,28 @@ export class HomeComponent implements OnInit {
   public getRecentProject(): void {
     this.projectService.getLatestProjects().subscribe(
       (response: Project[]) => {
-        this.recentProjects = response.slice(response.length-5, response.length).reverse();
+        this.recentProjects = response.slice(response.length - 5, response.length).reverse();
       },
       (error: HttpErrorResponse) => {
         console.log(error.message);
       }
     );
+  }
+
+  public getNumberOfProject(): void {
+    this.projectService.getNumberOfProject().subscribe(
+      (response: number) => {
+        this.projectsNbr = response;
+        this.pagesNbr = Math.ceil(this.projectsNbr / this.pageItemSize);
+      },
+      (error: HttpErrorResponse) => {
+        console.log(error.message);
+      }
+    );
+  }
+
+  //function to return list of numbers from 0 to n-1
+  numSequence(n: number): Array<number> {
+    return Array(n);
   }
 }
