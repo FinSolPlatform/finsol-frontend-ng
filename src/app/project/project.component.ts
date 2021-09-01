@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Gallery } from '../_entities/gallery';
 import { PlanItem } from '../_entities/plan-item';
 import { Project } from '../_entities/project';
@@ -20,12 +20,16 @@ export class ProjectComponent implements OnInit {
   commentForm: any = {
     message: null,
   }
+  searchForm: any = {
+    keyword: null,
+  }
 
   constructor(
     private projectService: ProjectService,
     private activatedRoute: ActivatedRoute,
     private userService: UserService,
     private tokenStorageService: TokenStorageService,
+    private router: Router,
   ) {
     this.activatedRoute.queryParams.subscribe(params => {
       this.display = params['show'];
@@ -80,6 +84,11 @@ export class ProjectComponent implements OnInit {
         console.log(error.message);
       }
     )
+  }
+
+  //  don't work
+  public onSubmitSearch(): void {
+    const { keyword } = this.searchForm;
   }
 
   delay(ms: number) {

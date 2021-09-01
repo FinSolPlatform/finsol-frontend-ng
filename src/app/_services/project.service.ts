@@ -43,7 +43,7 @@ export class ProjectService {
         }, httpOptions)
     }
 
-    getNumberOfProject(): Observable<any> {
-        return this.http.get<number>(`${this.apiServerUrl}/api/projects/count`)
+    getSeachResultProjectsNumber(keyword: string): Observable<any> {
+        return this.http.post<number>(`${this.apiServerUrl}/api/projects/search`, { keyword }, httpOptions)
     }
 }

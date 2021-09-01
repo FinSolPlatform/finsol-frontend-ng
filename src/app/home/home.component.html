@@ -5,7 +5,7 @@
             <nav class="navbar navbar-light bg-light col-12">
                 <form class="form-inline" name="searchForm" (ngSubmit)="f.form.valid && onSubmit(1)" #f="ngForm"
                     novalidate>
-                    <input class="form-control mr-sm-2" type="text" placeholder="Trouvez un project ..."
+                    <input class="form-control mr-sm-2" type="text" placeholder="Trouvez un projet ..."
                         aria-label="Search" style=" font-size: 0.9em; width: 75%;" name="keyword" #keyword="ngModel"
                         [(ngModel)]="searchForm.keyword" autofocus required>
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Recherche</button>
@@ -39,28 +39,30 @@
             <div class="row">
                 <!-- Main Content -->
                 <div class="col-8 main-content">
-                    <div *ngIf="!searchMode">
-                        <h4 class="fs-sec-title">A la Une</h4>
+                    <div *ngIf="!searchMode" class="fs-std-text">
+                        <div class="col-11 p-0">
+                            <h4 class="fs-sec-title">A la Une</h4>
+                        </div>
                         <div *ngFor="let project of recentProjects" class="row home-projects-list"
                             style="margin-left: 0">
-                            <div class="card col-12">
+                            <div class="card col-11">
                                 <div class="row g-0">
                                     <div class="col-4">
                                         <img *ngIf="project.photo" src="{{ project.photo }}"
                                             class="img-fluid rounded-start" alt="...">
                                         <img *ngIf="!project.photo"
                                             src="https://ec.europa.eu/info/sites/default/files/energy_climate_change_environment/news/images/renewables_focus_news_0.jpg"
-                                            class="img-fluid rounded-start" alt="...">
+                                            class="img-fluid rounded-start" alt="..." style="width: 100%; height: 100%;">
                                     </div>
                                     <div class="col-8">
                                         <div class="card-body">
                                             <h5 class="card-title"><a href="/project/{{ project.id }}"
                                                     style="color: #2d6a4f;">{{ project.name | titlecase }}</a></h5>
-                                            <p class="card-text">{{ project.description }}
+                                            <p class="card-text text-justify">{{ project.description | slice:0:200 }}
                                             </p>
                                             <p class="card-text">
-                                                <small class="text-muted">{{ project.owner }}</small>
-                                                <small class="text-muted">{{ project.creationDate }}</small>
+                                                <span class="text-muted">{{ project.owner }}</span>
+                                                <span class="text-muted">{{ project.creationDate }}</span>
                                             </p>
                                         </div>
                                     </div>
@@ -69,25 +71,25 @@
                         </div>
                     </div>
                     <!-- Search Result -->
-                    <div *ngFor="let project of projects" class="row home-projects-list" style="margin-left: 0">
-                        <div class="card col-12">
+                    <div *ngFor="let project of projects" class="row home-projects-list fs-std-text" style="margin-left: 0">
+                        <div class="card col-11">
                             <div class="row g-0">
                                 <div class="col-4">
-                                    <img *ngIf="project.photo" src="{{ project.photo }}" class="img-fluid rounded-start"
-                                        alt="...">
+                                    <img *ngIf="project.photo" src="{{ project.photo }}"
+                                        class="img-fluid rounded-start" alt="...">
                                     <img *ngIf="!project.photo"
                                         src="https://ec.europa.eu/info/sites/default/files/energy_climate_change_environment/news/images/renewables_focus_news_0.jpg"
-                                        class="img-fluid rounded-start" alt="...">
+                                        class="img-fluid rounded-start" alt="..." style="width: 100%; height: 100%;">
                                 </div>
                                 <div class="col-8">
                                     <div class="card-body">
                                         <h5 class="card-title"><a href="/project/{{ project.id }}"
                                                 style="color: #2d6a4f;">{{ project.name | titlecase }}</a></h5>
-                                        <p class="card-text">{{ project.description }}
+                                        <p class="card-text text-justify">{{ project.description | slice:0:200 }}
                                         </p>
                                         <p class="card-text">
-                                            <small class="text-muted">{{ project.owner }}</small>
-                                            <small class="text-muted">{{ project.creationDate }}</small>
+                                            <span class="text-muted">{{ project.owner }}</span>
+                                            <span class="text-muted">{{ project.creationDate }}</span>
                                         </p>
                                     </div>
                                 </div>

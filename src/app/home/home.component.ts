@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, Input } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Project } from '../_entities/project';
 import { ProjectService } from '../_services/project.service';
 
@@ -11,6 +11,7 @@ import { ProjectService } from '../_services/project.service';
 })
 export class HomeComponent implements OnInit {
 
+  @Input() searchKey: any;
   projects: Project[];
   recentProjects: Project[];
   displayResult: boolean = false;
@@ -19,7 +20,7 @@ export class HomeComponent implements OnInit {
   searchMode: boolean = false;
   // begin pagination
   currentPage: number;
-  pageItemSize: number = 2;
+  pageItemSize: number = 1;
   pagesNbr: number = 1;
   projectsNbr: number;
   // end pagination
@@ -27,19 +28,22 @@ export class HomeComponent implements OnInit {
     keyword: null
   }
 
-  constructor(private projectService: ProjectService, private activatedRoute: ActivatedRoute) {
-    this.getRecentProject();
-    this.getNumberOfProject();
+  constructor(private projectService: ProjectService, private activatedRoute: ActivatedRoute, private router: Router) {
+      this.getRecentProject();
   }
 
   ngOnInit(): void {
   }
 
   public onSubmit(page: number): void {
-    console.log(page)
     this.currentPage = page;
     this.searchMode = true;
     const { keyword } = this.searchForm;
+    this.searchProjects(page, keyword)
+    this.getNumberOfProject(keyword);
+  }
+
+  public searchProjects(page: any, keyword: any): void {
     this.projectService.getProjectByName(keyword, page, this.pageItemSize).subscribe(
       (response: Project[]) => {
         this.projects = response;
@@ -69,11 +73,12 @@ export class HomeComponent implements OnInit {
     );
   }
 
-  public getNumberOfProject(): void {
-    this.projectService.getNumberOfProject().subscribe(
+  public getNumberOfProject(keyword: string): void {
+    this.projectService.getSeachResultProjectsNumber(keyword).subscribe(
       (response: number) => {
         this.projectsNbr = response;
         this.pagesNbr = Math.ceil(this.projectsNbr / this.pageItemSize);
+        console.log(this.projectsNbr)
       },
       (error: HttpErrorResponse) => {
         console.log(error.message);

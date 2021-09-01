@@ -44,6 +44,9 @@ body {
 .mt-30 {
     margin-top: 30px !important;
 }
+.mt-50 {
+    margin-top: 50px !important;
+}
 .fs-mt-70 {
     margin-top: 70px !important;
 }
@@ -130,6 +133,9 @@ body {
     font-size: 0.85em;
 }
 .fs-sm-btn {
+    font-size: 0.9em !important;
+}
+.fs-std-text {
     font-size: 0.9em !important;
 }
 /********** HEADER **********/

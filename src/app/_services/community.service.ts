@@ -43,8 +43,10 @@ export class CommunityService {
             website,
         }, httpOptions)
     }
-    getCommunityByName(keyword: string): Observable<any> {
-        console.log(keyword)
-        return this.http.post<Community[]>(`${this.apiServerUrl}/api/communities/search`, { keyword }, httpOptions)
+    getCommunityByName(keyword: string, page: number, size: number): Observable<any> {
+        return this.http.post<Community[]>(`${this.apiServerUrl}/api/communities/search/${page}/${size}`, { keyword }, httpOptions)
+    }
+    getSeachResultCommunitiesNumber(keyword: string): Observable<any> {
+        return this.http.post<number>(`${this.apiServerUrl}/api/communities/search`, { keyword }, httpOptions)
     }
 }

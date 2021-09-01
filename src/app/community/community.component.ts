@@ -56,6 +56,9 @@ export class CommunityComponent implements OnInit {
     email: null,
     website: null,
   }
+  searchForm: any = {
+    keyword: null,
+  }
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -164,6 +167,11 @@ export class CommunityComponent implements OnInit {
         this.errorMessage = err.error.message;
       }
     )
+  }
+
+  //  don't work
+  public onSubmitSearch(): void {
+    const { keyword } = this.searchForm;
   }
 
   async onSubmitLogo(): Promise<void> {

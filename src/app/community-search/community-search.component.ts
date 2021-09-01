@@ -15,37 +15,62 @@ export class CommunitySearchComponent implements OnInit {
   displayResult: boolean = false;
   key: string;
   isEmpty: boolean;
+  searchMode: boolean = false;
+  // begin pagination
+  currentPage: number;
+  pageItemSize: number = 5;
+  pagesNbr: number = 1;
+  projectsNbr: number;
+  // end pagination
   searchForm: any = {
     keyword: null
   }
 
-  constructor(
-    private communityService: CommunityService,
-  ) {
-    
+  constructor(private communityService: CommunityService) {
   }
 
   ngOnInit(): void {
   }
 
-  public onSubmit(): void {
+  public onSubmit(page: number): void {
+    console.log(page)
+    this.currentPage = page;
+    this.searchMode = true;
     const { keyword } = this.searchForm;
-    this.communityService.getCommunityByName(keyword).subscribe(
+    this.communityService.getCommunityByName(keyword, page, this.pageItemSize).subscribe(
       (response: Community[]) => {
         console.log(response);
-        this.communities =  response;
-        
+        this.communities = response;
+
         if (this.communities.length == 0) {
           this.isEmpty = true;
         } else {
           this.isEmpty = false;
         }
+        this.getNumberOfCommunities(keyword);
       },
       (error: HttpErrorResponse) => {
         console.log(error.message);
       }
-      )
-      this.key = keyword;
-      this.displayResult = true;
+    )
+    this.key = keyword;
+    this.displayResult = true;
+  }
+
+  public getNumberOfCommunities(keyword: string): void {
+    this.communityService.getSeachResultCommunitiesNumber(keyword).subscribe(
+      (response: number) => {
+        this.projectsNbr = response;
+        this.pagesNbr = Math.ceil(this.projectsNbr / this.pageItemSize);
+      },
+      (error: HttpErrorResponse) => {
+        console.log(error.message);
+      }
+    );
+  }
+
+  //function to return list of numbers from 0 to n-1
+  numSequence(n: number): Array<number> {
+    return Array(n);
   }
 }
