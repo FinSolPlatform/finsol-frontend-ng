@@ -14,6 +14,7 @@ const httpOptions = {
     providedIn: 'root'
 })
 export class ProjectService {
+
     private apiServerUrl = environment.projectApiBaseUrl;
 
     constructor(private http: HttpClient) { }
@@ -45,5 +46,18 @@ export class ProjectService {
 
     getSeachResultProjectsNumber(keyword: string): Observable<any> {
         return this.http.post<number>(`${this.apiServerUrl}/api/projects/search`, { keyword }, httpOptions)
+    }
+
+    updateProject(project: Project): Observable<any> {
+        return this.http.put<number>(`${this.apiServerUrl}/api/projects/${project.id}`, {
+            budget: project.budget,
+            description: project.description,
+            location: project.location,
+            name: project.name
+        }, httpOptions)
+    }
+
+    updateCover(photo: string, id: number): Observable<any> {
+        return this.http.put(`${this.apiServerUrl}/api/projects/${id}/photo`, { photo }, httpOptions)
     }
 }

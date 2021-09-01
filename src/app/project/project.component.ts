@@ -17,11 +17,27 @@ import { UserService } from '../_services/user.service';
 export class ProjectComponent implements OnInit {
   display: null;
   project: Project;
+  isProjectUpdateSucceded: boolean = false;
+  isCoverUpdateSucceded: boolean = false;
+  loggedUser: string;
+  isLoggedIn = false;
+  isOwner = false;
+  successMessage = '';
+  errorMessage = '';
   commentForm: any = {
     message: null,
   }
   searchForm: any = {
     keyword: null,
+  }
+  projectForm: any = {
+    name: null,
+    budget: null,
+    description: null,
+    location: null
+  }
+  coverForm: any = {
+    cover: null
   }
 
   constructor(
@@ -35,6 +51,11 @@ export class ProjectComponent implements OnInit {
       this.display = params['show'];
     });
     this.getProject(parseInt(activatedRoute.snapshot.url[1].path))
+
+    this.loggedUser = this.tokenStorageService.getUser().username;
+    if (this.loggedUser)
+      this.isLoggedIn = true;
+
   }
 
   ngOnInit(): void {
@@ -54,6 +75,17 @@ export class ProjectComponent implements OnInit {
           );
         }
         this.project.comment.sort((a, b) => (a.id > b.id) ? 1 : -1);
+        // check user is admin of community
+        if (this.project.owner.toLowerCase() == this.loggedUser ||
+          this.loggedUser == 'admin') {
+          this.isOwner = true;
+        }
+        // project edit form 
+        this.projectForm['name'] = this.project.name;
+        console.log(this.project.budget)
+        this.projectForm['budget'] = this.project.budget;
+        this.projectForm['description'] = this.project.description;
+        this.projectForm['location'] = this.project.location;
       },
       (error: HttpErrorResponse) => {
         console.log(error.message);
@@ -89,6 +121,43 @@ export class ProjectComponent implements OnInit {
   //  don't work
   public onSubmitSearch(): void {
     const { keyword } = this.searchForm;
+  }
+
+  public onSubmitProject(): void {
+    const { name, budget, location, description } = this.projectForm;
+
+    this.project.name = name;
+    this.project.budget = budget;
+    this.project.description = description;
+    this.project.location = location;
+
+    this.projectService.updateProject(this.project).subscribe(
+      async response => {
+        console.log(response)
+        this.isProjectUpdateSucceded = true;
+        this.successMessage = response.message;
+        await this.delay(1500);
+        this.reloadPage();
+      },
+      err => {
+        this.isProjectUpdateSucceded = false;
+        this.errorMessage = err.error.message;
+      }
+    )
+  }
+
+  public onSubmitCover(): void {
+    const { cover } = this.coverForm;
+    this.projectService.updateCover(cover, this.project.id).subscribe(
+      async response => {
+        this.isCoverUpdateSucceded = true;
+        await this.delay(1500);
+        this.reloadPage();
+      },
+      err => {
+        this.isCoverUpdateSucceded = false;
+      }
+    )
   }
 
   delay(ms: number) {

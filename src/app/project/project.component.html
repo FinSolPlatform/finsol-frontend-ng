@@ -41,10 +41,18 @@
                 <!-- Main Content -->
                 <div class="col-8 main-content">
                     <h4 class="fs-title-simple">{{ project.name | titlecase }}</h4>
-                    <img *ngIf="!project.photo"
+                    <img *ngIf="!project.photo" style="max-height: 400px; width: 100%;"
                         src="https://ec.europa.eu/info/sites/default/files/energy_climate_change_environment/news/images/renewables_focus_news_0.jpg"
                         alt="" class="img-fluid rounded-start">
-                    <img *ngIf="project.photo" src="{{ project.photo }}" alt="" class="img-fluid rounded-start">
+                    <img *ngIf="project.photo" src="{{ project.photo }}" style="max-height: 400px; width: 100%;" alt="" class="img-fluid rounded-start">
+                    <div *ngIf="isOwner" class="row">
+                        <div class="col-12 text-right">
+                            <button class="btn fs-sm-btn fs-bg-trans" data-toggle="modal"
+                                data-target="#cover" style="font-size: 0.7em !important;">
+                                <i class="fas fa-pencil-alt"></i>&nbsp; changer
+                            </button>
+                        </div>
+                    </div>
                     <!-- Project navbar -->
                     <div class="row fs-project-tabs" style="margin-left: 0">
                         <ul class="nav nav-tabs">
@@ -82,6 +90,14 @@
                     </div>
                     <!-- Information -->
                     <div *ngIf="display == null" class="fs-project-content">
+                        <div *ngIf="isOwner" class="row">
+                            <div class="col-11 text-right">
+                                <button class="btn fs-sm-btn fs-bg-trans" data-toggle="modal"
+                                    data-target="#editProject">
+                                    <i class="fas fa-pencil-alt"></i>changer
+                                </button>
+                            </div>
+                        </div>
                         <div class="row" style="margin-left: 0">
                             <div class="col-2">Création </div>
                             <div class="col">{{ project.creationDate }}</div>
@@ -234,7 +250,8 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-10 offset-1 text-right">
-                                                <button type="submit" class="btn btn-blue text-center float-right">Publier</button>
+                                                <button type="submit"
+                                                    class="btn btn-blue text-center float-right">Publier</button>
                                             </div>
                                         </div>
                                     </form>
@@ -358,35 +375,151 @@
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="image-gallery" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header" style="padding-bottom: 7px;">
-                    <div class="col-md-8" id="image-gallery-caption" style="font-size: 0.8rem">
-                        This text will be overwritten by jQuery
+<!-- Modal Gallery -->
+<div class="modal fade" id="image-gallery" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="padding-bottom: 7px;">
+                <div class="col-md-8" id="image-gallery-caption" style="font-size: 0.8rem">
+                    This text will be overwritten by jQuery
+                </div>
+                <!-- close Button -->
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span
+                        class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="image-gallery-title"></h4>
+            </div>
+            <div class="modal-body">
+                <img id="image-gallery-image" class="img-fluid rounded-start" src="" style="width: 100%; height: 100%;">
+            </div>
+            <div class="modal-footer" style="justify-content: normal;">
+                <!-- Next Previous Buttons -->
+                <div class="col-1">
+                    <button type="button" class="btn btn-info" style="font-size: .7rem; font-weight: bold"
+                        id="show-previous-image">Préc.</button>
+                </div>
+
+                <div class="col-1  offset-md-10">
+                    <button type="button" class="btn btn-success" style="font-size: .7rem; font-weight: bold"
+                        id="show-next-image">Suiv.</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal Image -->
+<div class="modal fade fs-profile-form" id="cover" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Photo du Projet</h5>
+                <button type="button" id="coverModalClose" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form *ngIf="!isCoverUpdateSucceded" name="coverForm" (ngSubmit)="f.form.valid && onSubmitCover()"
+                    #f="ngForm" novalidate>
+                    <div class="row px-3">
+                        <label class="mb-1">
+                            <h6 class="mb-0 text-sm">Photo</h6>
+                        </label>
+                        <input type="text" class="mb-10 input-font-8em" name="cover" placeholder="Entrez l'url de l'image"
+                            #cover="ngModel" required [(ngModel)]="coverForm.cover">
                     </div>
-                    <!-- close Button -->
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span
-                            class="sr-only">Close</span></button>
-                    <h4 class="modal-title" id="image-gallery-title"></h4>
-                </div>
-                <div class="modal-body">
-                    <img id="image-gallery-image" class="img-fluid rounded-start" src=""
-                        style="width: 100%; height: 100%;">
-                </div>
-                <div class="modal-footer" style="justify-content: normal;">
-                    <!-- Next Previous Buttons -->
-                    <div class="col-1">
-                        <button type="button" class="btn btn-info" style="font-size: .7rem; font-weight: bold"
-                            id="show-previous-image">Préc.</button>
+                    <div class="alert alert-danger" *ngIf="cover.errors && f.submitted">
+                        <div *ngIf="cover.errors.required">champ obligatoire!</div>
                     </div>
 
-                    <div class="col-1  offset-md-10">
-                        <button type="button" class="btn btn-success" style="font-size: .7rem; font-weight: bold"
-                            id="show-next-image">Suiv.</button>
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-blue text-center float-right">Enregister</button>
+                        </div>
+                    </div>
+                </form>
+                <div *ngIf="isCoverUpdateSucceded" class="mt-25 ml-25 mr-25 text-center">
+                    <div class="alert alert-success" role="alert">
+                        Photo mis à jour avec succès!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Project -->
+<div class="modal fade fs-profile-form" id="editProject" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Mise à jour Projet</h5>
+                <button type="button" id="userModalClose" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form *ngIf="!isProjectUpdateSucceded" name="projectForm" (ngSubmit)="f.form.valid && onSubmitProject()"
+                    #f="ngForm" novalidate>
+                    <!-- name -->
+                    <div class="row px-3">
+                        <label class="mb-1">
+                            <h6 class="mb-0 text-sm">Nom</h6>
+                        </label>
+                        <input class="mb-10 input-font-8em" type="text" name="name" #name="ngModel"
+                            [(ngModel)]="projectForm.name" placeholder="Entrez un nom valide" required>
+                    </div>
+                    <div class="alert alert-danger" *ngIf="name.errors && f.submitted">
+                        <div *ngIf="name.errors.required">Nom requis</div>
+                    </div>
+                    <!-- budget -->
+                    <div class="row px-3">
+                        <label class="mb-1">
+                            <h6 class="mb-0 text-sm">Budget (TND)</h6>
+                        </label>
+                        <input class="mb-10 input-font-8em" type="number" name="budget" #budget="ngModel"
+                            [(ngModel)]="projectForm.budget" placeholder="Entrez un montant en TND" required>
+                    </div>
+                    <div class="alert alert-danger" *ngIf="budget.errors && f.submitted">
+                        <div *ngIf="budget.errors.required">Budget requis</div>
+                    </div>
+                    <!-- description -->
+                    <div class="row px-3">
+                        <label class="mb-1">
+                            <h6 class="mb-0 text-sm">Description</h6>
+                        </label>
+                        <textarea class="mb-10 input-font-8em" type="text" name="description" #description="ngModel"
+                            [(ngModel)]="projectForm.description" placeholder="Entrez une description valide" required rows="10"></textarea>
+                    </div>
+                    <div class="alert alert-danger" *ngIf="description.errors && f.submitted">
+                        <div *ngIf="description.errors.required">Description requis</div>
+                    </div>
+                    <!-- location -->
+                    <div class="row px-3">
+                        <label class="mb-1">
+                            <h6 class="mb-0 text-sm">Lieu</h6>
+                        </label>
+                        <input class="mb-10 input-font-8em" type="text" name="location" #location="ngModel"
+                            [(ngModel)]="projectForm.location" placeholder="Entrez un lieu valide" required>
+                    </div>
+                    <div class="alert alert-danger" *ngIf="description.errors && f.submitted">
+                        <div *ngIf="location.errors.required">lieu requis</div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-blue text-center float-right">Enregister</button>
+                        </div>
+                    </div>
+                </form>
+                <div *ngIf="isProjectUpdateSucceded" class="mt-25 ml-25 mr-25 text-center">
+                    <div class="alert alert-success" role="alert">
+                        Communauté mis à jour avec succée!
                     </div>
                 </div>
             </div>

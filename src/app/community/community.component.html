@@ -382,7 +382,7 @@
                             <h6 class="mb-0 text-sm">Description</h6>
                         </label>
                         <input class="mb-10 input-font-8em" type="text" name="description" #description="ngModel"
-                            [(ngModel)]="communityForm.description" placeholder="Entrez un description valide" required>
+                            [(ngModel)]="communityForm.description" placeholder="Entrez une description valide" required>
                     </div>
                     <div class="alert alert-danger" *ngIf="description.errors && f.submitted">
                         <div *ngIf="description.errors.required">Description requis</div>
