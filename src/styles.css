@@ -138,6 +138,14 @@ body {
 .fs-std-text {
     font-size: 0.9em !important;
 }
+.fs-btn-blue {
+    background-color: #164493;
+    border-color: #2676ff;
+    color: white !important;
+}
+.fs-btn-blue:hover {
+    background-color: #113573;
+}
 /********** HEADER **********/
 .fs-header{
     background-color: #2d6a4f;

@@ -9,14 +9,18 @@ import { CommunitySearchComponent } from './community-search/community-search.co
 import { MessagesComponent } from './messages/messages.component';
 import { ProjectComponent } from './project/project.component';
 import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
+import { ProjectAddComponent } from './project-add/project-add.component';
+import { CommunityAddComponent } from './community-add/community-add.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'profile', component: ProfileComponent },
+  { path: 'project/add', component: ProjectAddComponent },
   { path: 'project/:id', component: ProjectComponent },
   { path: 'community/search', component: CommunitySearchComponent },
+  { path: 'community/add', component: CommunityAddComponent },
   { path: 'community/:id', component: CommunityComponent },
   { path: 'messages', component: MessagesComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },

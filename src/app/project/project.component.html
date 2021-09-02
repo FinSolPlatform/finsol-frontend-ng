@@ -44,11 +44,12 @@
                     <img *ngIf="!project.photo" style="max-height: 400px; width: 100%;"
                         src="https://ec.europa.eu/info/sites/default/files/energy_climate_change_environment/news/images/renewables_focus_news_0.jpg"
                         alt="" class="img-fluid rounded-start">
-                    <img *ngIf="project.photo" src="{{ project.photo }}" style="max-height: 400px; width: 100%;" alt="" class="img-fluid rounded-start">
+                    <img *ngIf="project.photo" src="{{ project.photo }}" style="max-height: 400px; width: 100%;" alt=""
+                        class="img-fluid rounded-start">
                     <div *ngIf="isOwner" class="row">
                         <div class="col-12 text-right">
-                            <button class="btn fs-sm-btn fs-bg-trans" data-toggle="modal"
-                                data-target="#cover" style="font-size: 0.7em !important;">
+                            <button class="btn fs-sm-btn fs-bg-trans" data-toggle="modal" data-target="#cover"
+                                style="font-size: 0.7em !important;">
                                 <i class="fas fa-pencil-alt"></i>&nbsp; changer
                             </button>
                         </div>
@@ -104,15 +105,11 @@
                         </div>
                         <div class="row" style="margin-left: 0">
                             <div class="col-2">Propriétaire </div>
-                            <div class="col"><a href="">{{ project.owner }}</a></div>
-                        </div>
-                        <div class="row" style="margin-left: 0">
-                            <div class="col-2">Status </div>
-                            <div class="col">{{ project.status }}</div>
+                            <div class="col"><a href="">{{ project.owner | titlecase }}</a></div>
                         </div>
                         <div class="row" style="margin-left: 0">
                             <div class="col-2">Avancement </div>
-                            <div class="col">{{ project.progression }}</div>
+                            <div class="col">{{ project.progression }}%</div>
                         </div>
                         <div class="row" style="margin-left: 0">
                             <div class="col-2">Budget </div>
@@ -282,6 +279,20 @@
                 <!-- Side Bar -->
                 <div class="col-4">
                     <div class="row">
+                        <!-- Add Project & Community -->
+                        <div class="col-12 home-events">
+                            <div class="row">
+                                <div class="col-12 text-center mb-10">
+                                    <a class="btn fs-btn-blue fs-std-text" style="width: 90%;" href="/project/add">
+                                        Lancer un Projet &nbsp; <i class="fa fa-globe" aria-hidden="true"></i></a>
+                                </div>
+                                <div class="col-12 text-center">
+                                    <a class="btn btn-warning fs-std-text" style="width: 90%; color: white;" href="/community/add">
+                                        Fonder une communauté &nbsp; <i class="fa fa-users"
+                                            aria-hidden="true"></i></a>
+                                </div>
+                            </div>
+                        </div>
                         <!-- Events -->
                         <div class="col-12 home-events">
                             <h4 class="fs-sec-title">Événements</h4>
@@ -429,8 +440,9 @@
                         <label class="mb-1">
                             <h6 class="mb-0 text-sm">Photo</h6>
                         </label>
-                        <input type="text" class="mb-10 input-font-8em" name="cover" placeholder="Entrez l'url de l'image"
-                            #cover="ngModel" required [(ngModel)]="coverForm.cover">
+                        <input type="text" class="mb-10 input-font-8em" name="cover"
+                            placeholder="Entrez l'url de l'image" #cover="ngModel" required
+                            [(ngModel)]="coverForm.cover">
                     </div>
                     <div class="alert alert-danger" *ngIf="cover.errors && f.submitted">
                         <div *ngIf="cover.errors.required">champ obligatoire!</div>
@@ -494,7 +506,8 @@
                             <h6 class="mb-0 text-sm">Description</h6>
                         </label>
                         <textarea class="mb-10 input-font-8em" type="text" name="description" #description="ngModel"
-                            [(ngModel)]="projectForm.description" placeholder="Entrez une description valide" required rows="10"></textarea>
+                            [(ngModel)]="projectForm.description" placeholder="Entrez une description valide" required
+                            rows="10"></textarea>
                     </div>
                     <div class="alert alert-danger" *ngIf="description.errors && f.submitted">
                         <div *ngIf="description.errors.required">Description requis</div>
@@ -507,7 +520,7 @@
                         <input class="mb-10 input-font-8em" type="text" name="location" #location="ngModel"
                             [(ngModel)]="projectForm.location" placeholder="Entrez un lieu valide" required>
                     </div>
-                    <div class="alert alert-danger" *ngIf="description.errors && f.submitted">
+                    <div class="alert alert-danger" *ngIf="location.errors && f.submitted">
                         <div *ngIf="location.errors.required">lieu requis</div>
                     </div>
 

@@ -18,6 +18,8 @@ import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
 import { CommunitySearchComponent } from './community-search/community-search.component';
 import { CommonModule } from '@angular/common';
 import { SafePipe } from './safe-pipe/safe-pipe.component';
+import { ProjectAddComponent } from './project-add/project-add.component';
+import { CommunityAddComponent } from './community-add/community-add.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +34,8 @@ import { SafePipe } from './safe-pipe/safe-pipe.component';
     PagenotfoundComponent,
     CommunitySearchComponent,
     SafePipe,
+    ProjectAddComponent,
+    CommunityAddComponent,
   ],
   imports: [
     BrowserModule,

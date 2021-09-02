@@ -48,6 +48,18 @@ export class ProjectService {
         return this.http.post<number>(`${this.apiServerUrl}/api/projects/search`, { keyword }, httpOptions)
     }
 
+    addProject(
+        name: string, description: string, location: string, owner: string, photo: string, budget: string): Observable<any> {
+        return this.http.post<number>(`${this.apiServerUrl}/api/projects`, {
+            name,
+            description,
+            location,
+            owner,
+            photo,
+            budget,
+        }, httpOptions)
+    }
+
     updateProject(project: Project): Observable<any> {
         return this.http.put<number>(`${this.apiServerUrl}/api/projects/${project.id}`, {
             budget: project.budget,

@@ -1,0 +1,85 @@
+<div class="container">
+    <div class="col-6 offset-3 mt-25">
+        <div class="card mt-25">
+            <div class="card-header text-center">
+                <h5 class="fs-card-title">Création d'un nouveau Projet</h5>
+            </div>
+            <div class="body-card fs-register-form">
+                <form *ngIf="!isSuccessful" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+                    <div class="card2 card border-0 px-4 py-5" style="background-color: #f8f9fa">
+                        <!-- name -->
+                        <div class="row px-3">
+                            <label class="mb-1">
+                                <h6 class="mb-0 text-sm">Nom</h6>
+                            </label>
+                            <input class="mb-4 input-font-8em" type="text" name="name" [(ngModel)]="form.name"
+                                minlength="15" #name="ngModel" placeholder="Entrez un nom de projet valide" required>
+                        </div>
+                        <div class="alert alert-danger" *ngIf="name.errors && f.submitted">
+                            <div *ngIf="name.errors.required">Nom de projet requis</div>
+                            <div *ngIf="name.errors.minlength">
+                                Le Nom de projet doit comporter au moins 15 caractères
+                            </div>
+                        </div>
+                        <!-- location -->
+                        <div class="row px-3">
+                            <label class="mb-1">
+                                <h6 class="mb-0 text-sm">Lieu</h6>
+                            </label>
+                            <input class="mb-10 input-font-8em" type="text" name="location" #location="ngModel"
+                                [(ngModel)]="form.location" placeholder="Entrez un lieu valide" required>
+                        </div>
+                        <div class="alert alert-danger" *ngIf="location.errors && f.submitted">
+                            <div *ngIf="location.errors.required">Lieu requis</div>
+                        </div>
+                        <!-- cover -->
+                        <div class="row px-3">
+                            <label class="mb-1">
+                                <h6 class="mb-0 text-sm">Couverture</h6>
+                            </label>
+                            <input class="mb-4 input-font-8em" type="text" name="cover" [(ngModel)]="form.cover"
+                                minlength="15" #cover="ngModel" placeholder="Entrez l'url d'une image valide" required>
+                        </div>
+                        <div class="alert alert-danger" *ngIf="cover.errors && f.submitted">
+                            <div *ngIf="cover.errors.required">Photo de couverture requis</div>
+                        </div>
+                        <!-- budget -->
+                        <div class="row px-3">
+                            <label class="mb-1">
+                                <h6 class="mb-0 text-sm">Budget (TND)</h6>
+                            </label>
+                            <input class="mb-10 input-font-8em" type="number" name="budget" #budget="ngModel"
+                                [(ngModel)]="form.budget" placeholder="Entrez un montant en TND" required>
+                        </div>
+                        <div class="alert alert-danger" *ngIf="budget.errors && f.submitted">
+                            <div *ngIf="budget.errors.required">Budget requis</div>
+                        </div>
+                        <!-- description -->
+                        <div class="row px-3">
+                            <label class="mb-1">
+                                <h6 class="mb-0 text-sm">Description</h6>
+                            </label>
+                            <textarea class="mb-4 input-font-8em" type="text" name="description"
+                                [(ngModel)]="form.description" #description="ngModel"
+                                placeholder="Entrez une description de projet" required rows="10"></textarea>
+                        </div>
+                        <div class="alert alert-danger" *ngIf="description.errors && f.submitted">
+                            <div *ngIf="description.errors.required">Nom de projet requis</div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-blue text-center float-right">Enregister</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div *ngIf="isSuccessful" class="mt-25 ml-25 mr-25 text-center">
+                    <div class="alert alert-success" role="alert">
+                        Projet crée avec succès !
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

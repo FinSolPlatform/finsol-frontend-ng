@@ -75,6 +75,9 @@ export class ProjectComponent implements OnInit {
           );
         }
         this.project.comment.sort((a, b) => (a.id > b.id) ? 1 : -1);
+        // fomat creation date
+        this.project.creationDate = this.project.creationDate.split(' ')[0].split('-').reverse().join('/') + ' ' +
+          this.project.creationDate.split(' ')[1].substr(0, 5)
         // check user is admin of community
         if (this.project.owner.toLowerCase() == this.loggedUser ||
           this.loggedUser == 'admin') {
@@ -86,6 +89,7 @@ export class ProjectComponent implements OnInit {
         this.projectForm['budget'] = this.project.budget;
         this.projectForm['description'] = this.project.description;
         this.projectForm['location'] = this.project.location;
+        this.coverForm['cover'] = this.project.photo;
       },
       (error: HttpErrorResponse) => {
         console.log(error.message);
