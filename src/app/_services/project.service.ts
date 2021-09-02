@@ -72,4 +72,20 @@ export class ProjectService {
     updateCover(photo: string, id: number): Observable<any> {
         return this.http.put(`${this.apiServerUrl}/api/projects/${id}/photo`, { photo }, httpOptions)
     }
+
+    addPlan(title: any, description: any, date: any, budget: any, timelinePosition: any, progressPercent: any, id: number): Observable<any> {
+        return this.http.post<number>(`${this.apiServerUrl}/api/project/${id}/plan`, {
+            title, description, date, budget, timelinePosition, progressPercent
+        }, httpOptions)
+    }
+
+    updatePlan(title: any, description: any, date: any, budget: any, timelinePosition: any, progressPercent: any, id: number, project: number): Observable<any> {
+        return this.http.put<number>(`${this.apiServerUrl}/api/project/${project}/plan/${id}`, {
+            title, description, date, budget, timelinePosition, progressPercent
+        }, httpOptions)
+    }
+
+    deletePlan(id: number, project: number): Observable<any> {
+        return this.http.delete<number>(`${this.apiServerUrl}/api/project/${project}/plan/${id}`)
+    }
 }

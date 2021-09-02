@@ -19,11 +19,14 @@ export class ProjectComponent implements OnInit {
   project: Project;
   isProjectUpdateSucceded: boolean = false;
   isCoverUpdateSucceded: boolean = false;
+  isPlanAddSucceded: boolean = false;
+  isPlanEditSucceded: boolean = false;
   loggedUser: string;
   isLoggedIn = false;
   isOwner = false;
   successMessage = '';
   errorMessage = '';
+  editPlanId: number = null;
   commentForm: any = {
     message: null,
   }
@@ -39,6 +42,22 @@ export class ProjectComponent implements OnInit {
   coverForm: any = {
     cover: null
   }
+  planForm: any = {
+    title: null,
+    description: null,
+    date: null,
+    budget: null,
+    timelinePosition: null,
+    progressPercent: null,
+  }
+  editPlanForm: any = {
+    title: null,
+    description: null,
+    date: null,
+    budget: null,
+    timelinePosition: null,
+    progressPercent: null,
+  }
 
   constructor(
     private projectService: ProjectService,
@@ -50,7 +69,7 @@ export class ProjectComponent implements OnInit {
     this.activatedRoute.queryParams.subscribe(params => {
       this.display = params['show'];
     });
-    this.getProject(parseInt(activatedRoute.snapshot.url[1].path))
+    this.getProject(parseInt(activatedRoute.snapshot.url[1].path));
 
     this.loggedUser = this.tokenStorageService.getUser().username;
     if (this.loggedUser)
@@ -90,6 +109,8 @@ export class ProjectComponent implements OnInit {
         this.projectForm['description'] = this.project.description;
         this.projectForm['location'] = this.project.location;
         this.coverForm['cover'] = this.project.photo;
+        // get sorted plan
+        this.getPlan(this.project.id);
       },
       (error: HttpErrorResponse) => {
         console.log(error.message);
@@ -101,6 +122,60 @@ export class ProjectComponent implements OnInit {
     this.projectService.getProjectPlan(id).subscribe(
       (response: PlanItem[]) => {
         this.project.plan = response;
+        console.log(response)
+      },
+      (error: HttpErrorResponse) => {
+        console.log(error.message);
+      }
+    )
+  }
+
+  public onSubmitAddPlan(): void {
+    const { title, description, date, budget, timelinePosition, progressPercent } = this.planForm;
+
+    this.projectService.addPlan(title, description, date, budget, timelinePosition, progressPercent, this.project.id).subscribe(
+      async response => {
+        this.isPlanAddSucceded = true;
+        await this.delay(1500);
+        this.reloadPage();
+      },
+      err => {
+        this.isPlanAddSucceded = false;
+      }
+    )
+  }
+
+  public setEditPlanId(id: number){
+    this.editPlanId = id;
+    let plan: PlanItem = this.project.plan.find(i => i.id == this.editPlanId)
+
+    this.editPlanForm['title'] = plan.title;
+    this.editPlanForm['description'] = plan.description;
+    this.editPlanForm['date'] = plan.date;
+    this.editPlanForm['budget'] = plan.budget;
+    this.editPlanForm['timelinePosition'] = plan.timelinePosition;
+    this.editPlanForm['progressPercent'] = plan.progressPercent;
+  }
+
+  public editPlan(id: number): void {
+    const { title, description, date, budget, timelinePosition, progressPercent } = this.editPlanForm;
+    this.projectService.updatePlan(title, description, date, budget, timelinePosition, progressPercent, this.editPlanId, this.project.id).subscribe(
+      async response => {
+        this.isPlanEditSucceded = true;
+        await this.delay(1500);
+        this.reloadPage();
+      },
+      err => {
+        this.isPlanEditSucceded = false;
+      }
+    )
+  }
+
+  public deletePlan(id: number): void {
+    this.projectService.deletePlan(id, this.project.id).subscribe(
+      (response: PlanItem[]) => {
+        console.log(response)
+
       },
       (error: HttpErrorResponse) => {
         console.log(error.message);

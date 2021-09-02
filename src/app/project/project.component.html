@@ -134,6 +134,13 @@
                     </div>
                     <!-- calendar -->
                     <div *ngIf="display == 'cal'" class="fs-project-content fs-project-calendar">
+                        <div *ngIf="isOwner" class="row">
+                            <div class="col-8 text-right">
+                                <button class="btn fs-sm-btn fs-bg-trans" data-toggle="modal" data-target="#addPlan">
+                                    <i class="fas fa-pencil-alt"></i>Ajouter
+                                </button>
+                            </div>
+                        </div>
                         <div class="row" style="margin-left: 0">
                             <div class="row d-flex justify-content-center">
                                 <div class="col-md-12">
@@ -143,13 +150,27 @@
                                                 class="vertical-timeline vertical-timeline--animate vertical-timeline--one-column">
                                                 <div *ngFor="let plan of project.plan"
                                                     class="vertical-timeline-item vertical-timeline-element">
-                                                    <div> <span class="vertical-timeline-element-icon bounce-in"> <i
-                                                                class="badge badge-dot badge-dot-xl badge-success">
-                                                            </i> </span>
+                                                    <div>
+                                                        <span class="vertical-timeline-element-icon bounce-in">
+                                                            <i class="badge badge-dot badge-dot-xl badge-success"></i>
+                                                        </span>
                                                         <div class="vertical-timeline-element-content bounce-in">
                                                             <h4 class="timeline-title">{{ plan.title }}
                                                                 <span> ({{ plan.progressPercent }}% , {{ plan.budget }}
-                                                                    TND)</span>
+                                                                    TND)</span>&nbsp;&nbsp;&nbsp;
+                                                                <button *ngIf="isOwner"
+                                                                    class="btn fs-no-bg text-center fs-std-text"
+                                                                    style="color: #007bff;" data-toggle="modal"
+                                                                    data-target="#editPlanForm"
+                                                                    (click)="setEditPlanId(plan.id)"><i
+                                                                        class="p-0 fa fa-pencil-square-o"
+                                                                        aria-hidden="true"></i></button>
+                                                                <button *ngIf="isOwner"
+                                                                    class="btn fs-no-bg text-center fs-std-text"
+                                                                    style="color: #007bff;"
+                                                                    (click)="deletePlan(plan.id)"><i
+                                                                        class="p-0 fa fa-trash"
+                                                                        aria-hidden="true"></i></button>
                                                             </h4>
                                                             <p class="vertical-timeline-element-text">{{
                                                                 plan.description }}</p>
@@ -287,9 +308,9 @@
                                         Lancer un Projet &nbsp; <i class="fa fa-globe" aria-hidden="true"></i></a>
                                 </div>
                                 <div class="col-12 text-center">
-                                    <a class="btn btn-warning fs-std-text" style="width: 90%; color: white;" href="/community/add">
-                                        Fonder une communauté &nbsp; <i class="fa fa-users"
-                                            aria-hidden="true"></i></a>
+                                    <a class="btn btn-warning fs-std-text" style="width: 90%; color: white;"
+                                        href="/community/add">
+                                        Fonder une communauté &nbsp; <i class="fa fa-users" aria-hidden="true"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -521,7 +542,7 @@
                             [(ngModel)]="projectForm.location" placeholder="Entrez un lieu valide" required>
                     </div>
                     <div class="alert alert-danger" *ngIf="location.errors && f.submitted">
-                        <div *ngIf="location.errors.required">lieu requis</div>
+                        <div *ngIf="location.errors.required">Lieu requis</div>
                     </div>
 
                     <div class="row mb-3">
@@ -531,6 +552,208 @@
                     </div>
                 </form>
                 <div *ngIf="isProjectUpdateSucceded" class="mt-25 ml-25 mr-25 text-center">
+                    <div class="alert alert-success" role="alert">
+                        Communauté mis à jour avec succée!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Add Plan -->
+<div class="modal fade fs-profile-form" id="addPlan" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Ajout d'un événement</h5>
+                <button type="button" id="userModalClose" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form *ngIf="!isPlanAddSucceded && !editPlanId" name="planForm"
+                    (ngSubmit)="f.form.valid && onSubmitAddPlan()" #f="ngForm" novalidate>
+                    <!-- title -->
+                    <div class="row px-3">
+                        <label class="mb-1">
+                            <h6 class="mb-0 text-sm">Titre</h6>
+                        </label>
+                        <input class="mb-10 input-font-8em" type="text" name="title" #title="ngModel"
+                            [(ngModel)]="planForm.title" placeholder="Entrez un titre valide" required>
+                    </div>
+                    <div class="alert alert-danger" *ngIf="title.errors && f.submitted">
+                        <div *ngIf="title.errors.required">Nom requis</div>
+                    </div>
+                    <!-- budget -->
+                    <div class="row px-3">
+                        <label class="mb-1">
+                            <h6 class="mb-0 text-sm">Budget (TND)</h6>
+                        </label>
+                        <input class="mb-10 input-font-8em" type="number" name="budget" #budget="ngModel"
+                            [(ngModel)]="planForm.budget" placeholder="Entrez un montant en TND" required>
+                    </div>
+                    <div class="alert alert-danger" *ngIf="budget.errors && f.submitted">
+                        <div *ngIf="budget.errors.required">Budget requis</div>
+                    </div>
+                    <!-- description -->
+                    <div class="row px-3">
+                        <label class="mb-1">
+                            <h6 class="mb-0 text-sm">Description</h6>
+                        </label>
+                        <textarea class="mb-10 input-font-8em" type="text" name="description" #description="ngModel"
+                            [(ngModel)]="planForm.description" placeholder="Entrez une description valide" required
+                            rows="10"></textarea>
+                    </div>
+                    <div class="alert alert-danger" *ngIf="description.errors && f.submitted">
+                        <div *ngIf="description.errors.required">Description requise</div>
+                    </div>
+                    <!-- date -->
+                    <div class="row px-3">
+                        <label class="mb-1">
+                            <h6 class="mb-0 text-sm">Date d'exécution</h6>
+                        </label>
+                        <input class="mb-10 input-font-8em" type="text" name="date" #date="ngModel"
+                            [(ngModel)]="planForm.date" placeholder="jj/mm/aaaa hh:mm" required>
+                    </div>
+                    <div class="alert alert-danger" *ngIf="date.errors && f.submitted">
+                        <div *ngIf="date.errors.required">Date requise</div>
+                    </div>
+                    <!-- timeline position -->
+                    <div class="row px-3">
+                        <label class="mb-1">
+                            <h6 class="mb-0 text-sm">Position <small>(Par rapport au plan du projet)</small></h6>
+                        </label>
+                        <input class="mb-10 input-font-8em" type="number" name="timelinePosition"
+                            #timelinePosition="ngModel" [(ngModel)]="planForm.timelinePosition"
+                            placeholder="Entrez une position valide" required>
+                    </div>
+                    <div class="alert alert-danger" *ngIf="timelinePosition.errors && f.submitted">
+                        <div *ngIf="timelinePosition.errors.required">Position requise</div>
+                    </div>
+                    <!-- timeline position -->
+                    <div class="row px-3">
+                        <label class="mb-1">
+                            <h6 class="mb-0 text-sm">Taux d'avancement <small>(Par rapport à 100% du projet)</small>
+                            </h6>
+                        </label>
+                        <input class="mb-10 input-font-8em" type="number" name="progressPercent"
+                            #progressPercent="ngModel" [(ngModel)]="planForm.progressPercent"
+                            placeholder="Entrez un taux valide" required>
+                    </div>
+                    <div class="alert alert-danger" *ngIf="progressPercent.errors && f.submitted">
+                        <div *ngIf="progressPercent.errors.required">Taux d'avancement requis</div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-blue text-center float-right">Enregister</button>
+                        </div>
+                    </div>
+                </form>
+                <div *ngIf="isPlanEditSucceded" class="mt-25 ml-25 mr-25 text-center">
+                    <div class="alert alert-success" role="alert">
+                        Communauté mis à jour avec succée!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Edit plan -->
+<div class="modal fade fs-profile-form" id="editPlanForm" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Ajout d'un événement</h5>
+                <button type="button" id="userModalClose" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form *ngIf="!isPlanEditSucceded"
+                    (ngSubmit)="f.form.valid && editPlan(editPlanId)" #f="ngForm" novalidate>
+                    <!-- title -->
+                    <div class="row px-3">
+                        <label class="mb-1">
+                            <h6 class="mb-0 text-sm">Titre</h6>
+                        </label>
+                        <input class="mb-10 input-font-8em" type="text" name="title" #title="ngModel"
+                            [(ngModel)]="editPlanForm.title" placeholder="Entrez un titre valide" required>
+                    </div>
+                    <div class="alert alert-danger" *ngIf="title.errors && f.submitted">
+                        <div *ngIf="title.errors.required">Nom requis</div>
+                    </div>
+                    <!-- budget -->
+                    <div class="row px-3">
+                        <label class="mb-1">
+                            <h6 class="mb-0 text-sm">Budget (TND)</h6>
+                        </label>
+                        <input class="mb-10 input-font-8em" type="number" name="budget" #budget="ngModel"
+                            [(ngModel)]="editPlanForm.budget" placeholder="Entrez un montant en TND" required>
+                    </div>
+                    <div class="alert alert-danger" *ngIf="budget.errors && f.submitted">
+                        <div *ngIf="budget.errors.required">Budget requis</div>
+                    </div>
+                    <!-- description -->
+                    <div class="row px-3">
+                        <label class="mb-1">
+                            <h6 class="mb-0 text-sm">Description</h6>
+                        </label>
+                        <textarea class="mb-10 input-font-8em" type="text" name="description" #description="ngModel"
+                            [(ngModel)]="editPlanForm.description" placeholder="Entrez une description valide" required
+                            rows="10"></textarea>
+                    </div>
+                    <div class="alert alert-danger" *ngIf="description.errors && f.submitted">
+                        <div *ngIf="description.errors.required">Description requise</div>
+                    </div>
+                    <!-- date -->
+                    <div class="row px-3">
+                        <label class="mb-1">
+                            <h6 class="mb-0 text-sm">Date d'exécution</h6>
+                        </label>
+                        <input class="mb-10 input-font-8em" type="text" name="date" #date="ngModel"
+                            [(ngModel)]="editPlanForm.date" placeholder="jj/mm/aaaa hh:mm" required>
+                    </div>
+                    <div class="alert alert-danger" *ngIf="date.errors && f.submitted">
+                        <div *ngIf="date.errors.required">Date requise</div>
+                    </div>
+                    <!-- timeline position -->
+                    <div class="row px-3">
+                        <label class="mb-1">
+                            <h6 class="mb-0 text-sm">Position <small>(Par rapport au plan du projet)</small></h6>
+                        </label>
+                        <input class="mb-10 input-font-8em" type="number" name="timelinePosition"
+                            #timelinePosition="ngModel" [(ngModel)]="editPlanForm.timelinePosition"
+                            placeholder="Entrez une position valide" required>
+                    </div>
+                    <div class="alert alert-danger" *ngIf="timelinePosition.errors && f.submitted">
+                        <div *ngIf="timelinePosition.errors.required">Position requise</div>
+                    </div>
+                    <!-- timeline position -->
+                    <div class="row px-3">
+                        <label class="mb-1">
+                            <h6 class="mb-0 text-sm">Taux d'avancement <small>(Par rapport à 100% du projet)</small>
+                            </h6>
+                        </label>
+                        <input class="mb-10 input-font-8em" type="number" name="progressPercent"
+                            #progressPercent="ngModel" [(ngModel)]="editPlanForm.progressPercent"
+                            placeholder="Entrez un taux valide" required>
+                    </div>
+                    <div class="alert alert-danger" *ngIf="progressPercent.errors && f.submitted">
+                        <div *ngIf="progressPercent.errors.required">Taux d'avancement requis</div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-blue text-center float-right">Enregister</button>
+                        </div>
+                    </div>
+                </form>
+                <div *ngIf="isPlanEditSucceded" class="mt-25 ml-25 mr-25 text-center">
                     <div class="alert alert-success" role="alert">
                         Communauté mis à jour avec succée!
                     </div>

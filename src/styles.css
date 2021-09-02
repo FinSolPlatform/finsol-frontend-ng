@@ -98,6 +98,9 @@ body {
 .pt-25 {
     padding-top: 25px !important;
 }
+.fs-p-5 {
+    padding: 5px !important;
+}
 .round-no-border {
     border-radius: 100%;
     border: 1px solid transparent;
@@ -145,6 +148,9 @@ body {
 }
 .fs-btn-blue:hover {
     background-color: #113573;
+}
+.fs-no-bg {
+    background-color: transparent;
 }
 /********** HEADER **********/
 .fs-header{
