@@ -88,4 +88,10 @@ export class ProjectService {
     deletePlan(id: number, project: number): Observable<any> {
         return this.http.delete<number>(`${this.apiServerUrl}/api/project/${project}/plan/${id}`)
     }
+
+    addMedia(media: any, type: any, title: any, project: number): Observable<any> {
+        return this.http.post<number>(`${this.apiServerUrl}/api/project/${project}/gallery`, {
+            title, type, media
+        }, httpOptions)
+    }
 }

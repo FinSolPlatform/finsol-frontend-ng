@@ -21,6 +21,7 @@ export class ProjectComponent implements OnInit {
   isCoverUpdateSucceded: boolean = false;
   isPlanAddSucceded: boolean = false;
   isPlanEditSucceded: boolean = false;
+  isMediaUpdateSucceded: boolean = false;
   loggedUser: string;
   isLoggedIn = false;
   isOwner = false;
@@ -58,6 +59,15 @@ export class ProjectComponent implements OnInit {
     timelinePosition: null,
     progressPercent: null,
   }
+  mediaForm: any = {
+    type: null,
+    url: null,
+    title: null,
+  }
+  types = [
+    { id: 'image', value: 'Photo' },
+    { id: 'video', value: 'Vidèo' },
+  ];
 
   constructor(
     private projectService: ProjectService,
@@ -145,7 +155,7 @@ export class ProjectComponent implements OnInit {
     )
   }
 
-  public setEditPlanId(id: number){
+  public setEditPlanId(id: number) {
     this.editPlanId = id;
     let plan: PlanItem = this.project.plan.find(i => i.id == this.editPlanId)
 
@@ -179,6 +189,24 @@ export class ProjectComponent implements OnInit {
       },
       (error: HttpErrorResponse) => {
         console.log(error.message);
+      }
+    )
+  }
+
+  public onSubmitMedia(): void {
+    const { url, type, title } = this.mediaForm;
+    this.projectService.addMedia(url, type, title, this.project.id).subscribe(
+      async response => {
+        this.isMediaUpdateSucceded = true;
+        if (type == "image")
+          this.successMessage = `Image est ajoutée avec succès`;
+        else
+          this.successMessage = `Vidèo est ajouté avec succès`;
+        await this.delay(1500);
+        this.reloadPage();
+      },
+      err => {
+        this.isMediaUpdateSucceded = false;
       }
     )
   }

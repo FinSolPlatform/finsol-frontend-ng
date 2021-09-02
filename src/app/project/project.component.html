@@ -135,7 +135,7 @@
                     <!-- calendar -->
                     <div *ngIf="display == 'cal'" class="fs-project-content fs-project-calendar">
                         <div *ngIf="isOwner" class="row">
-                            <div class="col-8 text-right">
+                            <div class="col-12 text-right">
                                 <button class="btn fs-sm-btn fs-bg-trans" data-toggle="modal" data-target="#addPlan">
                                     <i class="fas fa-pencil-alt"></i>Ajouter
                                 </button>
@@ -160,14 +160,14 @@
                                                                     TND)</span>&nbsp;&nbsp;&nbsp;
                                                                 <button *ngIf="isOwner"
                                                                     class="btn fs-no-bg text-center fs-std-text"
-                                                                    style="color: #007bff;" data-toggle="modal"
+                                                                    style="color: #28a745;" data-toggle="modal"
                                                                     data-target="#editPlanForm"
                                                                     (click)="setEditPlanId(plan.id)"><i
                                                                         class="p-0 fa fa-pencil-square-o"
                                                                         aria-hidden="true"></i></button>
                                                                 <button *ngIf="isOwner"
                                                                     class="btn fs-no-bg text-center fs-std-text"
-                                                                    style="color: #007bff;"
+                                                                    style="color: #28a745;"
                                                                     (click)="deletePlan(plan.id)"><i
                                                                         class="p-0 fa fa-trash"
                                                                         aria-hidden="true"></i></button>
@@ -187,8 +187,15 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Gallerie -->
+                    <!-- Gallery -->
                     <div *ngIf="display == 'gal'" class="fs-project-content fs-project-gallerie">
+                        <div *ngIf="isOwner" class="row">
+                            <div class="col-12 text-right">
+                                <button class="btn fs-sm-btn fs-bg-trans" data-toggle="modal" data-target="#media">
+                                    <i class="fas fa-pencil-alt"></i>Ajouter
+                                </button>
+                            </div>
+                        </div>
                         <h4>Photos</h4>
                         <hr>
                         <!-- Photos -->
@@ -199,7 +206,7 @@
                                     <div *ngIf="item.type == 'image'" class="col-3">
                                         <a class="thumbnail" href="{{ item.media }}" data-image-id=""
                                             data-toggle="modal" data-title="{{ item.title }}"
-                                            data-caption="Lorem Ipsum is Simply Dummy Text"
+                                            attr.data-caption="{{ item.title }}"
                                             attr.data-image="{{ item.media }}" data-target="#image-gallery">
 
                                             <img src="{{ item.media }}" class="img-fluid rounded-start">
@@ -415,8 +422,8 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header" style="padding-bottom: 7px;">
-                <div class="col-md-8" id="image-gallery-caption" style="font-size: 0.8rem">
-                    This text will be overwritten by jQuery
+                <div class="col-md-11" id="image-gallery-caption" style="font-size: 0.8rem">
+                    ...
                 </div>
                 <!-- close Button -->
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span
@@ -478,6 +485,79 @@
                 <div *ngIf="isCoverUpdateSucceded" class="mt-25 ml-25 mr-25 text-center">
                     <div class="alert alert-success" role="alert">
                         Photo mis à jour avec succès!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Media -->
+<div class="modal fade fs-profile-form" id="media" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Importer un(e) Photo/Video</h5>
+                <button type="button" id="coverModalClose" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form *ngIf="!isMediaUpdateSucceded" name="mediaForm" (ngSubmit)="f.form.valid && onSubmitMedia()"
+                    #f="ngForm" novalidate>
+                    <!-- title -->
+                    <div class="row px-3">
+                        <label class="mb-1">
+                            <h6 class="mb-0 text-sm">Titre</h6>
+                        </label>
+                        <input type="text" class="mb-10 input-font-8em" name="title" placeholder="Entrez un titre valide"
+                            #title="ngModel" required [(ngModel)]="mediaForm.title">
+                    </div>
+                    <div class="alert alert-danger" *ngIf="title.errors && f.submitted">
+                        <div *ngIf="title.errors.required">champ obligatoire!</div>
+                    </div>
+                    <!-- type -->
+                    <div class="row px-3">
+                        <div class="col-12 pl-0">
+                            <label class="mb-1">
+                                <h6 class="mb-0 text-sm">Type</h6>
+                            </label>
+                        </div>
+                        <div class="form-group col-12 pl-0 pr-0">
+                            <select class="form-control input-font-8em" name="type" #type="ngModel" required
+                                [(ngModel)]="mediaForm.type">
+                                <option *ngFor="let type of types" class="input-font-8em" [ngValue]="type.id">
+                                    {{type.value}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="alert alert-danger" *ngIf="type.errors && f.submitted">
+                        <div *ngIf="type.errors">
+                            champ obligatoire!
+                        </div>
+                    </div>
+                    <!-- url -->
+                    <div class="row px-3">
+                        <label class="mb-1">
+                            <h6 class="mb-0 text-sm">Url</h6>
+                        </label>
+                        <input type="text" class="mb-10 input-font-8em" name="url" placeholder="Entrez une url valide"
+                            #url="ngModel" required [(ngModel)]="mediaForm.url">
+                    </div>
+                    <div class="alert alert-danger" *ngIf="url.errors && f.submitted">
+                        <div *ngIf="url.errors.required">champ obligatoire!</div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-blue text-center float-right">Enregister</button>
+                        </div>
+                    </div>
+                </form>
+                <div *ngIf="isMediaUpdateSucceded" class="mt-25 ml-25 mr-25 text-center">
+                    <div class="alert alert-success" role="alert">
+                        {{ successMessage }}
                     </div>
                 </div>
             </div>
@@ -674,8 +754,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form *ngIf="!isPlanEditSucceded"
-                    (ngSubmit)="f.form.valid && editPlan(editPlanId)" #f="ngForm" novalidate>
+                <form *ngIf="!isPlanEditSucceded" (ngSubmit)="f.form.valid && editPlan(editPlanId)" #f="ngForm"
+                    novalidate>
                     <!-- title -->
                     <div class="row px-3">
                         <label class="mb-1">
