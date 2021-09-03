@@ -12,6 +12,7 @@ export class AppComponent {
   showAdminBoard = false;
   showModeratorBoard = false;
   username?: string;
+  title: string;
 
   constructor(private tokenStorageService: TokenStorageService) { }
 
