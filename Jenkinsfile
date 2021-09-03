@@ -9,7 +9,7 @@ pipeline {
         }
     }
     environment {
-        APP_GIT_URL = "git@github.com:FinSolPlatform/finsol-frontend-ng.git"
+        APP_GIT_URL = "https://github.com/FinSolPlatform/finsol-gitops.git"
         
         DEV_PROJECT = "lhqcqt-finsol-platform-dev"
         STAGE_PROJECT = "lhqcqt-finsol-platform-stage"
