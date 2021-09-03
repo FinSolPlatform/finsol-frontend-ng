@@ -28,7 +28,7 @@ pipeline {
         stage('Run Unit Tests') {
             steps {
                 echo '### Running unit tests ###'
-                sh 'npm test'
+                sh 'ng test --watch=false'
             }
         }
 
