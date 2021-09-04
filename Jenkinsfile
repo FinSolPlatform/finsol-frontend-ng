@@ -42,7 +42,8 @@ pipeline {
         stage('Launch new app in DEV env') {
             steps {
                 echo '### Cleaning existing resources in DEV env ###'
-                sh '''
+                sh '''  
+                        oc login -u lhqcqt -p f482fbd769334c28ae05  https://api.eu46.prod.nextcle.com:6443
                         oc project ${DEV_PROJECT}
                         oc delete all -l app=${APP_NAME}
                         sleep 5
