@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, Input } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Project } from '../_entities/project';
 import { ProjectService } from '../_services/project.service';
 
@@ -28,11 +29,18 @@ export class HomeComponent implements OnInit {
     keyword: null
   }
 
-  constructor(private projectService: ProjectService, private activatedRoute: ActivatedRoute, private router: Router) {
-      this.getRecentProject();
+  constructor(
+    private projectService: ProjectService,
+    private activatedRoute: ActivatedRoute,
+    private titleService: Title,
+    private router: Router) {
+       this.getRecentProject();
   }
 
   ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.titleService.setTitle(data.title);
+    })
   }
 
   public onSubmit(page: number): void {

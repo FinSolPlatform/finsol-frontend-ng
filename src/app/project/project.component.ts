@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Gallery } from '../_entities/gallery';
 import { PlanItem } from '../_entities/plan-item';
@@ -75,6 +76,7 @@ export class ProjectComponent implements OnInit {
     private userService: UserService,
     private tokenStorageService: TokenStorageService,
     private router: Router,
+    private titleService: Title
   ) {
     this.activatedRoute.queryParams.subscribe(params => {
       this.display = params['show'];
@@ -88,6 +90,9 @@ export class ProjectComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.titleService.setTitle(data.title);
+    })
   }
 
   public getProject(id: number): void {

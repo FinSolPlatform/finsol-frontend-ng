@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -20,6 +20,7 @@ import { CommonModule } from '@angular/common';
 import { SafePipe } from './safe-pipe/safe-pipe.component';
 import { ProjectAddComponent } from './project-add/project-add.component';
 import { CommunityAddComponent } from './community-add/community-add.component';
+import { ActivatedRoute } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -44,8 +45,9 @@ import { CommunityAddComponent } from './community-add/community-add.component';
     HttpClientModule,
     ReactiveFormsModule,
     CommonModule,
+    ActivatedRoute,
   ],
-  providers: [authInterceptorProviders],
+  providers: [authInterceptorProviders, Title],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

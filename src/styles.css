@@ -437,7 +437,8 @@ footer hr {
     font-weight: bold;
 }
 .vertical-timeline-element-content .timeline-title span {
-    color: red;
+    color: #3081ff;
+    font-weight: normal;
 }
 .vertical-timeline-element-content .vertical-timeline-element-text {
     font-weight: normal;

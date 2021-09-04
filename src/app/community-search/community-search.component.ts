@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Community } from '../_entities/community';
 import { CommunityService } from '../_services/community.service';
@@ -26,10 +27,13 @@ export class CommunitySearchComponent implements OnInit {
     keyword: null
   }
 
-  constructor(private communityService: CommunityService) {
+  constructor(private communityService: CommunityService, private titleService: Title, private activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.titleService.setTitle(data.title);
+    })
   }
 
   public onSubmit(page: number): void {

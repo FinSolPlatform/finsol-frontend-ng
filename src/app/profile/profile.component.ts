@@ -10,6 +10,7 @@ import { AuthService } from '../_services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
 import { environment } from 'src/environments/environment';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-profile',
@@ -50,6 +51,7 @@ export class ProfileComponent implements OnInit {
   }
 
   constructor(private token: TokenStorageService,
+    private titleService: Title,
     private user: UserService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -74,6 +76,9 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.titleService.setTitle(data.title);
+    })
   }
 
   public getUserProfile(): void {

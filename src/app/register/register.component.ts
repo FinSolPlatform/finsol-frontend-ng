@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../_services/auth.service';
 import { TokenStorageService } from '../_services/token-storage.service';
 
@@ -24,13 +25,17 @@ export class RegisterComponent implements OnInit {
   emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,5}$';
   currentUser: any;
 
-  constructor(private authService: AuthService, private token: TokenStorageService, private router: Router) { }
+  constructor(private authService: AuthService, private token: TokenStorageService, private router: Router, private titleService: Title, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.currentUser = this.token.getUser().username;
     if(this.currentUser){
       this.router.navigate(['/home']);
     }
+
+    this.activatedRoute.data.subscribe(data => {
+      this.titleService.setTitle(data.title);
+    })
   }
 
   async onSubmit(): Promise<void> {

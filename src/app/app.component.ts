@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { TokenStorageService } from './_services/token-storage.service';
 
 @Component({
@@ -12,9 +13,9 @@ export class AppComponent {
   showAdminBoard = false;
   showModeratorBoard = false;
   username?: string;
-  title: string;
+  title: string = "Finsol Platform";
 
-  constructor(private tokenStorageService: TokenStorageService) { }
+  constructor(private tokenStorageService: TokenStorageService, private titleService: Title) { }
 
   ngOnInit(): void {
     this.isLoggedIn = !!this.tokenStorageService.getToken();
@@ -28,6 +29,8 @@ export class AppComponent {
 
       this.username = user.username;
     }
+
+    this.titleService.setTitle("Finsol Platform");
   }
 
   logout(): void {

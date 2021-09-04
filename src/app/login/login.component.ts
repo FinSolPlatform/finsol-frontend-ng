@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../_services/auth.service';
 import { TokenStorageService } from '../_services/token-storage.service';
 
@@ -24,7 +25,7 @@ export class LoginComponent implements OnInit {
   validEmail = '';
   validEmailMessage = '';
 
-  constructor(private authService: AuthService, private tokenStorage: TokenStorageService, private router: Router) { }
+  constructor(private authService: AuthService, private tokenStorage: TokenStorageService, private router: Router,private titleService: Title, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
     if (this.tokenStorage.getToken()) {
@@ -32,6 +33,10 @@ export class LoginComponent implements OnInit {
       this.roles = this.tokenStorage.getUser().roles;
       this.router.navigate(['/home']);
     }
+
+    this.activatedRoute.data.subscribe(data => {
+      this.titleService.setTitle(data.title);
+    })
   }
 
   onSubmitLogin(): void {

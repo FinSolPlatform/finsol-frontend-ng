@@ -8,6 +8,7 @@ import { User } from '../_entities/user';
 import { TokenStorageService } from '../_services/token-storage.service';
 import { Member } from '../_entities/member';
 import { DatePipe } from '@angular/common';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-community',
@@ -60,12 +61,14 @@ export class CommunityComponent implements OnInit {
     keyword: null,
   }
 
+
   constructor(
     private activatedRoute: ActivatedRoute,
+    private titleService: Title,
     private communityService: CommunityService,
     private userService: UserService,
     private tokenStorage: TokenStorageService,
-    private router: Router
+    private router: Router,
   ) {
     this.activatedRoute.queryParams.subscribe(params => {
       this.display = params['show'];
@@ -82,6 +85,9 @@ export class CommunityComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.titleService.setTitle(data.title);
+    })
   }
 
   public join() {

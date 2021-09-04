@@ -92,7 +92,7 @@
                     <!-- Information -->
                     <div *ngIf="display == null" class="fs-project-content">
                         <div *ngIf="isOwner" class="row">
-                            <div class="col-11 text-right">
+                            <div class="col-12 text-right">
                                 <button class="btn fs-sm-btn fs-bg-trans" data-toggle="modal"
                                     data-target="#editProject">
                                     <i class="fas fa-pencil-alt"></i>changer
@@ -131,6 +131,11 @@
                                 </p>
                             </div>
                         </div>
+                        <div *ngIf="!isOwner"  class="row" style="margin-left: 0">
+                            <div class="col-10 text-right">
+                                <button class="btn btn-danger fs-sm-btn">Participer &nbsp;<i class="fa fa-hand-o-up" aria-hidden="true"></i></button>
+                            </div>
+                        </div>
                     </div>
                     <!-- calendar -->
                     <div *ngIf="display == 'cal'" class="fs-project-content fs-project-calendar">
@@ -160,14 +165,14 @@
                                                                     TND)</span>&nbsp;&nbsp;&nbsp;
                                                                 <button *ngIf="isOwner"
                                                                     class="btn fs-no-bg text-center fs-std-text"
-                                                                    style="color: #28a745;" data-toggle="modal"
-                                                                    data-target="#editPlanForm"
+                                                                    style="color: black;padding: 0;padding-right:5px;"
+                                                                    data-toggle="modal" data-target="#editPlanForm"
                                                                     (click)="setEditPlanId(plan.id)"><i
                                                                         class="p-0 fa fa-pencil-square-o"
                                                                         aria-hidden="true"></i></button>
                                                                 <button *ngIf="isOwner"
                                                                     class="btn fs-no-bg text-center fs-std-text"
-                                                                    style="color: #28a745;"
+                                                                    style="color: black;padding: 0;padding-right:5px;"
                                                                     (click)="deletePlan(plan.id)"><i
                                                                         class="p-0 fa fa-trash"
                                                                         aria-hidden="true"></i></button>
@@ -206,8 +211,8 @@
                                     <div *ngIf="item.type == 'image'" class="col-3">
                                         <a class="thumbnail" href="{{ item.media }}" data-image-id=""
                                             data-toggle="modal" data-title="{{ item.title }}"
-                                            attr.data-caption="{{ item.title }}"
-                                            attr.data-image="{{ item.media }}" data-target="#image-gallery">
+                                            attr.data-caption="{{ item.title }}" attr.data-image="{{ item.media }}"
+                                            data-target="#image-gallery">
 
                                             <img src="{{ item.media }}" class="img-fluid rounded-start">
                                         </a>
@@ -267,9 +272,10 @@
                                         <div class="row">
                                             <div class="col-10 offset-1">
                                                 <div>
-                                                    <textarea class="form-input" required name="message"
+                                                    <textarea class="form-input fs-std-text" required name="message"
                                                         #message="ngModel" [(ngModel)]="commentForm.message"
-                                                        placeholder="Votre avis nous intéresse :-)"></textarea>
+                                                        placeholder="Votre avis nous intéresse :-)"
+                                                        rows="5f"></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -296,7 +302,7 @@
                                     tous les détails du
                                     projet ainsi que le budget total prévu pour l'ensemble des actions sont
                                     accessibles dans la section "Information" de la page actualle.</p>
-                                <p>Le total des dons s'est élevé à <u><span>2000</span> dinars</u>.</p>
+                                <p>Le total des dons s'est élevé à <u><span>{{ project.budget }}</span> dinars</u>.</p>
                                 <div class="col-12 text-right">
                                     <button class="btn btn-danger">Contribuer<i class="fas fa-heart"></i></button>
                                 </div>
@@ -511,8 +517,9 @@
                         <label class="mb-1">
                             <h6 class="mb-0 text-sm">Titre</h6>
                         </label>
-                        <input type="text" class="mb-10 input-font-8em" name="title" placeholder="Entrez un titre valide"
-                            #title="ngModel" required [(ngModel)]="mediaForm.title">
+                        <input type="text" class="mb-10 input-font-8em" name="title"
+                            placeholder="Entrez un titre valide" #title="ngModel" required
+                            [(ngModel)]="mediaForm.title">
                     </div>
                     <div class="alert alert-danger" *ngIf="title.errors && f.submitted">
                         <div *ngIf="title.errors.required">champ obligatoire!</div>
