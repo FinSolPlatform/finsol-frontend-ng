@@ -17,7 +17,7 @@ export class AppComponent {
 
   constructor(private tokenStorageService: TokenStorageService, private titleService: Title) { }
 
-  ngOnInit(): void {
+  OnInit(): void {
     this.isLoggedIn = !!this.tokenStorageService.getToken();
 
     if (this.isLoggedIn) {

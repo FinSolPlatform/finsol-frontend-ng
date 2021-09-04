@@ -58,39 +58,39 @@
                     <div class="row fs-project-tabs" style="margin-left: 0">
                         <ul class="nav nav-tabs">
                             <li class="nav-item">
-                                <a *ngIf="display == null" class="nav-link active" aria-current="page"
+                                <a *ngIf="display === null" class="nav-link active" aria-current="page"
                                     href="/project/{{ project.id }}">Information</a>
-                                <a *ngIf="display != null" class="nav-link" aria-current="page"
+                                <a *ngIf="display !== null" class="nav-link" aria-current="page"
                                     href="/project/{{ project.id }}">Information</a>
                             </li>
                             <li class="nav-item">
-                                <a *ngIf="display == 'cal'" class="nav-link active" aria-current="page"
+                                <a *ngIf="display === 'cal'" class="nav-link active" aria-current="page"
                                     href="/project/{{ project.id }}?show=cal">Calendrier</a>
-                                <a *ngIf="display != 'cal'" class="nav-link" aria-current="page"
+                                <a *ngIf="display !== 'cal'" class="nav-link" aria-current="page"
                                     href="/project/{{ project.id }}?show=cal">Calendrier</a>
                             </li>
                             <li class="nav-item">
-                                <a *ngIf="display == 'gal'" class="nav-link active" aria-current="page"
+                                <a *ngIf="display === 'gal'" class="nav-link active" aria-current="page"
                                     href="/project/{{ project.id }}?show=gal">Gallerie</a>
-                                <a *ngIf="display != 'gal'" class="nav-link" aria-current="page"
+                                <a *ngIf="display !== 'gal'" class="nav-link" aria-current="page"
                                     href="/project/{{ project.id }}?show=gal">Gallerie</a>
                             </li>
                             <li class="nav-item">
-                                <a *ngIf="display == 'com'" class="nav-link active" aria-current="page"
+                                <a *ngIf="display === 'com'" class="nav-link active" aria-current="page"
                                     href="/project/{{ project.id }}?show=com">Communauté</a>
-                                <a *ngIf="display != 'com'" class="nav-link" aria-current="page"
+                                <a *ngIf="display !== 'com'" class="nav-link" aria-current="page"
                                     href="/project/{{ project.id }}?show=com">Communauté</a>
                             </li>
                             <li class="nav-item">
-                                <a *ngIf="display == 'don'" class="nav-link active" aria-current="page"
+                                <a *ngIf="display === 'don'" class="nav-link active" aria-current="page"
                                     href="/project/{{ project.id }}?show=don">Contirubition</a>
-                                <a *ngIf="display != 'don'" class="nav-link" aria-current="page"
+                                <a *ngIf="display !== 'don'" class="nav-link" aria-current="page"
                                     href="/project/{{ project.id }}?show=don">Contribution</a>
                             </li>
                         </ul>
                     </div>
                     <!-- Information -->
-                    <div *ngIf="display == null" class="fs-project-content">
+                    <div *ngIf="display === null" class="fs-project-content">
                         <div *ngIf="isOwner" class="row">
                             <div class="col-12 text-right">
                                 <button class="btn fs-sm-btn fs-bg-trans" data-toggle="modal"
@@ -138,7 +138,7 @@
                         </div>
                     </div>
                     <!-- calendar -->
-                    <div *ngIf="display == 'cal'" class="fs-project-content fs-project-calendar">
+                    <div *ngIf="display === 'cal'" class="fs-project-content fs-project-calendar">
                         <div *ngIf="isOwner" class="row">
                             <div class="col-12 text-right">
                                 <button class="btn fs-sm-btn fs-bg-trans" data-toggle="modal" data-target="#addPlan">
@@ -193,7 +193,7 @@
                         </div>
                     </div>
                     <!-- Gallery -->
-                    <div *ngIf="display == 'gal'" class="fs-project-content fs-project-gallerie">
+                    <div *ngIf="display === 'gal'" class="fs-project-content fs-project-gallerie">
                         <div *ngIf="isOwner" class="row">
                             <div class="col-12 text-right">
                                 <button class="btn fs-sm-btn fs-bg-trans" data-toggle="modal" data-target="#media">
@@ -208,7 +208,7 @@
                             data-target="#exampleModal">
                             <div class="row">
                                 <ng-template ngFor let-item [ngForOf]="project.media">
-                                    <div *ngIf="item.type == 'image'" class="col-3">
+                                    <div *ngIf="item.type === 'image'" class="col-3">
                                         <a class="thumbnail" href="{{ item.media }}" data-image-id=""
                                             data-toggle="modal" data-title="{{ item.title }}"
                                             attr.data-caption="{{ item.title }}" attr.data-image="{{ item.media }}"
@@ -226,7 +226,7 @@
                         <div class="mb-35 fs-project-media-grid">
                             <div class="row">
                                 <ng-template ngFor let-item [ngForOf]="project.media">
-                                    <div *ngIf="item.type == 'video'" class="col-4">
+                                    <div *ngIf="item.type === 'video'" class="col-4">
                                         <div class="embed-responsive embed-responsive-16by9">
                                             <iframe class="embed-responsive-item" [src]="item.media | safe"
                                                 allowfullscreen></iframe>
@@ -237,7 +237,7 @@
                         </div>
                     </div>
                     <!-- Community -->
-                    <div *ngIf="display == 'com'" class="fs-project-community">
+                    <div *ngIf="display === 'com'" class="fs-project-community">
                         <div class="container mb-5 mt-5">
                             <div class="row no-border">
                                 <div class="col-md-12">
@@ -292,7 +292,7 @@
 
                     </div>
                     <!-- Donate -->
-                    <div *ngIf="display == 'don'" class="fs-project-donation">
+                    <div *ngIf="display === 'don'" class="fs-project-donation">
                         <div class="row">
                             <div class="col-4">
                                 <img src="../../assets/images/donation.png" alt="" style="width: 100%;">

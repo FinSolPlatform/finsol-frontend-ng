@@ -9,21 +9,21 @@
                     <div class="row fs-project-tabs" style="margin-left: 0">
                         <ul class="nav nav-tabs">
                             <li class="nav-item">
-                                <a *ngIf="display == null" class="nav-link active" aria-current="page" href="/profile">Profile</a>
-                                <a *ngIf="display != null" class="nav-link" aria-current="page" href="/profile">Profile</a>
+                                <a *ngIf="display === null" class="nav-link active" aria-current="page" href="/profile">Profile</a>
+                                <a *ngIf="display !== null" class="nav-link" aria-current="page" href="/profile">Profile</a>
                             </li>
                             <li class="nav-item">
-                                <a *ngIf="display == 'com'"  class="nav-link active" href="/profile?show=com">Communautés</a>
-                                <a *ngIf="display != 'com'"  class="nav-link" href="/profile?show=com">Communautés</a>
+                                <a *ngIf="display === 'com'"  class="nav-link active" href="/profile?show=com">Communautés</a>
+                                <a *ngIf="display !== 'com'"  class="nav-link" href="/profile?show=com">Communautés</a>
                             </li>
                             <li class="nav-item">
-                                <a *ngIf="display == 'act'"  class="nav-link active" href="/profile?show=act">Activités</a>
-                                <a *ngIf="display != 'act'"  class="nav-link" href="/profile?show=act">Activités</a>
+                                <a *ngIf="display === 'act'"  class="nav-link active" href="/profile?show=act">Activités</a>
+                                <a *ngIf="display !== 'act'"  class="nav-link" href="/profile?show=act">Activités</a>
                             </li>
                         </ul>
                     </div>
                     <!-- Profile -->
-                    <div *ngIf="display == null" class="fs-project-content">
+                    <div *ngIf="display === null" class="fs-project-content">
                         <div class="row">
                             <div class="col-8">
                                 <div class="row fs-mb-5" style="margin-left: 0">
@@ -37,8 +37,8 @@
                                 <div class="row fs-mb-5" style="margin-left: 0">
                                     <div class="col-5">Points d'expérience</div>
                                     <div class="col weight-normal">
-                                        <ng-template [ngIf]="profileUser.score == null">0</ng-template>
-                                        <ng-template [ngIf]="profileUser.score != null">{{ profileUser.score }}
+                                        <ng-template [ngIf]="profileUser.score === null">0</ng-template>
+                                        <ng-template [ngIf]="profileUser.score !== null">{{ profileUser.score }}
                                         </ng-template>
                                     </div>
                                 </div>
@@ -104,15 +104,15 @@
                             <div class="col-2">Biographie </div>
                             <div class="col-8">
                                 <p class="text-justify">
-                                    <ng-template [ngIf]="profileUser.biography == null">...</ng-template>
-                                    <ng-template [ngIf]="profileUser.biography != null">{{ profileUser.biography }}
+                                    <ng-template [ngIf]="profileUser.biography === null">...</ng-template>
+                                    <ng-template [ngIf]="profileUser.biography !== null">{{ profileUser.biography }}
                                     </ng-template>
                                 </p>
                             </div>
                         </div>
                     </div>
                     <!-- Communautés -->
-                    <div *ngIf="display == 'com'" class="fs-project-content">
+                    <div *ngIf="display === 'com'" class="fs-project-content">
                         <div class="row">
                             <div class="col-2 text-center pt-0">
                                 <img src="https://st2.depositphotos.com/1010751/6391/v/600/depositphotos_63913815-stock-illustration-social-network-group-of-6.jpg"
@@ -163,7 +163,7 @@
                         </div>
                     </div>
                     <!-- Activité -->
-                    <div *ngIf="display == 'act'" class="col-11 fs-community-projects">
+                    <div *ngIf="display === 'act'" class="col-11 fs-community-projects">
                         <!-- List Header -->
                         <div class="row bg-light-grey fs-pb-5 fs-pt-5">
                             <div class="col-2">Date</div>

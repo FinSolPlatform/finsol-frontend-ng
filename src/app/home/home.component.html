@@ -120,9 +120,9 @@
                                     <button *ngIf="currentPage<1" class="page-link">&laquo;</button>
                                 </li>
                                 <li *ngFor="let n of numSequence(pagesNbr); let i = index;" class="page-item">
-                                    <button *ngIf="i+1 != currentPage" class="page-link"
+                                    <button *ngIf="i+1 !== currentPage" class="page-link"
                                         (click)="onSubmit(i+1)">{{i+1}}</button>
-                                    <button *ngIf="i+1 == currentPage" class="page-link fs-pag-active"
+                                    <button *ngIf="i+1 === currentPage" class="page-link fs-pag-active"
                                         disabled>{{i+1}}</button>
                                 </li>
                                 <li class="page-item">
