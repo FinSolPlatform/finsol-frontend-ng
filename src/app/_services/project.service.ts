@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { environment } from "src/environments/environment.prod";
+import { environment } from "src/environments/environment";
 import { Gallery } from "../_entities/gallery";
 import { PlanItem } from "../_entities/plan-item";
 import { Project } from "../_entities/project";
