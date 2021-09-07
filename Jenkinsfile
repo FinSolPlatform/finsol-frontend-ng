@@ -9,7 +9,7 @@ pipeline {
         }
     }
     environment {
-        APP_GIT_URL = "https://github.com/FinSolPlatform/finsol-gitops.git"
+        APP_GIT_URL = "https://github.com/FinSolPlatform/finsol-frontend-ng.git"
         
         DEV_PROJECT = "lhqcqt-finsol-platform-dev"
         STAGE_PROJECT = "lhqcqt-finsol-platform-stage"
@@ -43,7 +43,6 @@ pipeline {
             steps {
                 echo '### Cleaning existing resources in DEV env ###'
                 sh '''  
-                        oc login -u lhqcqt -p f482fbd769334c28ae05  https://api.eu46.prod.nextcle.com:6443
                         oc project ${DEV_PROJECT}
                         oc delete all -l app=${APP_NAME}
                         sleep 5
