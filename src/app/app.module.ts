@@ -18,8 +18,9 @@ import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
 import { CommunitySearchComponent } from './community-search/community-search.component';
 import { CommonModule } from '@angular/common';
 import { SafePipe } from './safe-pipe/safe-pipe.component';
+import { ProjectAddComponent } from './project-add/project-add.component';
 import { CommunityAddComponent } from './community-add/community-add.component';
-import { ActivatedRoute } from '@angular/router';
+// import { ActivatedRoute } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { ActivatedRoute } from '@angular/router';
     PagenotfoundComponent,
     CommunitySearchComponent,
     SafePipe,
+    ProjectAddComponent,
     CommunityAddComponent,
   ],
   imports: [
@@ -43,7 +45,7 @@ import { ActivatedRoute } from '@angular/router';
     HttpClientModule,
     ReactiveFormsModule,
     CommonModule,
-    ActivatedRoute,
+    // ActivatedRoute,
   ],
   providers: [authInterceptorProviders, Title],
   bootstrap: [AppComponent]
