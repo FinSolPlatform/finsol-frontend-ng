@@ -51,7 +51,7 @@ pipeline {
                 echo '### Creating a new app in DEV env ###'
                 sh '''
                         oc project ${DEV_PROJECT}
-                        oc new-app  --as-deployment-config --name ${APP_NAME} nodejs:12~${APP_GIT_URL}
+                        oc new-app  --as-deployment-config --name ${APP_NAME} nodejs:12-ubi8~${APP_GIT_URL}
                         oc expose svc/${APP_NAME}
                    '''
             }
