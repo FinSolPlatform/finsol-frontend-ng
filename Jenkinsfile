@@ -13,7 +13,6 @@ pipeline {
         
         DEV_PROJECT = "lhqcqt-finsol-platform-dev"
         STAGE_PROJECT = "lhqcqt-finsol-platform-stage"
-        PROD_PROJECT = "lhqcqt-finsol-platform-prod"
         
         APP_NAME = "frontend-ng"
     }
@@ -86,6 +85,37 @@ pipeline {
                         }
                     }
                 }
+            }
+        }
+
+        stage('Promote to Staging Env') {
+            steps {
+                timeout(time: 60, unit: 'MINUTES') {
+                    input message: "Promote to Staging?"
+                }
+                script {
+                    openshift.withCluster() {
+                    openshift.tag("${DEV_PROJECT}/${APP_NAME}:latest", "${STAGE_PROJECT}/${APP_NAME}:stage")
+                    }
+                }
+            }
+        }
+
+        stage('Deploy to Staging Env') {
+            steps {
+                echo '### Cleaning existing resources in Staging ###'
+                sh '''
+                        oc project ${STAGE_PROJECT}
+                        oc delete all -l app=${APP_NAME}
+                        sleep 5
+                   '''
+
+                echo '### Creating a new app in Staging ###'
+                sh '''
+                        oc project ${STAGE_PROJECT}
+                        oc new-app --name ${APP_NAME} -i ${APP_NAME}:stage --as-deployment-config
+                        oc expose svc/${APP_NAME}
+                   '''
             }
         }
     }
