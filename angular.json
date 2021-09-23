@@ -85,7 +85,7 @@
           "defaultConfiguration": "development",
           "options": {
             "browserTarget": "latest-angular:build",
-            "port": 8080,
+            "port": 4200,
             "host": "0.0.0.0",
             "disableHostCheck": true
           }
