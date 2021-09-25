@@ -10,6 +10,7 @@
     "src/polyfills.ts"
   ],
   "include": [
-    "src/**/*.d.ts"
+    "src/**/*.d.ts",
+    "/opt/app-root/src/src/environments/**/*.ts"
   ]
 }

@@ -51,6 +51,7 @@ pipeline {
                 sh '''
                         oc project ${DEV_PROJECT}
                         oc new-app  --as-deployment-config --name ${APP_NAME} nodejs:12-ubi8~${APP_GIT_URL} --source-secret='git-credentials'
+                        oc set volumes dc/frontend-ng --add --type configmap --configmap-name=frontend-ng-env-conf --mount-path=/opt/app-root/src/src/environments/
                         oc expose svc/${APP_NAME}
                    '''
             }
@@ -114,6 +115,7 @@ pipeline {
                 sh '''
                         oc project ${STAGE_PROJECT}
                         oc new-app --name ${APP_NAME} -i ${STAGE_PROJECT}/${APP_NAME}:stage --as-deployment-config
+                        oc set volumes dc/frontend-ng --add --type configmap --configmap-name=frontend-ng-env-conf --mount-path=/opt/app-root/src/src/environments/
                         oc expose svc/${APP_NAME}
                    '''
             }
