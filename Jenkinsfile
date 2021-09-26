@@ -50,7 +50,7 @@ pipeline {
                 echo '### Creating a new app in DEV env ###'
                 sh '''
                         oc project ${DEV_PROJECT}
-                        oc new-app  --as-deployment-config --name ${APP_NAME} nodejs:12-ubi8~${APP_GIT_URL} --source-secret='git-credentials'
+                        oc new-app --name ${APP_NAME} nodejs:12-ubi8~${APP_GIT_URL} --source-secret='git-credentials'
                         oc set deployment-hook dc/frontend-ng --post -c /bin/bash --failure-policy abort -- 'envsubst < /opt/app-root/src/src/env.js.template > /opt/app-root/src/src/env.js'
                         oc expose svc/${APP_NAME}
                    '''
@@ -114,7 +114,7 @@ pipeline {
                 echo '### Creating a new app in Staging ###'
                 sh '''
                         oc project ${STAGE_PROJECT}
-                        oc new-app --name ${APP_NAME} -i ${STAGE_PROJECT}/${APP_NAME}:stage --as-deployment-config
+                        oc new-app --name ${APP_NAME} -i ${STAGE_PROJECT}/${APP_NAME}:stage
                         oc set deployment-hook dc/frontend-ng --post -c /bin/bash --failure-policy abort -- 'envsubst < /opt/app-root/src/src/env.js.template > /opt/app-root/src/src/env.js'
                         oc expose svc/${APP_NAME}
                    '''
