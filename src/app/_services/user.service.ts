@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
 import { HttpHeaders } from '@angular/common/http';
-import { User } from '../_entities/user';
+import { EnvService } from './env.service';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -13,9 +12,10 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class UserService {
-  private apiServerUrl = environment.apiBaseUrl;
-
-  constructor(private http: HttpClient) { }
+  
+  constructor(private http: HttpClient, private env: EnvService) { }
+  
+  private apiServerUrl = this.env.userApiUrl;
 
   getPublicContent(): Observable<any> {
     return this.http.get(`${this.apiServerUrl}/api/test/all`, { responseType: 'text' });

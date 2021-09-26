@@ -20,6 +20,8 @@ import { CommonModule } from '@angular/common';
 import { SafePipe } from './safe-pipe/safe-pipe.component';
 import { ProjectAddComponent } from './project-add/project-add.component';
 import { CommunityAddComponent } from './community-add/community-add.component';
+import { environment } from 'src/environments/environment';
+import { EnvServiceProvider } from './_services/env.service.provider';
 // import { ActivatedRoute } from '@angular/router';
 
 @NgModule({
@@ -47,7 +49,11 @@ import { CommunityAddComponent } from './community-add/community-add.component';
     CommonModule,
     // ActivatedRoute,
   ],
-  providers: [authInterceptorProviders, Title],
+  providers: [
+    authInterceptorProviders,
+    Title,
+    EnvServiceProvider
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
