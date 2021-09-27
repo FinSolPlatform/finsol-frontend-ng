@@ -1,10 +1,9 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { environment } from "src/environments/environment";
 import { Community } from "../_entities/community";
 import { Member } from "../_entities/member";
-import { User } from "../_entities/user";
+import { EnvService } from "./env.service";
 
 const httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -14,9 +13,10 @@ const httpOptions = {
     providedIn: 'root'
 })
 export class CommunityService {
-    private apiServerUrl = environment.communityApiBaseUrl;
-
-    constructor(private http: HttpClient) { }
+    
+    constructor(private http: HttpClient, private env: EnvService) { }
+    
+    private apiServerUrl = this.env.communityApiUrl;
 
     getCommunityById(id: number): Observable<any> {
         return this.http.get(`${this.apiServerUrl}/api/communities/${id}`, httpOptions);
