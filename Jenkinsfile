@@ -17,26 +17,26 @@ pipeline {
         APP_NAME = "frontend-ng"
     }
     stages {
-        stage('NPM Install') {
-            steps {
-                echo '### Installing NPM dependencies ###'
-                sh 'npm install'
-            }
-        }
+        // stage('NPM Install') {
+        //     steps {
+        //         echo '### Installing NPM dependencies ###'
+        //         sh 'npm install'
+        //     }
+        // }
 
-        stage('Run Unit Tests') {
-            steps {
-                echo '### Running unit tests ###'
-                sh 'npm test --watch=false'
-            }
-        }
+        // stage('Run Unit Tests') {
+        //     steps {
+        //         echo '### Running unit tests ###'
+        //         sh 'npm test --watch=false'
+        //     }
+        // }
 
-        stage('Run Linting Tools') {
-            steps {
-                echo '### Running eslint on code ###'
-                sh 'npm run lint'
-            }
-        }
+        // stage('Run Linting Tools') {
+        //     steps {
+        //         echo '### Running eslint on code ###'
+        //         sh 'npm run lint'
+        //     }
+        // }
 
         stage('Launch new app in DEV env') {
             steps {
