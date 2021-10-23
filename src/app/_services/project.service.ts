@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { PlanItem } from "../_entities/plan-item";
 import { Project } from "../_entities/project";
-import { EnvService } from "./env.service";
+import { environment } from 'src/environments/environment';
 
 const httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -14,9 +14,9 @@ const httpOptions = {
 })
 export class ProjectService {
     
-    constructor(private http: HttpClient, private env: EnvService) { }
+    constructor(private http: HttpClient) { }
     
-        private apiServerUrl = this.env.projectApiUrl;
+    private apiServerUrl = environment.apiBaseUrl;
     
     getProjectByName(keyword: string, page: number, size: number): Observable<any> {
         return this.http.post<Project[]>(`${this.apiServerUrl}/api/projects/search/${page}/${size}`, { keyword }, httpOptions)
