@@ -52,7 +52,7 @@ pipeline {
                         oc project ${DEV_PROJECT}
                         oc new-app --name ${APP_NAME} --as-deployment-config nodejs:12-ubi8~${APP_GIT_URL} --source-secret='git-credentials'
                         oc set deployment-hook dc/frontend-ng --post -c /bin/bash --failure-policy abort -- 'envsubst < /opt/app-root/src/src/env.js.template > /opt/app-root/src/src/env.js'
-                        oc expose svc/${APP_NAME}
+                        oc create route edge --service=${APP_NAME} ${APP_NAME}
                    '''
             }
         }
@@ -116,7 +116,7 @@ pipeline {
                         oc project ${STAGE_PROJECT}
                         oc new-app --name ${APP_NAME} -i ${STAGE_PROJECT}/${APP_NAME}:stage
                         oc set deployment-hook dc/frontend-ng --post -c /bin/bash --failure-policy abort -- 'envsubst < /opt/app-root/src/src/env.js.template > /opt/app-root/src/src/env.js'
-                        oc expose svc/${APP_NAME}
+                        oc create route edge --service=${APP_NAME} ${APP_NAME}
                    '''
             }
         }
