@@ -34,7 +34,7 @@ pipeline {
         stage('Run Linting Tools') {
             steps {
                 echo '### Running eslint on code ###'
-                sh 'npm run lint'
+                // sh 'npm run lint'
             }
         }
 
