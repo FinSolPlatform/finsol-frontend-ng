@@ -1,6 +1,4 @@
 export const environment = {
   production: false,
-  apiBaseUrl: 'https://finsol-api-gateway-lhqcqt-finsol-platform-dev.apps.eu46.prod.nextcle.com/',
-  // communityApiBaseUrl: 'http://localhost:8081',
-  // projectApiBaseUrl: 'http://localhost:8082',
+  apiBaseUrl: 'https://api-gateway-lhqcqt-finsol-platform-dev.apps.na46.prod.nextcle.com//api/finsol',
 };

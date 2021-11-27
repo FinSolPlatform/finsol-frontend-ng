@@ -9,8 +9,8 @@
                     <div class="row fs-project-tabs" style="margin-left: 0">
                         <ul class="nav nav-tabs">
                             <li class="nav-item">
-                                <a *ngIf="display === null" class="nav-link active" aria-current="page" href="/profile">Profile</a>
-                                <a *ngIf="display !== null" class="nav-link" aria-current="page" href="/profile">Profile</a>
+                                <a *ngIf="display === undefined" class="nav-link active" aria-current="page" href="/profile">Profile</a>
+                                <a *ngIf="display !== undefined" class="nav-link" aria-current="page" href="/profile">Profile</a>
                             </li>
                             <li class="nav-item">
                                 <a *ngIf="display === 'com'"  class="nav-link active" href="/profile?show=com">Communautés</a>
@@ -23,7 +23,7 @@
                         </ul>
                     </div>
                     <!-- Profile -->
-                    <div *ngIf="display === null" class="fs-project-content">
+                    <div *ngIf="display === undefined" class="fs-project-content">
                         <div class="row">
                             <div class="col-8">
                                 <div class="row fs-mb-5" style="margin-left: 0">
@@ -37,8 +37,8 @@
                                 <div class="row fs-mb-5" style="margin-left: 0">
                                     <div class="col-5">Points d'expérience</div>
                                     <div class="col weight-normal">
-                                        <ng-template [ngIf]="profileUser.score === null">0</ng-template>
-                                        <ng-template [ngIf]="profileUser.score !== null">{{ profileUser.score }}
+                                        <ng-template [ngIf]="profileUser.score === undefined">0</ng-template>
+                                        <ng-template [ngIf]="profileUser.score !== undefined">{{ profileUser.score }}
                                         </ng-template>
                                     </div>
                                 </div>
@@ -104,8 +104,8 @@
                             <div class="col-2">Biographie </div>
                             <div class="col-8">
                                 <p class="text-justify">
-                                    <ng-template [ngIf]="profileUser.biography === null">...</ng-template>
-                                    <ng-template [ngIf]="profileUser.biography !== null">{{ profileUser.biography }}
+                                    <ng-template [ngIf]="profileUser.biography === undefined">...</ng-template>
+                                    <ng-template [ngIf]="profileUser.biography !== undefined">{{ profileUser.biography }}
                                     </ng-template>
                                 </p>
                             </div>

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -20,9 +20,29 @@ import { CommonModule } from '@angular/common';
 import { SafePipe } from './safe-pipe/safe-pipe.component';
 import { ProjectAddComponent } from './project-add/project-add.component';
 import { CommunityAddComponent } from './community-add/community-add.component';
-import { environment } from 'src/environments/environment';
 import { EnvServiceProvider } from './_services/env.service.provider';
-// import { ActivatedRoute } from '@angular/router';
+import { PermissionDeniedComponent } from './permission-denied/permission-denied.component';
+import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
+import { ConsoleAdmComponent } from './console-adm/console-adm.component';
+import { ProfileAdmComponent } from './profile-adm/profile-adm.component';
+
+
+function initializeKeycloak(keycloak: KeycloakService) {
+  return () =>
+    keycloak.init({
+      config: {
+        url: 'http://localhost:8080/auth',
+        realm: 'finsol-realm',
+        clientId: 'finsol-frontend',
+      },
+      initOptions: {
+        onLoad: 'check-sso',
+        silentCheckSsoRedirectUri:
+          window.location.origin + '/assets/silent-check-sso.html',
+      },
+      bearerExcludedUrls: ['/assets', '/clients/public'],
+    });
+}
 
 @NgModule({
   declarations: [
@@ -39,6 +59,9 @@ import { EnvServiceProvider } from './_services/env.service.provider';
     SafePipe,
     ProjectAddComponent,
     CommunityAddComponent,
+    PermissionDeniedComponent,
+    ConsoleAdmComponent,
+    ProfileAdmComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,13 +70,19 @@ import { EnvServiceProvider } from './_services/env.service.provider';
     HttpClientModule,
     ReactiveFormsModule,
     CommonModule,
-    // ActivatedRoute,
+    KeycloakAngularModule
   ],
   providers: [
     authInterceptorProviders,
     Title,
-    EnvServiceProvider
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeKeycloak,
+      multi: true,
+      deps: [KeycloakService],
+    },
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+ 

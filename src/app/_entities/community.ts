@@ -13,5 +13,7 @@ export interface Community {
     website? : string,
     createdBy? : string,
     domain? : string,
-    member? : User[]
+    member? : User[],
+    status? : string,
+    owner: string,
 }

@@ -73,7 +73,7 @@ export class HomeComponent implements OnInit {
   public getRecentProject(): void {
     this.projectService.getLatestProjects().subscribe(
       (response: Project[]) => {
-        this.recentProjects = response.slice(response.length - 5, response.length).reverse();
+        this.recentProjects = response.slice(-5).reverse();
       },
       (error: HttpErrorResponse) => {
         console.log(error.message);

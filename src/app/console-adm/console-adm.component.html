@@ -1,0 +1,84 @@
+<div class="container mt-30">
+    <div class="row">
+        <div class="col-12">
+            <h4 class="fs-title-simple">Console d'Administration</h4>
+            <!-- community Detail -->
+            <div class="row fs-project-tabs" style="margin-left: 0">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a *ngIf="display === undefined || display === undefined" class="nav-link active"
+                            aria-current="page" href="console-adm">Utilisateurs</a>
+
+                        <a *ngIf="display !== undefined" class="nav-link" aria-current="page"
+                            href="console-adm">Utilisateurs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a *ngIf="display === 'community'" class="nav-link active" aria-current="page"
+                            href="console-adm?show=community">Communities</a>
+
+                        <a *ngIf="display !== 'community'" class="nav-link" aria-current="page"
+                            href="console-adm?show=community">Communities</a>
+                    </li>
+                    <li class="nav-item">
+                        <a *ngIf="display === 'project'" class="nav-link active" aria-current="page"
+                            href="console-adm?show=project">Projets</a>
+
+                        <a *ngIf="display !== 'project'" class="nav-link" aria-current="page"
+                            href="console-adm?show=project">Projets</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- Main Content -->
+            <div class="col-12">
+                <!-- users -->
+                <div *ngIf="display === undefined" style="margin-left: 0">
+                    <div *ngFor="let user of users" class="col-12">
+                        <div *ngIf="user.username !== 'admin'" class="row">
+                            <div class="col-4">
+                                <a href="profile-adm/{{ user.id }}">{{ user.firstName }} {{ user.lastName }}</a>
+                            </div>
+                            <div class="col-3">
+                                <button class="no-border bg-transparent" *ngIf="user.status !== 'off'"
+                                    (click)="disableUser(user.id)"><i class="fas fa-toggle-on"></i></button>
+                                <button class="no-border bg-transparent" *ngIf="user.status === 'off'"
+                                    (click)="enableUser(user.id)"><i class="fas fa-toggle-off"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- communities -->
+                <div *ngIf="display === 'community'" class="row" style="margin-left: 0">
+                    <div *ngFor="let community of communities" class="col-12">
+                        <div class="row">
+                            <div class="col-4">
+                                <a href="community/{{ community.id }}">{{ community.name }}</a>
+                            </div>
+                            <div class="col-3">
+                                <button class="no-border bg-transparent" *ngIf="community.status !== 'off'"
+                                    (click)="disableCommunity(community.id)"><i class="fas fa-toggle-on"></i></button>
+                                <button class="no-border bg-transparent" *ngIf="community.status === 'off'"
+                                    (click)="enableCommunity(community.id)"><i class="fas fa-toggle-off"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Projects -->
+                <div *ngIf="display === 'project'" class="row" style="margin-left: 0">
+                    <div *ngFor="let project of projects" class="col-12">
+                        <div class="row">
+                            <div class="col-4">
+                                <a href="project/{{ project.id }}">{{ project.name }}</a>
+                            </div>
+                            <div class="col-3">
+                                <button class="no-border bg-transparent" *ngIf="project.status !== 'off'"
+                                    (click)="disableProject(project.id)"><i class="fas fa-toggle-on"></i></button>
+                                <button class="no-border bg-transparent" *ngIf="project.status === 'off'"
+                                    (click)="enableProject(project.id)"><i class="fas fa-toggle-off"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -13,29 +13,29 @@ const httpOptions = {
     providedIn: 'root'
 })
 export class ProjectService {
-    
+
     constructor(private http: HttpClient) { }
-    
+
     private apiServerUrl = environment.apiBaseUrl;
-    
+
     getProjectByName(keyword: string, page: number, size: number): Observable<any> {
-        return this.http.post<Project[]>(`${this.apiServerUrl}/api/projects/search/${page}/${size}`, { keyword }, httpOptions)
+        return this.http.post<Project[]>(`${this.apiServerUrl}/projects/search/${page}/${size}`, { keyword }, httpOptions)
     }
 
     getLatestProjects(): Observable<any> {
-        return this.http.get<Project[]>(`${this.apiServerUrl}/api/projects`)
+        return this.http.get<Project[]>(`${this.apiServerUrl}/projects`)
     }
 
     getProjectById(id: number): Observable<any> {
-        return this.http.get<Project[]>(`${this.apiServerUrl}/api/projects/${id}`)
+        return this.http.get<Project[]>(`${this.apiServerUrl}/projects/${id}`)
     }
 
     getProjectPlan(id: number): Observable<any> {
-        return this.http.get<PlanItem[]>(`${this.apiServerUrl}/api/project/${id}/plan`)
+        return this.http.get<PlanItem[]>(`${this.apiServerUrl}/project/${id}/plan`)
     }
 
     addComment(id: number, message: string, username: string, replyTo: string, project: Project): Observable<any> {
-        return this.http.post(`${this.apiServerUrl}/api/project/${id}/comment`, {
+        return this.http.post(`${this.apiServerUrl}/project/${id}/comment`, {
             message,
             username,
             replyTo,
@@ -44,12 +44,20 @@ export class ProjectService {
     }
 
     getSeachResultProjectsNumber(keyword: string): Observable<any> {
-        return this.http.post<number>(`${this.apiServerUrl}/api/projects/search`, { keyword }, httpOptions)
+        return this.http.post<number>(`${this.apiServerUrl}/projects/search`, { keyword }, httpOptions)
+    }
+
+    getAllProjects(): Observable<any> {
+        return this.http.get(`${this.apiServerUrl}/projects`)
+    }
+
+    getAdmProjects(): Observable<any> {
+        return this.http.get(`${this.apiServerUrl}/projects/all`)
     }
 
     addProject(
         name: string, description: string, location: string, owner: string, photo: string, budget: string): Observable<any> {
-        return this.http.post<number>(`${this.apiServerUrl}/api/projects`, {
+        return this.http.post<number>(`${this.apiServerUrl}/projects`, {
             name,
             description,
             location,
@@ -60,7 +68,7 @@ export class ProjectService {
     }
 
     updateProject(project: Project): Observable<any> {
-        return this.http.put<number>(`${this.apiServerUrl}/api/projects/${project.id}`, {
+        return this.http.put<number>(`${this.apiServerUrl}/projects/${project.id}`, {
             budget: project.budget,
             description: project.description,
             location: project.location,
@@ -69,28 +77,44 @@ export class ProjectService {
     }
 
     updateCover(photo: string, id: number): Observable<any> {
-        return this.http.put(`${this.apiServerUrl}/api/projects/${id}/photo`, { photo }, httpOptions)
+        return this.http.put(`${this.apiServerUrl}/projects/${id}/photo`, { photo }, httpOptions)
     }
 
     addPlan(title: any, description: any, date: any, budget: any, timelinePosition: any, progressPercent: any, id: number): Observable<any> {
-        return this.http.post<number>(`${this.apiServerUrl}/api/project/${id}/plan`, {
+        return this.http.post<number>(`${this.apiServerUrl}/project/${id}/plan`, {
             title, description, date, budget, timelinePosition, progressPercent
         }, httpOptions)
     }
 
     updatePlan(title: any, description: any, date: any, budget: any, timelinePosition: any, progressPercent: any, id: number, project: number): Observable<any> {
-        return this.http.put<number>(`${this.apiServerUrl}/api/project/${project}/plan/${id}`, {
+        return this.http.put<number>(`${this.apiServerUrl}/project/${project}/plan/${id}`, {
             title, description, date, budget, timelinePosition, progressPercent
         }, httpOptions)
     }
 
     deletePlan(id: number, project: number): Observable<any> {
-        return this.http.delete<number>(`${this.apiServerUrl}/api/project/${project}/plan/${id}`)
+        return this.http.delete<number>(`${this.apiServerUrl}/project/${project}/plan/${id}`)
+    }
+
+    deleteComment(id: number, project: number): Observable<any> {
+        return this.http.delete<number>(`${this.apiServerUrl}/project/${project}/comment/${id}`)
     }
 
     addMedia(media: any, type: any, title: any, project: number): Observable<any> {
-        return this.http.post<number>(`${this.apiServerUrl}/api/project/${project}/gallery`, {
+        return this.http.post<number>(`${this.apiServerUrl}/project/${project}/gallery`, {
             title, type, media
         }, httpOptions)
+    }
+
+    enableProject(id: number): Observable<any> {
+        return this.http.put(`${this.apiServerUrl}/projects/${id}/enable`, {
+            id
+        });
+    }
+
+    disableProject(id: number): Observable<any> {
+        return this.http.put(`${this.apiServerUrl}/projects/${id}/disable`, {
+            id
+        });
     }
 }

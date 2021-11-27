@@ -9,6 +9,7 @@ import { TokenStorageService } from '../_services/token-storage.service';
 import { Member } from '../_entities/member';
 import { DatePipe } from '@angular/common';
 import { Title } from '@angular/platform-browser';
+import { KeycloakService } from 'keycloak-angular';
 
 @Component({
   selector: 'app-community',
@@ -19,12 +20,12 @@ export class CommunityComponent implements OnInit {
 
   display: null;
   communityId!: number;
-  community!: Community;
+  community: Community;
   communityMembers: User[] = [];
   member: Member;
   token!: string;
   loggedUser: string;
-  isLoggedIn = false;
+  isLoggedIn: any;
   isOwner = false;
   isMember: boolean = false;
   isMemberStatus: string;
@@ -35,14 +36,14 @@ export class CommunityComponent implements OnInit {
   errorMessage = '';
   emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,5}$';
   domains = [
-    {id: 'sport', value: 'Sport'},
-    {id: 'energie', value: 'Energie'},
-    {id: 'santé', value: 'Santé'},
-    {id: 'environnement', value: 'Environnement'},
-    {id: 'education', value: 'Education'},
-    {id: 'animaux', value: 'Animaux'},
-    {id: 'artisanal', value: 'Artisanal'},
-    {id: 'autre', value: 'Autre'},
+    { id: 'sport', value: 'Sport' },
+    { id: 'energie', value: 'Energie' },
+    { id: 'santé', value: 'Santé' },
+    { id: 'environnement', value: 'Environnement' },
+    { id: 'education', value: 'Education' },
+    { id: 'animaux', value: 'Animaux' },
+    { id: 'artisanal', value: 'Artisanal' },
+    { id: 'autre', value: 'Autre' },
   ];
   logoForm: any = {
     logo: null
@@ -60,7 +61,7 @@ export class CommunityComponent implements OnInit {
   searchForm: any = {
     keyword: null,
   }
-
+  user: User;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -68,26 +69,46 @@ export class CommunityComponent implements OnInit {
     private communityService: CommunityService,
     private userService: UserService,
     private tokenStorage: TokenStorageService,
+    private readonly keycloak: KeycloakService,
     private router: Router,
   ) {
     this.activatedRoute.queryParams.subscribe(params => {
       this.display = params['show'];
     });
 
-    this.token = this.tokenStorage.getToken();
-    this.loggedUser = this.tokenStorage.getUser().username;
-    if(this.loggedUser)
-      this.isLoggedIn = true;
-
+    
     this.communityId = parseInt(activatedRoute.snapshot.url[1].path);
-    this.getCommunity(this.communityId);
     this.url = (this.router.url);
+    this.getCommunity(this.communityId);
+    // get logged user name
+    this.isLogged();
   }
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(data => {
       this.titleService.setTitle(data.title);
     })
+  }
+
+  async isLogged() {
+    this.isLoggedIn = await this.keycloak.getUsername();
+
+    if (this.isLoggedIn) {
+      // console.log(this.isLoggedIn)
+      this.isLoggedIn = true;
+
+      this.userService.getUserByUsername(this.keycloak.getUsername()).subscribe(
+        response => {
+          this.loggedUser = response.username;
+          this.user = response;
+        },
+        err => {
+          this.errorMessage = err.error.message;
+        }
+      )
+    } else {
+      this.isLoggedIn = false;
+    }
   }
 
   public join() {
@@ -111,11 +132,11 @@ export class CommunityComponent implements OnInit {
       (response: Community) => {
         console.log(response)
         this.community = response;
-        this.community.creationDate = this.community.creationDate.substr(0,10).split("-").reverse().join("/");
-        this.community.foundationDate = this.community.foundationDate.substr(0,10).split("-").reverse().join("/");
-        console.log(this.community.foundationDate)
+        this.community.creationDate = this.community.creationDate.substr(0, 10).split("-").reverse().join("/");
+        this.community.foundationDate = this.community.foundationDate.substr(0, 10).split("-").reverse().join("/");
+        // console.log(this.community.foundationDate)
         response.member.forEach(element => {
-          this.userService.getUserByUsername(element.username, this.token).subscribe(
+          this.userService.getUserByUsername(element.username).subscribe(
             data => {
               this.communityMembers.push(data);
               this.communityMembers.forEach(element => {
@@ -124,10 +145,10 @@ export class CommunityComponent implements OnInit {
                 }
               });
               // check user is admin of community
-              if(this.community.createdBy == this.loggedUser || 
-                 this.loggedUser == 'admin') {
-                   this.isOwner = true;
-                 }
+              if (this.community.owner == (this.user.id + '') ||
+                this.loggedUser == 'admin') {
+                this.isOwner = true;
+              }
               // community edit form 
               this.communityForm['name'] = this.community.name;
               this.communityForm['slogan'] = this.community.slogan;
@@ -138,8 +159,8 @@ export class CommunityComponent implements OnInit {
               this.communityForm['email'] = this.community.email;
               this.communityForm['website'] = this.community.website;
             }
-          );
-        });
+            );
+          });
       },
       (error: HttpErrorResponse) => {
         this.router.navigate(["/error"]);

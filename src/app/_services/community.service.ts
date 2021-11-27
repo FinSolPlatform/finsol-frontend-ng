@@ -13,26 +13,30 @@ const httpOptions = {
     providedIn: 'root'
 })
 export class CommunityService {
-    
+
     constructor(private http: HttpClient) { }
-    
+
     private apiServerUrl = environment.apiBaseUrl;
 
     getCommunityById(id: number): Observable<any> {
-        return this.http.get(`${this.apiServerUrl}/api/communities/${id}`, httpOptions);
+        return this.http.get(`${this.apiServerUrl}/communities/${id}`, httpOptions);
+    }
+
+    getAllCommunities(): Observable<any> {
+        return this.http.get(`${this.apiServerUrl}/communities/`);
     }
 
     joinCommunity(member: Member): Observable<any> {
         console.log(member)
-        return this.http.post<Member>(`${this.apiServerUrl}/api/communities/join`, member, httpOptions)
+        return this.http.post<Member>(`${this.apiServerUrl}/communities/join`, member, httpOptions)
     }
     updateLogo(logo: string, id: number): Observable<any> {
         console.log(logo)
-        return this.http.put(`${this.apiServerUrl}/api/communities/${id}/logo`, { logo }, httpOptions)
+        return this.http.put(`${this.apiServerUrl}/communities/${id}/logo`, { logo }, httpOptions)
     }
     updateCommunity(id: number, name: any, slogan: any, description: any, domain: any,
         foundationDate: any, founders: any, email: any, website: any): Observable<any> {
-        return this.http.put(`${this.apiServerUrl}/api/communities/${id}`, {
+        return this.http.put(`${this.apiServerUrl}/communities/${id}`, {
             name,
             slogan,
             description,
@@ -44,9 +48,28 @@ export class CommunityService {
         }, httpOptions)
     }
     getCommunityByName(keyword: string, page: number, size: number): Observable<any> {
-        return this.http.post<Community[]>(`${this.apiServerUrl}/api/communities/search/${page}/${size}`, { keyword }, httpOptions)
+        return this.http.post<Community[]>(`${this.apiServerUrl}/communities/search/${page}/${size}`, { keyword }, httpOptions)
     }
     getSeachResultCommunitiesNumber(keyword: string): Observable<any> {
-        return this.http.post<number>(`${this.apiServerUrl}/api/communities/search`, { keyword }, httpOptions)
+        return this.http.post<number>(`${this.apiServerUrl}/communities/search`, { keyword }, httpOptions)
+    }
+
+    createCommunity(name: any, slogan: any, description: any, domain: any, foundationDate: any, founders: any, email: any, website: any, owner: string
+    ): Observable<any> {
+        return this.http.post<number>(`${this.apiServerUrl}/communities`, { 
+            name, slogan, description, domain, foundationDate, founders, email, website, owner
+         }, httpOptions)
+    }
+
+    enableCommunity(id: number): Observable<any> {
+        return this.http.put(`${this.apiServerUrl}/communities/${id}/enable`, {
+            id
+        });
+    }
+
+    disableCommunity(id: number): Observable<any> {
+        return this.http.put(`${this.apiServerUrl}/communities/${id}/disable`, {
+            id
+        });
     }
 }

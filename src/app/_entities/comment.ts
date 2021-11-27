@@ -6,7 +6,6 @@ export interface Comment {
     creationDate: string,
     replyTo: string,
     username: string,
-    project: Project,
     userPrettyName: string,
     userLogo: string,
 }

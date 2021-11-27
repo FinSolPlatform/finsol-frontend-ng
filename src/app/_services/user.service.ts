@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { User } from '../_entities/user';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -33,20 +34,23 @@ export class UserService {
     return this.http.get(`${this.apiServerUrl}/api/test/admin`, { responseType: 'text' });
   }
 
-  getUserByUsername(username: string, token: string): Observable<any> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Authentication': `Bearer ${token}`
-      })
-    };
-    return this.http.get(`${this.apiServerUrl}/api/users/profile/${username}`, httpOptions);
+  getUserByUsername(username: string): Observable<any> {
+    return this.http.get(`${this.apiServerUrl}/users/profile/${username}`, httpOptions);
+  }
+  
+  getUserById(userid: number): Observable<any> {
+    return this.http.get(`${this.apiServerUrl}/users/${userid}`);
+  }
+
+  getAllUsers(): Observable<any> {
+    return this.http.get(`${this.apiServerUrl}/users`);
   }
 
   updateUserProfile(username: string, firstname: string, lastname: string, age: string, biography: string): Observable<any> {
     if (biography ==  '') {
       biography = 'Parlez-nous un peu de vous ..';
     }
-    return this.http.put(`${this.apiServerUrl}/api/users/profile`, {
+    return this.http.put(`${this.apiServerUrl}/users/profile`, {
       username,
       firstname,
       lastname,
@@ -56,7 +60,7 @@ export class UserService {
   }
 
   updatePassword(username: string, old_passwd: string, new_passwd: string): Observable<any> {
-    return this.http.put(`${this.apiServerUrl}/api/users/profile/password`, {
+    return this.http.put(`${this.apiServerUrl}/users/profile/password`, {
       username,
       old_passwd,
       new_passwd,
@@ -64,9 +68,21 @@ export class UserService {
   }
 
   updateAvatar(username: string, avatar: string) {
-    return this.http.put(`${this.apiServerUrl}/api/users/profile/avatar`, {
+    return this.http.put(`${this.apiServerUrl}/users/profile/avatar`, {
       username,
       avatar,
+    });
+  }
+
+  enableUser(id: number): Observable<any> {
+    return this.http.put(`${this.apiServerUrl}/users/${id}/enable`, {
+      id
+    });
+  }
+
+  disableUser(id: number): Observable<any> {
+    return this.http.put(`${this.apiServerUrl}/users/${id}/disable`, {
+      id
     });
   }
 }

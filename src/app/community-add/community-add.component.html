@@ -1,1 +1,121 @@
-<p>community-add works!</p>
+<div class="container">
+    <div class="col-6 offset-3 mt-25">
+        <div class="card mt-25">
+            <div class="card-header text-center">
+                <h5 class="fs-card-title" style="color:red;">Nouvelle Communauté</h5>
+            </div>
+            <div class="body-card fs-register-form">
+                <form *ngIf="!isSuccessful" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+                    <div class="card2 card border-0 px-4 py-5" style="background-color: #f8f9fa">
+                        <!-- name -->
+                        <div class="row px-3">
+                            <label class="mb-1">
+                                <h6 class="mb-0 text-sm">Nom</h6>
+                            </label>
+                            <input class="mb-10 input-font-8em" type="text" name="name" #name="ngModel"
+                                [(ngModel)]="form.name" placeholder="Entrez un nom valide" required>
+                        </div>
+                        <div class="alert alert-danger" *ngIf="name.errors && f.submitted">
+                            <div *ngIf="name.errors.required">Nom requis</div>
+                        </div>
+                        <!-- slogan -->
+                        <div class="row px-3">
+                            <label class="mb-1">
+                                <h6 class="mb-0 text-sm">Slogan</h6>
+                            </label>
+                            <input class="mb-10 input-font-8em" type="text" name="slogan" #slogan="ngModel"
+                                [(ngModel)]="form.slogan" placeholder="Entrez un slogan valide" required>
+                        </div>
+                        <div class="alert alert-danger" *ngIf="slogan.errors && f.submitted">
+                            <div *ngIf="slogan.errors.required">Slogan requis</div>
+                        </div>
+                        <!-- description -->
+                        <div class="row px-3">
+                            <label class="mb-1">
+                                <h6 class="mb-0 text-sm">Description</h6>
+                            </label>
+                            <input class="mb-10 input-font-8em" type="text" name="description" #description="ngModel"
+                                [(ngModel)]="form.description" placeholder="Entrez une description valide" required>
+                        </div>
+                        <div class="alert alert-danger" *ngIf="description.errors && f.submitted">
+                            <div *ngIf="description.errors.required">Description requis</div>
+                        </div>
+                        <!-- foundationDate -->
+                        <div class="row px-3">
+                            <label class="mb-1">
+                                <h6 class="mb-0 text-sm">Fondation</h6>
+                            </label>
+                            <input class="mb-10 input-font-8em" type="text" name="foundationDate"
+                                #foundationDate="ngModel" [(ngModel)]="form.foundationDate"
+                                onfocus="(this.type = 'date')" placeholder="jj/mm/aaaa" required>
+                        </div>
+                        <div class="alert alert-danger" *ngIf="foundationDate.errors && f.submitted">
+                            <div *ngIf="foundationDate.errors.required">Date de fondation requis</div>
+                        </div>
+                        <!-- founders -->
+                        <div class="row px-3">
+                            <label class="mb-1">
+                                <h6 class="mb-0 text-sm">Fondateur(s)</h6>
+                            </label>
+                            <input class="mb-10 input-font-8em" type="text" name="founders" #founders="ngModel"
+                                [(ngModel)]="form.founders" placeholder="Name, Name, ..">
+                        </div>
+                        <!-- domain -->
+                        <div class="row px-3">
+                            <div class="col-12 pl-0">
+                                <label class="mb-1">
+                                    <h6 class="mb-0 text-sm">Domaine</h6>
+                                </label>
+                            </div>
+                            <div class="form-group col-12 pl-0 pr-0">
+                                <select class="form-control input-font-8em" name="domain" #domain="ngModel" required
+                                    [(ngModel)]="form.domain">
+                                    <option *ngFor="let domain of domains" class="input-font-8em" [ngValue]="domain.id">
+                                        {{domain.value}}</option>
+                                </select>
+                            </div>
+                            <div class="alert alert-danger" *ngIf="domain.errors && f.submitted">
+                                <div *ngIf="!domain.errors.required && domain.errors">
+                                    Domaine d'activité requis
+                                </div>
+                            </div>
+                        </div>
+                        <!-- email -->
+                        <div class="row px-3">
+                            <label class="mb-1">
+                                <h6 class="mb-0 text-sm">Email</h6>
+                            </label>
+                            <input class="mb-10 input-font-8em" type="text" name="email" #email="ngModel"
+                                [pattern]="emailPattern" [(ngModel)]="form.email"
+                                placeholder="Entrez une adresse e-mail valide">
+                        </div>
+                        <div class="alert alert-danger" *ngIf="email.errors && f.submitted">
+                            <div *ngIf="!email.errors.required && email.errors">
+                                Adresse e-mail invalide
+                            </div>
+                        </div>
+                        <!-- website -->
+                        <div class="row px-3">
+                            <label class="mb-1">
+                                <h6 class="mb-0 text-sm">Site web</h6>
+                            </label>
+                            <input class="mb-10 input-font-8em" type="text" name="website" #website="ngModel"
+                                [(ngModel)]="form.website" placeholder="Entrez une adresse e-mail valide">
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-blue text-center float-right">Enregister</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div *ngIf="isSuccessful" class="mt-25 ml-25 mr-25 text-center">
+                    <div class="alert alert-success" role="alert">
+                        Communauté crée avec succès !
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

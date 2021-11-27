@@ -29,7 +29,7 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentUser = this.token.getUser().username;
-    if(this.currentUser){
+    if (this.currentUser) {
       this.router.navigate(['/home']);
     }
 
@@ -41,10 +41,21 @@ export class RegisterComponent implements OnInit {
   async onSubmit(): Promise<void> {
     const { firstname, lastname, age, email, username, password } = this.form;
 
+
     this.authService.register(firstname, lastname, age, email, username, password).subscribe(
       async data => {
         this.isSuccessful = true;
         this.isSignUpFailed = false;
+
+        this.authService.registerKC(firstname, lastname, age, email, username, password).subscribe(
+          async data => {
+            // console.log(data);
+          },
+          err => {
+            this.errorMessage = err.error.message;
+          }
+        );
+
         await this.delay(2000);
         this.router.navigate(['/login']);
       },
@@ -56,7 +67,7 @@ export class RegisterComponent implements OnInit {
   }
 
   delay(ms: number) {
-    return new Promise( resolve => setTimeout(resolve, ms) );
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 
 }

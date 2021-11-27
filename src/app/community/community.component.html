@@ -47,9 +47,9 @@
                     <div class="row fs-project-tabs" style="margin-left: 0">
                         <ul class="nav nav-tabs">
                             <li class="nav-item">
-                                <a *ngIf="display === null" class="nav-link active" aria-current="page"
+                                <a *ngIf="display === undefined" class="nav-link active" aria-current="page"
                                     href="/community/{{ communityId }}">Information</a>
-                                <a *ngIf="display !== null" class="nav-link" aria-current="page"
+                                <a *ngIf="display !== undefined" class="nav-link" aria-current="page"
                                     href="/community/{{ communityId }}">Information</a>
                             </li>
                             <li class="nav-item">
@@ -67,7 +67,7 @@
                         </ul>
                     </div>
                     <!-- Information -->
-                    <div *ngIf="display === null" class="fs-project-content fs-comm-info">
+                    <div *ngIf="display === undefined" class="fs-project-content fs-comm-info">
                         <div *ngIf="isOwner" class="row">
                             <div class="col-11 text-right">
                                 <button class="btn fs-sm-btn fs-bg-trans" data-toggle="modal"
@@ -101,7 +101,8 @@
                                     class="img-thumbnail round-no-border">
                             </div>
                             <div *ngIf="isOwner" class="col">
-                                <button class="btn fs-sm-btn fs-bg-trans" style="font-size: 0.8em !important;" data-toggle="modal" data-target="#logo">
+                                <button class="btn fs-sm-btn fs-bg-trans" style="font-size: 0.8em !important;"
+                                    data-toggle="modal" data-target="#logo">
                                     <i class="fas fa-pencil-alt"></i>changer
                                 </button>
                             </div>
@@ -134,8 +135,8 @@
                         </div>
                         <div class="row" style="margin-left: 0">
                             <div class="col-3">Membres </div>
-                            <div class="col"><a href="/community/{{ communityId }}?show=mem">{{communityMembers.length
-                                    }}</a></div>
+                            <div class="col">{{communityMembers.length
+                                }}</div>
                         </div>
                         <div class="row" style="margin-left: 0">
                             <div class="col-3">Description </div>
@@ -212,9 +213,9 @@
                                         Lancer un Projet &nbsp; <i class="fa fa-globe" aria-hidden="true"></i></a>
                                 </div>
                                 <div class="col-12 text-center">
-                                    <a class="btn btn-warning fs-std-text" style="width: 90%; color: white;" href="/community/add">
-                                        Fonder une communauté &nbsp; <i class="fa fa-users"
-                                            aria-hidden="true"></i></a>
+                                    <a class="btn btn-warning fs-std-text" style="width: 90%; color: white;"
+                                        href="/community/add">
+                                        Fonder une communauté &nbsp; <i class="fa fa-users" aria-hidden="true"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -396,7 +397,8 @@
                             <h6 class="mb-0 text-sm">Description</h6>
                         </label>
                         <input class="mb-10 input-font-8em" type="text" name="description" #description="ngModel"
-                            [(ngModel)]="communityForm.description" placeholder="Entrez une description valide" required>
+                            [(ngModel)]="communityForm.description" placeholder="Entrez une description valide"
+                            required>
                     </div>
                     <div class="alert alert-danger" *ngIf="description.errors && f.submitted">
                         <div *ngIf="description.errors.required">Description requis</div>
@@ -407,7 +409,8 @@
                             <h6 class="mb-0 text-sm">Fondation</h6>
                         </label>
                         <input class="mb-10 input-font-8em" type="text" name="foundationDate" #foundationDate="ngModel"
-                            [(ngModel)]="communityForm.foundationDate" onfocus="(this.type = 'date')" placeholder="jj/mm/aaaa" required>
+                            [(ngModel)]="communityForm.foundationDate" onfocus="(this.type = 'date')"
+                            placeholder="jj/mm/aaaa" required>
                     </div>
                     <div class="alert alert-danger" *ngIf="foundationDate.errors && f.submitted">
                         <div *ngIf="foundationDate.errors.required">Date de fondation requis</div>

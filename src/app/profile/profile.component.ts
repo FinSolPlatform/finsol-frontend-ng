@@ -67,7 +67,7 @@ export class ProfileComponent implements OnInit {
     this.currentUser = this.token.getUser().username;
 
     if (!this.currentUser) {
-      this.router.navigate(['/login']);
+      // this.router.navigate(['/login']);
     } else {
       this.currentToken = this.token.getToken();
       this.getUserProfile();
@@ -82,7 +82,7 @@ export class ProfileComponent implements OnInit {
   }
 
   public getUserProfile(): void {
-    this.user.getUserByUsername(this.currentUser, this.currentToken).subscribe(
+    this.user.getUserByUsername(this.currentUser).subscribe(
       (response: User) => {
         this.profileUser = response;
 

@@ -1,0 +1,200 @@
+<div class="container mt-30">
+    <div class="row">
+        <div class="col-12">
+            <div class="row">
+                <!-- Main Content -->
+                <div class="col-8 main-content">
+                    <h4 class="fs-title-simple">Profile</h4>
+                    <!-- User Profile -->
+                    <div class="row fs-project-tabs" style="margin-left: 0">
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item">
+                                <a *ngIf="display === undefined" class="nav-link active" aria-current="page" href="profile-adm/{{ profileUser.id }}">Profile</a>
+                                <a *ngIf="display !== undefined" class="nav-link" aria-current="page" href="profile-adm/{{ profileUser.id }}">Profile</a>
+                            </li>
+                            <li class="nav-item">
+                                <a *ngIf="display === 'com'"  class="nav-link active" href="profile-adm/{{ profileUser.id }}?show=com">Communautés</a>
+                                <a *ngIf="display !== 'com'"  class="nav-link" href="profile-adm/{{ profileUser.id }}?show=com">Communautés</a>
+                            </li>
+                            <li class="nav-item">
+                                <a *ngIf="display === 'act'"  class="nav-link active" href="profile-adm/{{ profileUser.id }}?show=act">Activités</a>
+                                <a *ngIf="display !== 'act'"  class="nav-link" href="profile-adm/{{ profileUser.id }}?show=act">Activités</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- Profile -->
+                    <div *ngIf="display === undefined" class="fs-project-content">
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="row fs-mb-5" style="margin-left: 0">
+                                    <div class="col-5">Pseudo </div>
+                                    <div class="col-3 weight-normal">{{ profileUser.status }}{{ profileUser.username }}</div>
+                                </div>
+                                <div class="row fs-mb-5" style="margin-left: 0">
+                                    <div class="col-5">Badge(s) </div>
+                                    <div class="col weight-normal">-</div>
+                                </div>
+                                <div class="row fs-mb-5" style="margin-left: 0">
+                                    <div class="col-5">Points d'expérience</div>
+                                    <div class="col weight-normal">
+                                        <ng-template [ngIf]="profileUser.score === undefined">0</ng-template>
+                                        <ng-template [ngIf]="profileUser.score !== undefined">{{ profileUser.score }}
+                                        </ng-template>
+                                    </div>
+                                </div>
+                                <div class="row fs-mb-5" style="margin-left: 0">
+                                    <div class="col-5">Date d'inscription </div>
+                                    <div class="col weight-normal">{{ profileUser.accountCreationDate }}</div>
+                                </div>
+                                <div class="row fs-mb-5" style="margin-left: 0">
+                                    <div class="col-5">Adresse e-mail </div>
+                                    <div class="col weight-normal"><a href="mailto:{{ profileUser.email }}">{{
+                                            profileUser.email }}</a></div>
+                                </div>
+                                <div class="row" style="margin-left: 0">
+                                    <div class="col-5">Mot de passe </div>
+                                    <div class="col weight-normal">***********&nbsp;
+                                        <button class="btn fs-sm-btn fs-bg-trans" data-toggle="modal"
+                                            data-target="#password">
+                                            <i class="fas fa-pencil-alt"></i>changer
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <!-- if avatar is defined -->
+                                <img *ngIf="profileUser.photo" src="{{ profileUser.photo }}"
+                                    class="img-fluid rounded-start width-75">
+                                <!-- if avatar is not defined -->
+                                <img *ngIf="!profileUser.photo"
+                                    src="https://www.seekpng.com/png/full/245-2454602_tanni-chand-default-user-image-png.png"
+                                    class="img-fluid rounded-start width-75">
+                                <button class="btn fs-sm-btn fs-bg-trans" style="font-size: 0.7em !important;"
+                                    data-toggle="modal" data-target="#avatar">
+                                    <i class="fas fa-pencil-alt"></i>changer
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-9 offset-1">
+                                <hr>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-left: 0">
+                            <div class="col-10 text-right">
+                                <button class="btn fs-sm-btn fs-bg-trans" data-toggle="modal" data-target="#info"
+                                    data-toggle="modal" data-target="#editUser">
+                                    <i class="fas fa-pencil-alt"></i>changer
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row input-font-85em" style="margin-left: 0">
+                            <div class="col-2">Prénom </div>
+                            <div class="col-8">{{ profileUser.firstName | titlecase }}</div>
+                        </div>
+                        <div class="row input-font-85em" style="margin-left: 0">
+                            <div class="col-2">Nom de Famille</div>
+                            <div class="col-8">{{ profileUser.lastName | titlecase }}</div>
+                        </div>
+                        <div class="row input-font-85em mb-15" style="margin-left: 0">
+                            <div class="col-2">Age </div>
+                            <div class="col-8">{{ profileUser.age }} ans</div>
+                        </div>
+                        <div class="row input-font-85em" style="margin-left: 0">
+                            <div class="col-2">Biographie </div>
+                            <div class="col-8">
+                                <p class="text-justify">
+                                    <ng-template [ngIf]="profileUser.biography === undefined">...</ng-template>
+                                    <ng-template [ngIf]="profileUser.biography !== undefined">{{ profileUser.biography }}
+                                    </ng-template>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Communautés -->
+                    <div *ngIf="display === 'com'" class="fs-project-content">
+                        <div class="row">
+                            <div class="col-2 text-center pt-0">
+                                <img src="https://st2.depositphotos.com/1010751/6391/v/600/depositphotos_63913815-stock-illustration-social-network-group-of-6.jpg"
+                                    alt="" class="img-thumbnail round-no-border width-75">
+                            </div>
+                            <div class="col-10 fs-project-member-item">
+                                <div class="row">
+                                    <div class="col-12"><a href="">La Communauté</a></div>
+                                    <div class="col-4 pt-0"><b>Fondation: </b>&nbsp;6 Juin 2020</div>
+                                    <div class="col-3"><b>Secteur: </b>&nbsp;Sport</div>
+                                    <div class="col-4"><b>Membres: </b>&nbsp;10</div>
+                                    <div class="col-12"><b>Slogan: </b>&nbsp;La Communauté la Plus Heureuse du Monde
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-2 text-center pt-0">
+                                <img src="https://st2.depositphotos.com/1010751/6391/v/600/depositphotos_63913815-stock-illustration-social-network-group-of-6.jpg"
+                                    alt="" class="img-thumbnail round-no-border width-75">
+                            </div>
+                            <div class="col-10 fs-project-member-item">
+                                <div class="row">
+                                    <div class="col-12"><a href="">La Communauté</a></div>
+                                    <div class="col-4 pt-0"><b>Fondation: </b>&nbsp;6 Juin 2020</div>
+                                    <div class="col-3"><b>Secteur: </b>&nbsp;Sport</div>
+                                    <div class="col-4"><b>Membres: </b>&nbsp;10</div>
+                                    <div class="col-12"><b>Slogan: </b>&nbsp;La Communauté la Plus Heureuse du Monde
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-2 text-center pt-0">
+                                <img src="https://st2.depositphotos.com/1010751/6391/v/600/depositphotos_63913815-stock-illustration-social-network-group-of-6.jpg"
+                                    alt="" class="img-thumbnail round-no-border width-75">
+                            </div>
+                            <div class="col-10 fs-project-member-item">
+                                <div class="row">
+                                    <div class="col-12"><a href="">La Communauté</a></div>
+                                    <div class="col-4 pt-0"><b>Fondation: </b>&nbsp;6 Juin 2020</div>
+                                    <div class="col-3"><b>Secteur: </b>&nbsp;Sport</div>
+                                    <div class="col-4"><b>Membres: </b>&nbsp;10</div>
+                                    <div class="col-12"><b>Slogan: </b>&nbsp;La Communauté la Plus Heureuse du Monde
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Activité -->
+                    <div *ngIf="display === 'act'" class="col-11 fs-community-projects">
+                        <!-- List Header -->
+                        <div class="row bg-light-grey fs-pb-5 fs-pt-5">
+                            <div class="col-2">Date</div>
+                            <div class="col-2">Type</div>
+                            <div class="col-7">Action</div>
+                        </div>
+                        <!-- List Items -->
+                        <div class="row fs-pb-5 fs-pt-5">
+                            <div class="col-2">6 Juin 2021</div>
+                            <div class="col-2">Rejondre</div>
+                            <div class="col-7">
+                                a rejoint la communauté <span>"community"</span>
+                            </div>
+                        </div>
+                        <div class="row fs-pb-5 fs-pt-5">
+                            <div class="col-2">6 Juin 2021</div>
+                            <div class="col-2">Donation</div>
+                            <div class="col-7">
+                                a contribuer au projet <span>"projet"</span>
+                            </div>
+                        </div>
+                        <div class="row fs-pb-5 fs-pt-5">
+                            <div class="col-2">6 Juin 2021</div>
+                            <div class="col-2">Donation</div>
+                            <div class="col-7">
+                                a ajouté une photo à la gallerie du projet <span>"projet"</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -58,9 +58,9 @@
                     <div class="row fs-project-tabs" style="margin-left: 0">
                         <ul class="nav nav-tabs">
                             <li class="nav-item">
-                                <a *ngIf="display === null" class="nav-link active" aria-current="page"
+                                <a *ngIf="display === undefined" class="nav-link active" aria-current="page"
                                     href="/project/{{ project.id }}">Information</a>
-                                <a *ngIf="display !== null" class="nav-link" aria-current="page"
+                                <a *ngIf="display !== undefined" class="nav-link" aria-current="page"
                                     href="/project/{{ project.id }}">Information</a>
                             </li>
                             <li class="nav-item">
@@ -90,7 +90,7 @@
                         </ul>
                     </div>
                     <!-- Information -->
-                    <div *ngIf="display === null" class="fs-project-content">
+                    <div *ngIf="display === undefined" class="fs-project-content">
                         <div *ngIf="isOwner" class="row">
                             <div class="col-12 text-right">
                                 <button class="btn fs-sm-btn fs-bg-trans" data-toggle="modal"
@@ -100,40 +100,41 @@
                             </div>
                         </div>
                         <div class="row" style="margin-left: 0">
-                            <div class="col-2">Création </div>
+                            <div class="col-3">Création </div>
                             <div class="col">{{ project.creationDate }}</div>
                         </div>
                         <div class="row" style="margin-left: 0">
-                            <div class="col-2">Propriétaire </div>
-                            <div class="col"><a href="">{{ project.owner | titlecase }}</a></div>
+                            <div class="col-3">Propriétaire </div>
+                            <div class="col">{{ project.owner | titlecase }}</div>
                         </div>
                         <div class="row" style="margin-left: 0">
-                            <div class="col-2">Avancement </div>
+                            <div class="col-3">Avancement </div>
                             <div class="col">{{ project.progression }}%</div>
                         </div>
                         <div class="row" style="margin-left: 0">
-                            <div class="col-2">Budget </div>
+                            <div class="col-3">Budget </div>
                             <div class="col">{{ project.budget }} TND</div>
                         </div>
                         <div class="row" style="margin-left: 0">
-                            <div class="col-2">Bénévoles </div>
+                            <div class="col-3">Bénévoles </div>
                             <div class="col">{{ project.volunteers }} Personnes</div>
                         </div>
                         <div class="row" style="margin-left: 0">
-                            <div class="col-2">Lieu </div>
-                            <div class="col"><a href="">{{ project.location }}</a></div>
+                            <div class="col-3">Lieu </div>
+                            <div class="col">{{ project.location }}</div>
                         </div>
                         <div class="row" style="margin-left: 0">
-                            <div class="col-2">Description </div>
+                            <div class="col-3">Description </div>
                             <div class="col-8">
                                 <p class="text-justify">
                                     {{ project.description }}
                                 </p>
                             </div>
                         </div>
-                        <div *ngIf="!isOwner"  class="row" style="margin-left: 0">
+                        <div *ngIf="!isOwner" class="row" style="margin-left: 0">
                             <div class="col-10 text-right">
-                                <button class="btn btn-danger fs-sm-btn">Participer &nbsp;<i class="fa fa-hand-o-up" aria-hidden="true"></i></button>
+                                <button class="btn btn-danger fs-sm-btn">Participer &nbsp;<i class="fa fa-hand-o-up"
+                                        aria-hidden="true"></i></button>
                             </div>
                         </div>
                     </div>
@@ -252,9 +253,8 @@
                                         <div class="media-body">
 
                                             <div class="row">
-                                                <div class="col-12 d-flex">
-                                                    <a href="">{{ item.userPrettyName | titlecase }}</a>
-                                                </div>
+                                                <div class="col-12 d-flex" style="color: #007bff">{{ item.username |
+                                                    titlecase }}</div>
                                                 <div class="col-12">
                                                     <span style="color: #adb5bd;">{{ item.creationDate | slice:0:16
                                                         }}</span>
@@ -262,12 +262,18 @@
                                                 <div class="col-12">
                                                     <p>{{ item.message }}</p>
                                                 </div>
+                                                <div class="col-12">
+                                                    <button class="no-border bg-transparent"
+                                                        *ngIf="item.username === user.username"
+                                                        (click)="deleteComment(item.id)">
+                                                        <i class="fas fa-trash"></i></button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
 
                                     <!-- Add Comment -->
-                                    <form name="commentForm" (ngSubmit)="f.form.valid && onSubmitComment()" #f="ngForm"
+                                    <form *ngIf="isLoggedIn" name="commentForm" (ngSubmit)="f.form.valid && onSubmitComment()" #f="ngForm"
                                         novalidate>
                                         <div class="row">
                                             <div class="col-10 offset-1">
@@ -739,9 +745,9 @@
                         </div>
                     </div>
                 </form>
-                <div *ngIf="isPlanEditSucceded" class="mt-25 ml-25 mr-25 text-center">
+                <div *ngIf="isPlanAddSucceded" class="mt-25 ml-25 mr-25 text-center">
                     <div class="alert alert-success" role="alert">
-                        Communauté mis à jour avec succée!
+                        Evénement ajouté avec succée!
                     </div>
                 </div>
             </div>
@@ -842,7 +848,7 @@
                 </form>
                 <div *ngIf="isPlanEditSucceded" class="mt-25 ml-25 mr-25 text-center">
                     <div class="alert alert-success" role="alert">
-                        Communauté mis à jour avec succée!
+                        Evénement mis à jour avec succée!
                     </div>
                 </div>
             </div>

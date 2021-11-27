@@ -30,9 +30,9 @@
                             {{ username | titlecase }}
                         </a>
 
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <div id="profile-menu" class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                             <a class="dropdown-item" class="black-color" href="/profile">Profile</a>
-                            <a href class="dropdown-item" (click)="logout()">Déconnexion</a>
+                            <button style="font-size: 0.85em;padding-left: 12px;" href class="dropdown-item" (click)="logout()">Déconnexion</button>
                         </div>
                     </div>
                 </li>

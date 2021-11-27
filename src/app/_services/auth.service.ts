@@ -16,17 +16,24 @@ export class AuthService {
   private apiServerUrl = environment.apiBaseUrl;
 
   login(username: string, password: string): Observable<any> {
-    return this.http.post(`${this.apiServerUrl}/api/auth/signin`, {
+    return this.http.post(`${this.apiServerUrl}/auth/signin`, {
       username,
       password
     }, httpOptions);
   }
 
   reset(email: string): Observable<any> {
-    return this.http.post<any>(`${this.apiServerUrl}/api/auth/reset`, { email });
+    return this.http.post<any>(`${this.apiServerUrl}/auth/reset`, { email });
   }
-  register (firstname: string, lastname: string, age: string, email: string, username: string, password: string): Observable<any> {
-    return this.http.post(`${this.apiServerUrl}/api/auth/signup`, {
+  
+  registerKC(firstname: string, lastname: string, age: string, email: string, username: string, password: string): Observable<any> {
+    
+    // add keycloak 
+    return this.http.post(`http://localhost:8090/api/finsol/sso/create`, { firstname, lastname, username, email, password });
+  }
+
+  register(firstname: string, lastname: string, age: string, email: string, username: string, password: string): Observable<any> {
+    return this.http.post(`${this.apiServerUrl}/auth/signup`, {
       firstname,
       lastname,
       age,

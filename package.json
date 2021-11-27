@@ -26,6 +26,8 @@
     "eslint": "^7.32.0",
     "font-awesome": "^4.7.0",
     "jquery": "^3.6.0",
+    "keycloak-angular": "^8.4.x",
+    "keycloak-js": "^15.0.0",
     "popper.js": "^1.16.1",
     "puppeteer": "^10.2.0",
     "rxjs": "~6.6.0",
