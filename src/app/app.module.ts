@@ -31,7 +31,7 @@ function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
     keycloak.init({
       config: {
-        url: 'https://sso-devops-tools.apps.na46.prod.nextcle.com/auth',
+        url: 'https://sso-lhqcqt-idm.apps.na46.prod.nextcle.com/auth',
         realm: 'finsol-realm',
         clientId: 'finsol-frontend',
       },
